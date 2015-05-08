@@ -31,7 +31,7 @@ class FPDI extends FPDF_TPL
      *
      * @string
      */
-    const VERSION = '1.5.2';
+    const VERSION = '1.5.3';
 
     /**
      * Actual filename
