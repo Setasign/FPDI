@@ -1,8 +1,8 @@
 <?php
 //
-//  FPDI - Version 1.5.2
+//  FPDI - Version 1.5.3
 //
-//    Copyright 2004-2014 Setasign - Jan Slabon
+//    Copyright 2004-2015 Setasign - Jan Slabon
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ class FilterASCII85
             '~' => ord('~'),
             'z' => ord('z'),
             'u' => ord('u'),
-            'z' => ord('z'),
             '!' => ord('!')
         );
 

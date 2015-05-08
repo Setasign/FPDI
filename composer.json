@@ -1,23 +1,26 @@
 {
-	"name": "setasign/fpdi",
-	"version": "1.5.2",
-	"homepage": "http://www.setasign.de/",
-	"type": "library",
-	"description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents. This package contains some special fixes for use with TCPDF.",
-	"keywords": ["pdf","fpdi"],
-	"license": "Apache-2.0",
-	"require": {
-		"php": ">=5.3.0"
-	},
-	"autoload": {
-		"classmap": [
-		    "filters",
-		    "fpdi.php",
-		    "fpdf_tpl.php",
-		    "fpdi_pdf_parser.php",
-		    "fpdi_bridge.php",
-		    "pdf_context.php",
-		    "pdf_parser.php"
-		]
-	}
+    "name": "setasign/fpdi",
+    "version": "1.5.3",
+    "homepage": "https://www.setasign.com/fpdi",
+    "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF.",
+    "type": "library",
+    "keywords": ["pdf", "fpdi", "fpdf"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Jan Slabon",
+            "email": "jan.slabon@setasign.com",
+            "homepage": "https://www.setasign.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "filters/",
+            "fpdi.php",
+            "fpdf_tpl.php",
+            "fpdi_pdf_parser.php",
+            "fpdi_bridge.php",
+            "pdf_context.php"
+        ]
+    }
 }

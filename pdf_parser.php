@@ -1,8 +1,8 @@
 <?php
 //
-//  FPDI - Version 1.5.2
+//  FPDI - Version 1.5.3
 //
-//    Copyright 2004-2014 Setasign - Jan Slabon
+//    Copyright 2004-2015 Setasign - Jan Slabon
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -194,7 +194,9 @@ class pdf_parser
 
         $this->getPdfVersion();
 
-        require_once('pdf_context.php');
+        if (!class_exists('pdf_context')) {
+            require_once('pdf_context.php');
+        }
         $this->_c = new pdf_context($this->_f);
 
         // Read xref-Data
@@ -360,8 +362,10 @@ class pdf_parser
         $data = ltrim(substr($data, 0, $trailerPos));
 
         // get Line-Ending
-        preg_match_all("/(\r\n|\n|\r)/", substr($data, 0, 100), $m); // check the first 100 bytes for line breaks
-
+        $found = preg_match_all("/(\r\n|\n|\r)/", substr($data, 0, 100), $m); // check the first 100 bytes for line breaks
+        if ($found === 0) {
+            throw new Exception('Xref table seems to be corrupted.');
+        }
         $differentLineEndings = count(array_unique($m[0]));
         if ($differentLineEndings > 1) {
             $lines = preg_split("/(\r\n|\n|\r)/", $data, -1, PREG_SPLIT_NO_EMPTY);
@@ -429,6 +433,7 @@ class pdf_parser
      * @param pdf_context $c
      * @param string $token A token
      * @return mixed
+     * @throws Exception
      */
     protected function _readValue(&$c, $token = null)
     {
@@ -449,7 +454,7 @@ class pdf_parser
 
                 while(1) {
 
-                    $match = strpos ($c->buffer, '>', $pos);
+                    $match = strpos($c->buffer, '>', $pos);
 
                     // If you can't find it, try
                     // reading more data from the stream
@@ -462,7 +467,7 @@ class pdf_parser
                         }
                     }
 
-                    $result = substr ($c->buffer, $c->offset, $match - $c->offset);
+                    $result = substr($c->buffer, $c->offset, $match - $c->offset);
                     $c->offset = $match + 1;
 
                     return array (self::TYPE_HEX, $result);
@@ -547,6 +552,16 @@ class pdf_parser
                 $tempOffset = $c->offset;
 
                 $c->reset($startPos = $tempPos + $tempOffset);
+
+                // Find the first "newline"
+                while ($c->buffer[0] !== chr(10) && $c->buffer[0] !== chr(13)) {
+                    $c->reset(++$startPos);
+                    if ($c->ensureContent() === false) {
+                        throw new Exception(
+                            'Unable to parse stream data. No newline followed the stream keyword.'
+                        );
+                    }
+                }
 
                 $e = 0; // ensure line breaks in front of the stream
                 if ($c->buffer[0] == chr(10) || $c->buffer[0] == chr(13))
@@ -887,17 +902,23 @@ class pdf_parser
                     }
                     break;
                 case '/LZWDecode':
-                    require_once('filters/FilterLZW.php');
+                    if (!class_exists('FilterLZW')) {
+                        require_once('filters/FilterLZW.php');
+                    }
                     $decoder = new FilterLZW();
                     $stream = $decoder->decode($stream);
                     break;
                 case '/ASCII85Decode':
-                    require_once('filters/FilterASCII85.php');
+                    if (!class_exists('FilterASCII85')) {
+                        require_once('filters/FilterASCII85.php');
+                    }
                     $decoder = new FilterASCII85();
                     $stream = $decoder->decode($stream);
                     break;
                 case '/ASCIIHexDecode':
-                    require_once('filters/FilterASCIIHexDecode.php');
+                    if (!class_exists('FilterASCIIHexDecode')) {
+                        require_once('filters/FilterASCIIHexDecode.php');
+                    }
                     $decoder = new FilterASCIIHexDecode();
                     $stream = $decoder->decode($stream);
                     break;

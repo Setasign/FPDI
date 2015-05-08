@@ -1,8 +1,8 @@
 <?php
 //
-//  FPDI - Version 1.5.2
+//  FPDI - Version 1.5.3
 //
-//    Copyright 2004-2014 Setasign - Jan Slabon
+//    Copyright 2004-2015 Setasign - Jan Slabon
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 //  limitations under the License.
 //
 
-require_once('fpdf_tpl.php');
+if (!class_exists('FPDF_TPL')) {
+    require_once('fpdf_tpl.php');
+}
 
 /**
  * Class FPDI
@@ -111,7 +113,7 @@ class FPDI extends FPDF_TPL
             );
         }
 
-        $this->currentParser =& $this->parsers[$filename];
+        $this->currentParser = $this->parsers[$filename];
         
         return $this->parsers[$filename]->getPageCount();
     }
@@ -124,7 +126,9 @@ class FPDI extends FPDF_TPL
      */
     protected function _getPdfParser($filename)
     {
-        require_once('fpdi_pdf_parser.php');
+        if (!class_exists('fpdi_pdf_parser')) {
+            require_once('fpdi_pdf_parser.php');
+        }
     	return new fpdi_pdf_parser($filename);
     }
     
@@ -336,7 +340,7 @@ class FPDI extends FPDF_TPL
     protected function _putimportedobjects()
     {
         foreach($this->parsers AS $filename => $p) {
-            $this->currentParser =& $p;
+            $this->currentParser = $p;
             if (!isset($this->_objStack[$filename]) || !is_array($this->_objStack[$filename])) {
                 continue;
             }
