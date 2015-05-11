@@ -25,7 +25,7 @@
  * This way it is possible to use FPDI for both FPDF and TCPDF with one FPDI version.
  */
 
-if (!class_exists('TCPDF', false)) {
+if (!class_exists('TCPDF')) {
     /**
      * Class fpdi_bridge
      */
