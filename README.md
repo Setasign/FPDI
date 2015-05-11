@@ -56,6 +56,6 @@ If you are using TCPDF, your have to update your composer.json respectively to:
 Additionally you have to trigger composers autoloader for the TCPDF class before you are initiating FPDI:
 
 ```php
-$tcpdf = class_exists('TCPDF');
+class_exists('TCPDF', true); // trigger Composers autoloader to load the TCPDF class
 $pdf = new FPDI();
 ```
