@@ -7,7 +7,7 @@ A clone of [FPDI](https://www.setasign.com/fpdi) for GitHub/[Composer](https://p
 
 FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF, which was developed by Olivier Plathey. Apart from a copy of FPDF, FPDI does not require any special PHP extensions.
 
-## Instalation with [Composer](https://packagist.org/packages/setasign/fpdi)
+## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
 If you're using Composer to manage dependencies, you can use
 
