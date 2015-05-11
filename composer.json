@@ -22,5 +22,8 @@
             "fpdi_bridge.php",
             "pdf_context.php"
         ]
+    },
+    "suggest": {
+        "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnick.com/tcpdf\" as an alternative there's no fixed dependency configured."
     }
 }
