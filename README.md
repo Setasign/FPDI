@@ -12,7 +12,7 @@ FPDI is a collection of PHP classes facilitating developers to read pages from e
 If you're using Composer to manage dependencies, you can use
 
 ```bash
-$ composer require "setasign/fpdi": "1.5.3"
+$ composer require "setasign/fpdi":"1.5.3"
 ```
 
 or you can include the following in your composer.json file:
