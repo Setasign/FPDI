@@ -19,7 +19,6 @@
             "fpdi.php",
             "fpdf_tpl.php",
             "fpdi_pdf_parser.php",
-            "fpdi_bridge.php",
             "pdf_context.php"
         ]
     },
