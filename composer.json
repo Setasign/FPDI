@@ -1,6 +1,6 @@
 {
     "name": "setasign/fpdi",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "homepage": "https://www.setasign.com/fpdi",
     "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF.",
     "type": "library",
