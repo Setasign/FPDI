@@ -23,7 +23,7 @@
     ]
   },
   "suggest": {
-    "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnick.com/tcpdf\" as an alternative there's no fixed dependency configured.",
+    "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
     "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
     "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
   }
