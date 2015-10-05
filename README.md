@@ -72,7 +72,7 @@ If you are using TCPDF, your have to update your composer.json respectively to:
 ```json
 {
     "require": {
-        "tecnick.com/tcpdf": "6.2.8",
+        "tecnickcom/tcpdf": "6.2.12",
         "setasign/fpdi": "1.5.4"
     }
 }
