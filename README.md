@@ -17,7 +17,7 @@ This package comes without any dependency configuration in the composer.json fil
 A basic installation via Composer could be done this way:
 
 ```bash
-$ composer require "setasign/fpdi":"1.6"
+$ composer require setasign/fpdi:1.6
 ```
 
 or you can include the following in your composer.json file:
