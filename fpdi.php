@@ -130,8 +130,8 @@ class FPDI extends FPDF_TPL
      */
     public function getPdfVersion()
     {
-		return $this->PDFVersion;
-	}
+        return $this->PDFVersion;
+    }
     
     /**
      * Set the PDF version.
