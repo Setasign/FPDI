@@ -5,7 +5,7 @@
  * @package   FPDI
  * @copyright Copyright (c) 2015 Setasign - Jan Slabon (http://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
- * @version   1.6.0
+ * @version   1.6.1
  */
 
 if (!class_exists('fpdi_bridge')) {
@@ -247,7 +247,7 @@ class FPDF_TPL extends fpdi_bridge
         );
 
         $this->_out(sprintf('q %.4F 0 0 %.4F %.4F %.4F cm',
-                $tplData['scaleX'], $tplData['scaleY'], $tplData['tx'] * $this->k, $tplData['ty'] * $this->k)
+            $tplData['scaleX'], $tplData['scaleY'], $tplData['tx'] * $this->k, $tplData['ty'] * $this->k)
         ); // Translate
         $this->_out(sprintf('%s%d Do Q', $this->tplPrefix, $tplIdx));
 
@@ -353,7 +353,7 @@ class FPDF_TPL extends fpdi_bridge
      * @see http://fpdf.org/en/doc/addpage.htm
      * @see http://www.tcpdf.org/doc/code/classTCPDF.html#a5171e20b366b74523709d84c349c1ced
      */
-    public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
+    public function AddPage($orientation = '', $format = '', $rotationOrKeepmargins = false, $tocpage = false)
     {
         if (is_subclass_of($this, 'TCPDF')) {
             $args = func_get_args();
@@ -364,7 +364,7 @@ class FPDF_TPL extends fpdi_bridge
             throw new LogicException('Adding pages in templates is not possible!');
         }
 
-        parent::AddPage($orientation, $format);
+        parent::AddPage($orientation, $format, $rotationOrKeepmargins);
     }
 
     /**
