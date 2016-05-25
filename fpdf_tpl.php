@@ -526,7 +526,7 @@ class FPDF_TPL extends fpdi_bridge
         parent::_putxobjectdict();
 
         foreach($this->_tpls as $tplIdx => $tpl) {
-            $this->_out(sprintf('%s%d %d 0 R', $this->tplPrefix, $tplIdx, $tpl['n']));
+            $this->_out(sprintf('%s%d %d 0 R', $this->tplPrefix, $tplIdx, isset($tpl['n']) ? $tpl['n']:null));
         }
     }
 
