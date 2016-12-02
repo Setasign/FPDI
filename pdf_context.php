@@ -67,7 +67,13 @@ class pdf_context
     public function getPos()
     {
         if ($this->_mode == 0) {
-            return ftell($this->file);
+            $pos = ftell($this->file);
+
+            if (feof($this->file)) {
+                $pos--;
+            }
+
+            return $pos;
         } else {
             return 0;
         }
