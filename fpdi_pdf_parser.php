@@ -59,9 +59,9 @@ class fpdi_pdf_parser extends pdf_parser
      *
      * @param string $filename The source filename
      */
-    public function __construct($filename)
+    public function __construct($filename, $temp = false)
     {
-        parent::__construct($filename);
+        parent::__construct($filename, $temp);
 
         // resolve Pages-Dictonary
         $pages = $this->resolveObject($this->_root[1][1]['/Pages']);

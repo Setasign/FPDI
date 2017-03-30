@@ -173,11 +173,19 @@ class pdf_parser
      * @param string $filename Source filename
      * @throws InvalidArgumentException
      */
-    public function __construct($filename)
+    public function __construct($filename, $temp = false)
     {
         $this->filename = $filename;
-
-        $this->_f = @fopen($this->filename, 'rb');
+        
+        //If a tempoary file is required for reading and writing to
+        if($temp) {
+            $tempoary_file = tmpfile();
+            @fwrite($tempoary_file, file_get_contents($this->filename));
+            $this->_f = $tempoary_file;
+        } else {
+            $this->_f = @fopen($this->filename, 'rb');
+        }
+        
 
         if (!$this->_f) {
             throw new InvalidArgumentException(sprintf('Cannot open %s !', $filename));
