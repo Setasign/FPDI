@@ -90,7 +90,7 @@ class FPDI extends FPDF_TPL
      * @return int The number of pages in the document
      * @throws Exception
      */
-    public function setSourceFile($filename)
+    public function setSourceFile($filename, $temp = false)
     {
         $_filename = realpath($filename);
         if (false !== $_filename)
@@ -127,12 +127,12 @@ class FPDI extends FPDF_TPL
      * @param string $filename
      * @return fpdi_pdf_parser
      */
-    protected function _getPdfParser($filename)
+    protected function _getPdfParser($filename, $temp = false)
     {
         if (!class_exists('fpdi_pdf_parser')) {
             require_once('fpdi_pdf_parser.php');
         }
-        return new fpdi_pdf_parser($filename);
+        return new fpdi_pdf_parser($filename, $temp);
     }
     
     /**
