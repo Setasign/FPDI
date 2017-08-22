@@ -1,0 +1,3 @@
+Files from Acrobat 9.0
+
+C:\Program Files (x86)\Adobe\Acrobat 9.0\Acrobat\plug_ins\Annotations\
