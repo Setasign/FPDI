@@ -7,8 +7,6 @@ use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Tokenizer;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfNameTest extends TestCase
 {
     public function parseProvider()

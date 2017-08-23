@@ -7,8 +7,6 @@ use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfTokenTest extends TestCase
 {
     public function testCreate()

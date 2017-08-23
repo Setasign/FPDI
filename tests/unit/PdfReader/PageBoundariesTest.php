@@ -5,9 +5,6 @@ namespace setasign\Fpdi\unit\PdfReader;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 
-
-require_once __DIR__ . '/../../config.php';
-
 class PageBoundariesTest extends TestCase
 {
     public function isValidNameProvider()

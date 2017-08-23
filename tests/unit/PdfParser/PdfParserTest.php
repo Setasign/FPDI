@@ -10,8 +10,6 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 
-require_once __DIR__ . '/../../config.php';
-
 class PdfParserTest extends TestCase
 {
     public function testGetIndirectObjectCache()

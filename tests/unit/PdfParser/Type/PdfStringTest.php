@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfStringTest extends TestCase
 {
     public function testCreate()

@@ -5,8 +5,6 @@ namespace setasign\Fpdi\functional;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\Fpdi;
 
-require_once __DIR__ . '/../config.php';
-
 class FpdiTraitTest extends TestCase
 {
     public function testGetTemplateSizeWithPt()

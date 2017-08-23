@@ -17,9 +17,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 
-
-require_once __DIR__ . '/../../config.php';
-
 class PdfParserTest extends TestCase
 {
     public function readValueProvider()

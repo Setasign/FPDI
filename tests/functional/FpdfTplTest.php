@@ -11,8 +11,6 @@ use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
 
-require_once __DIR__ . '/../config.php';
-
 class FpdfTplTest extends TestCase
 {
     public function testGetTemplateSizeWithInvalidArgument()

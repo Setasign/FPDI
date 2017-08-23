@@ -5,8 +5,6 @@ namespace setasign\Fpdi\unit\PdfParser;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\StreamReader;
 
-require_once __DIR__ . '/../../config.php';
-
 class StreamReaderTest extends TestCase
 {
     /**

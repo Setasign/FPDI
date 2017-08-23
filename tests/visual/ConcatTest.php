@@ -5,8 +5,6 @@ namespace setasign\Fpdi\visual;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 
-require_once __DIR__ . '/VisualTestCase.php';
-
 class ConcatTest extends VisualTestCase
 {
     public function createProvider()

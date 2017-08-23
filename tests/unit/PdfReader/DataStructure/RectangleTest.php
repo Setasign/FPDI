@@ -5,8 +5,6 @@ namespace setasign\Fpdi\unit\PdfReader\DataStructure;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfReader\DataStructure\Rectangle;
 
-require_once __DIR__ . '/../../../config.php';
-
 class RectangleTest extends TestCase
 {
     public function dataProvider()

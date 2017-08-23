@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
 use setasign\Fpdi\PdfParser\CrossReference\FixedReader;
 
-require_once __DIR__ . '/../../../config.php';
-
 class CrossReferenceTest extends TestCase
 {
     /**

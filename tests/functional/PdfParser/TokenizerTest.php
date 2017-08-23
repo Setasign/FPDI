@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Tokenizer;
 
-require_once __DIR__ . '/../../config.php';
-
 class TokenizerTest extends TestCase
 {
     public function getNextTokenProvider()

@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfIndirectObjectReferenceTest extends TestCase
 {
     public function testCreate()

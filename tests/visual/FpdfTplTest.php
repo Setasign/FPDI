@@ -4,8 +4,6 @@ namespace setasign\Fpdi\visual;
 
 use setasign\Fpdi\FpdfTpl;
 
-require_once __DIR__ . '/VisualTestCase.php';
-
 class FpdfTplTest extends VisualTestCase
 {
     /**

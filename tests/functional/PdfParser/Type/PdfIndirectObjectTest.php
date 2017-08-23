@@ -14,8 +14,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfIndirectObjectTest extends TestCase
 {
     public function parseProvider()

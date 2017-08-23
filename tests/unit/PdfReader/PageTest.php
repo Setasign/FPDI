@@ -15,8 +15,6 @@ use setasign\Fpdi\PdfReader\DataStructure\Rectangle;
 use setasign\Fpdi\PdfReader\Page;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 
-require_once __DIR__ . '/../../config.php';
-
 class PageTest extends TestCase
 {
 
