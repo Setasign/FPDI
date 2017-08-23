@@ -86,6 +86,22 @@ class TcpdfFpdi extends \TCPDF
         return $this->useImportedPage($tpl, $x, $y, $width, $height, $adjustPageSize);
     }
 
+    /**
+     * Draws an imported page onto the page.
+     *
+     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
+     * ratio.
+     *
+     * @param mixed $pageId The page id
+     * @param float|int|array $x The abscissa of upper-left corner. Alternatively you could use an assoc array
+     *                           with the keys "x", "y", "width", "height", "adjustPageSize".
+     * @param float|int $y The ordinate of upper-left corner.
+     * @param float|int|null $width The width.
+     * @param float|int|null $height The height.
+     * @param bool $adjustPageSize
+     * @return array The size.
+     * @see Fpdi::getTemplateSize()
+     */
     public function useImportedPage($pageId, $x = 0, $y = 0, $width = null, $height = null, $adjustPageSize = false)
     {
         $size = $this->fpdiUseImportedPage($pageId, $x, $y, $width, $height, $adjustPageSize);

@@ -17,7 +17,7 @@ use setasign\Fpdi\PdfParser\StreamReader;
  * Class LineReader
  *
  * This reader class read all cross-reference entries in a single run.
- * It supports reading cross-references with e.g. invalid data (e.g. length < or > 20 bytes).
+ * It supports reading cross-references with e.g. invalid data (e.g. entries with a length < or > 20 bytes).
  *
  * @package setasign\Fpdi\PdfParser\CrossReference
  */
@@ -26,7 +26,7 @@ class LineReader extends AbstractReader implements ReaderInterface
     /**
      * The object offsets.
      *
-     * @var array;
+     * @var array
      */
     protected $offsets;
 

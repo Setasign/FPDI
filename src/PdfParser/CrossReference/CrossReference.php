@@ -175,7 +175,7 @@ class CrossReference
      *
      * Internally the method will try to evaluate the best reader for this cross-reference.
      *
-     * @param $offset
+     * @param int $offset
      * @return ReaderInterface
      * @throws CrossReferenceException
      */

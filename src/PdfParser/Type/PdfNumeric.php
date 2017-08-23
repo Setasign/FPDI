@@ -10,8 +10,19 @@
 
 namespace setasign\Fpdi\PdfParser\Type;
 
+/**
+ * Class representing a numeric PDF object
+ *
+ * @package setasign\Fpdi\PdfParser\Type
+ */
 class PdfNumeric extends PdfType
 {
+    /**
+     * Helper method to create an instance.
+     *
+     * @param int|float $value
+     * @return PdfNumeric
+     */
     public static function create($value)
     {
         $v = new self;
@@ -20,6 +31,12 @@ class PdfNumeric extends PdfType
         return $v;
     }
 
+    /**
+     * Ensures that the passed value is a PdfNumeric instance.
+     *
+     * @param mixed $value
+     * @return self
+     */
     public static function ensure($value)
     {
         return PdfType::ensureType(self::class, $value, 'Numeric value expected.');

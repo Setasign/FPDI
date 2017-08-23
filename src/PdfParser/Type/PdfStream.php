@@ -91,7 +91,7 @@ class PdfStream extends PdfType
     }
 
     /**
-     * Ensures that the passed value is a PdfName instance.
+     * Ensures that the passed value is a PdfStream instance.
      *
      * @param mixed $stream
      * @return self

@@ -153,15 +153,17 @@ class FixedReader extends AbstractReader implements ReaderInterface
      *
      * This method can be used to repair documents with an invalid subsection header:
      *
-     *  xref
-     *  1 7
-     *  0000000000 65535 f
-     *  0000000009 00000 n
-     *  0000412075 00000 n
-     *  0000412172 00000 n
-     *  0000412359 00000 n
-     *  0000412417 00000 n
-     *  0000412468 00000 n
+     * <code>
+     * xref
+     * 1 7
+     * 0000000000 65535 f
+     * 0000000009 00000 n
+     * 0000412075 00000 n
+     * 0000412172 00000 n
+     * 0000412359 00000 n
+     * 0000412417 00000 n
+     * 0000412468 00000 n
+     * </code>
      *
      * It shall only be called on the first table.
      *

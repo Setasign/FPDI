@@ -33,7 +33,7 @@ class Lzw implements FilterInterface
     protected $dataLength = 0;
 
     /**
-     * @var
+     * @var int
      */
     protected $tIdx;
 
@@ -43,7 +43,7 @@ class Lzw implements FilterInterface
     protected $bitsToGet = 9;
 
     /**
-     * @var
+     * @var int
      */
     protected $bytePointer;
 

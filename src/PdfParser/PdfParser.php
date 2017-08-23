@@ -51,7 +51,7 @@ class PdfParser
     /**
      * The offset to the file header.
      *
-     * @var integer
+     * @var int
      */
     protected $fileHeaderOffset;
 
