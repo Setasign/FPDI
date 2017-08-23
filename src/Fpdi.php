@@ -22,9 +22,7 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
  */
 class Fpdi extends FpdfTpl
 {
-    use FpdiTrait {
-        FpdiTrait::getTemplateSize as getImportedPageSize;
-    }
+    use FpdiTrait;
 
     /**
      * FPDI version

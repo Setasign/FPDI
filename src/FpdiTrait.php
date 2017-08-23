@@ -402,7 +402,7 @@ trait FpdiTrait
      * @param float|int|null $height The height.
      * @return array|bool An array with following keys: width, height, 0 (=width), 1 (=height), orientation (L or P)
      */
-    public function getTemplateSize($tpl, $width = null, $height = null)
+    public function getImportedPageSize($tpl, $width = null, $height = null)
     {
         if (isset($this->importedPages[$tpl])) {
             $importedPage = $this->importedPages[$tpl];

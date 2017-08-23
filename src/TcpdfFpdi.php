@@ -114,6 +114,22 @@ class TcpdfFpdi extends \TCPDF
     }
 
     /**
+     * Get the size of an imported page.
+     *
+     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
+     * ratio.
+     *
+     * @param mixed $tpl The template id
+     * @param float|int|null $width The width.
+     * @param float|int|null $height The height.
+     * @return array|bool An array with following keys: width, height, 0 (=width), 1 (=height), orientation (L or P)
+     */
+    public function getTemplateSize($tpl, $width = null, $height = null)
+    {
+       return $this->getImportedPageSize($tpl, $width, $height);
+    }
+
+    /**
      * @inheritdoc
      */
     protected function _getxobjectdict()
