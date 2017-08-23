@@ -9,8 +9,6 @@ use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfArrayTest extends TestCase
 {
     public function parseProvider()

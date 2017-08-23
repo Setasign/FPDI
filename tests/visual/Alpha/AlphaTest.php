@@ -4,9 +4,6 @@ namespace setasign\Fpdi\visual\Alpha;
 
 use setasign\Fpdi\visual\VisualTestCase;
 
-require_once __DIR__ . '/../VisualTestCase.php';
-require_once __DIR__ . '/AlphaPdf.php';
-
 class AlphaTest extends VisualTestCase
 {
     public function createProvider()

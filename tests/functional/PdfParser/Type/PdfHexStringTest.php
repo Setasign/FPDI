@@ -7,8 +7,6 @@ use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Tokenizer;
 use setasign\Fpdi\PdfParser\Type\PdfHexString;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfHexStringTest extends TestCase
 {
     public function parseProvider()

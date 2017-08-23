@@ -5,8 +5,6 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Ascii85;
 
-require_once __DIR__ . '/../../../config.php';
-
 class Ascii85Test extends TestCase
 {
     public function decodeProvider()

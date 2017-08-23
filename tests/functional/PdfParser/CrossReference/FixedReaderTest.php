@@ -8,8 +8,6 @@ use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 
-require_once __DIR__ . '/../../../config.php';
-
 class FixedReaderTest extends TestCase
 {
     public function readProvider()

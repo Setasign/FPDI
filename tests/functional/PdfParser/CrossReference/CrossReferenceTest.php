@@ -18,8 +18,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 
-require_once __DIR__ . '/../../../config.php';
-
 class CrossReferenceTest extends TestCase
 {
     public function handlingProvider()

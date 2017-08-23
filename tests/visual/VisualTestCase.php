@@ -2,8 +2,6 @@
 
 namespace setasign\Fpdi\visual;
 
-require_once __DIR__ . '/../config.php';
-
 use PHPUnit\Framework\TestCase;
 
 abstract class VisualTestCase extends TestCase

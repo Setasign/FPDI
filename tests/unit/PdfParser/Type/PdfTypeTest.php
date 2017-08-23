@@ -9,8 +9,6 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfTypeTest extends TestCase
 {
     public function testEnsureWithNonObjectValue()

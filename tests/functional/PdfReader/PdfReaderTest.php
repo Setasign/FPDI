@@ -17,8 +17,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
 
-require_once __DIR__ . '/../../config.php';
-
 class PdfReaderTest extends TestCase
 {
     public function getPageCountProvider()

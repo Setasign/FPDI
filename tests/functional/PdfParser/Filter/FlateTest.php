@@ -5,8 +5,6 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Flate;
 
-require_once __DIR__ . '/../../../config.php';
-
 class FlateTest extends TestCase
 {
     public function decodeProvider()
@@ -31,7 +29,7 @@ class FlateTest extends TestCase
     }
 
     /**
-     * @covers SetaPDF_Core_Filter_Flate::decode
+     * @covers \setasign\Fpdi\PdfParser\Filter\Flate::decode
      * @expectedException \setasign\Fpdi\PdfParser\Filter\FlateException
      * @expectedExceptionCode \setasign\Fpdi\PdfParser\Filter\FlateException::NO_ZLIB
      */

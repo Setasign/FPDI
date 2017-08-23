@@ -11,8 +11,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfStreamTest extends TestCase
 {
     public function testParse()

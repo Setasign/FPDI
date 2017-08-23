@@ -10,8 +10,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
 
-require_once __DIR__ . '/../config.php';
-
 class FpdiTest extends TestCase
 {
     public function testReturnValueOfUseTemplate()

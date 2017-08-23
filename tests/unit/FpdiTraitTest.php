@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiTrait;
 
-require_once __DIR__ . '/../config.php';
-
 abstract class FpdiTraitTest extends TestCase
 {
     /**

@@ -5,8 +5,6 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\AsciiHex;
 
-require_once __DIR__ . '/../../../config.php';
-
 class AsciiHexTest extends TestCase
 {
     public function decodeProvider()

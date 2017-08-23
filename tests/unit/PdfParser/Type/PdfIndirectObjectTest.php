@@ -9,8 +9,6 @@ use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfIndirectObjectTest extends TestCase
 {
     public function testCreate()

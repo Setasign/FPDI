@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfHexString;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 
-require_once __DIR__ . '/../../../config.php';
-
 class PdfHexStringTest extends TestCase
 {
     public function testCreate()

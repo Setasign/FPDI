@@ -11,8 +11,6 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
 use setasign\Fpdi\TcpdfFpdi;
 
-require_once __DIR__ . '/../config.php';
-
 class TcpdfFpdiTest extends TestCase
 {
     public function testReturnValueOfUseTemplate()

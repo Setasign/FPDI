@@ -6,8 +6,6 @@ use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\TcpdfFpdi;
 
-require_once __DIR__ . '/ConcatTest.php';
-
 class ConcatWithTcpdfTest extends ConcatTest
 {
     /**
