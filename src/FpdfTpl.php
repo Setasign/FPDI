@@ -299,6 +299,28 @@ class FpdfTpl extends \FPDF
     /**
      * @inheritdoc
      */
+    public function Link($x, $y, $w, $h, $link)
+    {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('Links cannot be set when writing to a template.');
+        }
+        parent::Link($x, $y, $w, $h, $link);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function SetLink($link, $y = 0, $page = -1)
+    {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('Links cannot be set when writing to a template.');
+        }
+        return parent::SetLink($link, $y, $page);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function SetDrawColor($r, $g = null, $b = null)
     {
         parent::SetDrawColor($r, $g, $b);
