@@ -13,5 +13,5 @@ before_script:
 install: composer update --prefer-dist --no-interaction
 
 script:
-  - phpunit --testsuite "Unit Tests"
-  - phpunit --testsuite "Functional Tests"
+  - ./vendor/bin/phpunit --testsuite "Unit Tests"
+  - ./vendor/bin/phpunit --testsuite "Functional Tests"
