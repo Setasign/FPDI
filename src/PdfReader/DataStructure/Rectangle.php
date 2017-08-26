@@ -51,7 +51,7 @@ class Rectangle
      */
     public static function byPdfArray($array, PdfParser $parser)
     {
-        $array = PdfArray::ensure($array, 4)->value;
+        $array = PdfArray::ensure(PdfType::resolve($array, $parser), 4)->value;
         $ax = PdfNumeric::ensure(PdfType::resolve($array[0], $parser))->value;
         $ay = PdfNumeric::ensure(PdfType::resolve($array[1], $parser))->value;
         $bx = PdfNumeric::ensure(PdfType::resolve($array[2], $parser))->value;
