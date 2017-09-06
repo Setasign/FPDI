@@ -199,6 +199,8 @@ trait FpdiTrait
         $pageNumber = (int)$pageNumber;
         $pageId .= '|' . $pageNumber . '|' . ($groupXObject ? '1' : '0');
 
+        // for backwards compatibility with FPDI 1
+        $box = ltrim($box, '/');
         if (!PageBoundaries::isValidName($box)) {
             throw new \InvalidArgumentException(
                 sprintf('Box name is invalid: "%s"', $box)

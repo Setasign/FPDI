@@ -130,4 +130,24 @@ class FpdiTraitTest extends TestCase
         $pdf = new Fpdi();
         $this->assertSame($expectedCount, $pdf->setSourceFile($path));
     }
+
+    public function testImportPageWithSameMeaningBoxParameters()
+    {
+        $pdf = new Fpdi();
+        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/boxes/All2.pdf');
+        $idA = $pdf->importPage(1, '/CropBox');
+        $idB = $pdf->importPage(1, 'CropBox');
+
+        $this->assertEquals($idA, $idB);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testImportPageWithInvalidBoxParameter()
+    {
+        $pdf = new Fpdi();
+        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/boxes/All2.pdf');
+        $pdf->importPage(1, 'CropsBox');
+    }
 }
