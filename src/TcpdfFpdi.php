@@ -5,7 +5,7 @@
  * @package   setasign\Fpdi
  * @copyright Copyright (c) 2017 Setasign - Jan Slabon (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
- * @version   2.0.0-beta
+ * @version   2.0.0-rc1
  */
 
 namespace setasign\Fpdi;
@@ -39,7 +39,7 @@ class TcpdfFpdi extends \TCPDF
      *
      * @string
      */
-    const VERSION = '2.0.0-beta2';
+    const VERSION = '2.0.0-rc1';
 
     /**
      * A counter for template ids.
