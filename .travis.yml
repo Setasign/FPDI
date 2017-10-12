@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+
+before_script:
+  - composer selfupdate
+ # - sudo apt-get update -qq
+ # - sudo apt-get install mupdf-tools
+
+install: composer update --prefer-dist --no-interaction
+
+script:
+  - ./vendor/bin/phpunit --testsuite "Unit Tests"
+  - ./vendor/bin/phpunit --testsuite "Functional Tests"
