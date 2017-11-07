@@ -28,7 +28,7 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\PdfReader\PdfReader;
 use setasign\Fpdi\PdfReader\PdfReaderException;
-use setasign\FpdiPdfParser\PdfParser\PdfParser as FpdiPdfParser;
+use setasign\Fpdi\PdfParser\PdfParser as FpdiPdfParser;
 
 /**
  * The FpdiTrait
