@@ -52,6 +52,15 @@ class PdfReader
     }
 
     /**
+     * PdfReader destructor.
+     */
+    public function __destruct()
+    {
+        /** @noinspection PhpInternalEntityUsedInspection */
+        $this->parser->cleanUp();
+    }
+
+    /**
      * Get the pdf parser instance.
      *
      * @return PdfParser

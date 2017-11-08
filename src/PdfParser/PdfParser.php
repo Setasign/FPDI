@@ -79,6 +79,16 @@ class PdfParser
     }
 
     /**
+     * Removes cycled references.
+     *
+     * @internal
+     */
+    public function cleanUp()
+    {
+        $this->xref = null;
+    }
+
+    /**
      * Get the stream reader instance.
      *
      * @return StreamReader
