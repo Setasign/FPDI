@@ -5,7 +5,7 @@ namespace setasign\Fpdi\functional;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\Fpdi;
 
-class ResolveCycledReferencesTest extends TestCase
+class ReleaseCycledReferencesTest extends TestCase
 {
     public function testRenameFileAfterSetSourceFile()
     {
