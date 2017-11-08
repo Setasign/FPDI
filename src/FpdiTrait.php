@@ -28,7 +28,10 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\PdfReader\PdfReader;
 use setasign\Fpdi\PdfReader\PdfReaderException;
-use setasign\FpdiPdfParser\PdfParser\PdfParser as FpdiPdfParser;
+use /* This namespace/class is used by the commercial FPDI PDF-Parser add-on. */
+    /** @noinspection PhpUndefinedClassInspection */
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    setasign\FpdiPdfParser\PdfParser\PdfParser as FpdiPdfParser;
 
 /**
  * The FpdiTrait
@@ -87,6 +90,7 @@ trait FpdiTrait
         }
     }
 
+    /** @noinspection PhpUndefinedClassInspection */
     /**
      * Get a new pdf parser instance.
      *
@@ -95,7 +99,9 @@ trait FpdiTrait
      */
     protected function getPdfParserInstance(StreamReader $streamReader)
     {
+        /** @noinspection PhpUndefinedClassInspection */
         if (class_exists(FpdiPdfParser::class)) {
+            /** @noinspection PhpUndefinedClassInspection */
             return new FpdiPdfParser($streamReader);
         }
 
