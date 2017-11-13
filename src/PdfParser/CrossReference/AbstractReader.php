@@ -65,7 +65,7 @@ abstract class AbstractReader
             $trailerKeyword->value !== 'trailer'
         ) {
             throw new CrossReferenceException(
-                sprintf(
+                \sprintf(
                     'Unexpected end of cross reference. "trailer"-keyword expected, got: %s',
                     $trailerKeyword instanceof PdfToken ? $trailerKeyword->value : 'nothing'
                 ),

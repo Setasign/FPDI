@@ -156,11 +156,11 @@ class TcpdfFpdi extends \TCPDF
             $this->_put('endobj');
         }
 
-        foreach (array_keys($this->readers) as $readerId) {
+        foreach (\array_keys($this->readers) as $readerId) {
             $parser = $this->getPdfReader($readerId)->getParser();
             $this->currentReaderId = $readerId;
 
-            while (($objectNumber = array_pop($this->objectsToCopy[$readerId])) !== null) {
+            while (($objectNumber = \array_pop($this->objectsToCopy[$readerId])) !== null) {
                 try {
                     $object = $parser->getIndirectObject($objectNumber);
 
@@ -247,7 +247,7 @@ class TcpdfFpdi extends \TCPDF
             $stream = $value->getStream();
             $stream = $this->_encrypt_data($this->currentObjectNumber, $stream);
             $dictionary = $value->value;
-            $dictionary->value['Length'] = PdfNumeric::create(strlen($stream));
+            $dictionary->value['Length'] = PdfNumeric::create(\strlen($stream));
             $value = PdfStream::create($dictionary, $stream);
 
         } elseif ($value instanceof PdfIndirectObject) {

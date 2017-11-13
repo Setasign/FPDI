@@ -35,7 +35,7 @@ class PdfHexString extends PdfType
          */
         while (true) {
             $buffer = $streamReader->getBuffer(false);
-            $pos = strpos($buffer, '>', $bufferOffset);
+            $pos = \strpos($buffer, '>', $bufferOffset);
             if (false === $pos) {
                 if (!$streamReader->increaseLength()) {
                     return false;
@@ -46,7 +46,7 @@ class PdfHexString extends PdfType
             break;
         }
 
-        $result = substr($buffer, $bufferOffset, $pos - $bufferOffset);
+        $result = \substr($buffer, $bufferOffset, $pos - $bufferOffset);
         $streamReader->setOffset($pos + 1);
 
         $v = new self;

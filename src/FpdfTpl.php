@@ -48,8 +48,8 @@ class FpdfTpl extends \FPDF
      */
     public function setPageFormat($size, $orientation)
     {
-        if (!in_array($orientation, ['P', 'L'], true)) {
-            throw new \InvalidArgumentException(sprintf(
+        if (!\in_array($orientation, ['P', 'L'], true)) {
+            throw new \InvalidArgumentException(\sprintf(
                 'Invalid page orientation "%s"! Only "P" and "L" are allowed!',
                 $orientation
             ));
@@ -101,12 +101,12 @@ class FpdfTpl extends \FPDF
             throw new \InvalidArgumentException('Template does not exist!');
         }
 
-        if (is_array($x)) {
+        if (\is_array($x)) {
             unset($x['tpl']);
-            extract($x, EXTR_IF_EXISTS);
+            \extract($x, EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
             /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            if (is_array($x)) {
+            if (\is_array($x)) {
                 $x = 0;
             }
         }
@@ -121,7 +121,7 @@ class FpdfTpl extends \FPDF
 
         $this->_out(
             // reset standard values, translate and scale
-            sprintf(
+            \sprintf(
                 'q 0 J 1 w 0 j 0 G 0 g %.4F 0 0 %.4F %.4F %.4F cm /%s Do Q',
                 ($newSize['width'] / $originalSize['width']),
                 ($newSize['height'] / $originalSize['height']),
@@ -196,10 +196,10 @@ class FpdfTpl extends \FPDF
 
         // initiate buffer with current state of FPDF
         $buffer = "2 J\n"
-            . sprintf('%.2F w', $this->LineWidth * $this->k) . "\n";
+            . \sprintf('%.2F w', $this->LineWidth * $this->k) . "\n";
 
         if ($this->FontFamily) {
-            $buffer .= sprintf("BT /F%d %.2F Tf ET\n", $this->CurrentFont['i'], $this->FontSizePt);
+            $buffer .= \sprintf("BT /F%d %.2F Tf ET\n", $this->CurrentFont['i'], $this->FontSizePt);
         }
 
         if ($this->DrawColor !== '0 G') {
@@ -347,7 +347,7 @@ class FpdfTpl extends \FPDF
     {
         parent::SetLineWidth($width);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
-            $this->_out(sprintf('%.2F w', $width * $this->k));
+            $this->_out(\sprintf('%.2F w', $width * $this->k));
         }
     }
 
@@ -358,7 +358,7 @@ class FpdfTpl extends \FPDF
     {
         parent::SetFont($family, $style, $size);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
-            $this->_out(sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
+            $this->_out(\sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
         }
     }
 
@@ -385,17 +385,17 @@ class FpdfTpl extends \FPDF
             $this->templates[$key]['objectNumber'] = $this->n;
 
             $this->_put('<</Type /XObject /Subtype /Form /FormType 1');
-            $this->_put(sprintf('/BBox[0 0 %.2F %.2F]', $template['width'] * $this->k, $template['height'] * $this->k));
+            $this->_put(\sprintf('/BBox[0 0 %.2F %.2F]', $template['width'] * $this->k, $template['height'] * $this->k));
             $this->_put('/Resources 2 0 R'); // default resources dictionary of FPDF
 
             if ($this->compress) {
-                $buffer = gzcompress($template['buffer']);
+                $buffer = \gzcompress($template['buffer']);
                 $this->_put('/Filter/FlateDecode');
             } else {
                 $buffer = $template['buffer'];
             }
 
-            $this->_put('/Length ' . strlen($buffer));
+            $this->_put('/Length ' . \strlen($buffer));
             $this->_put('>>');
             $this->_putstream($buffer);
             $this->_put('endobj');

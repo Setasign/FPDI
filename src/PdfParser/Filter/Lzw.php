@@ -81,7 +81,7 @@ class Lzw implements FilterInterface
         $this->initsTable();
 
         $this->data = $data;
-        $this->dataLength = strlen($data);
+        $this->dataLength = \strlen($data);
 
         // Initialize pointers
         $this->bytePointer = 0;
@@ -134,7 +134,7 @@ class Lzw implements FilterInterface
         $this->sTable = [];
 
         for ($i = 0; $i < 256; $i++) {
-            $this->sTable[$i] = chr($i);
+            $this->sTable[$i] = \chr($i);
         }
 
         $this->tIdx = 258;
@@ -174,11 +174,11 @@ class Lzw implements FilterInterface
             return 257;
         }
 
-        $this->nextData = ($this->nextData << 8) | (ord($this->data[$this->bytePointer++]) & 0xff);
+        $this->nextData = ($this->nextData << 8) | (\ord($this->data[$this->bytePointer++]) & 0xff);
         $this->nextBits += 8;
 
         if ($this->nextBits < $this->bitsToGet) {
-            $this->nextData = ($this->nextData << 8) | (ord($this->data[$this->bytePointer++]) & 0xff);
+            $this->nextData = ($this->nextData << 8) | (\ord($this->data[$this->bytePointer++]) & 0xff);
             $this->nextBits += 8;
         }
 

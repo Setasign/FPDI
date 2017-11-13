@@ -142,7 +142,7 @@ class CrossReference
         $offset = $this->getOffsetFor($objectNumber);
         if (false === $offset) {
             throw new CrossReferenceException(
-                sprintf('Object (id:%s) not found.', $objectNumber),
+                \sprintf('Object (id:%s) not found.', $objectNumber),
                 CrossReferenceException::OBJECT_NOT_FOUND
             );
         }
@@ -155,14 +155,14 @@ class CrossReference
         $object = $parser->readValue();
         if (false === $object || !($object instanceof PdfIndirectObject)) {
             throw new CrossReferenceException(
-                sprintf('Object (id:%s) not found at location (%s).', $objectNumber, $offset),
+                \sprintf('Object (id:%s) not found at location (%s).', $objectNumber, $offset),
                 CrossReferenceException::OBJECT_NOT_FOUND
             );
         }
 
         if ($object->objectNumber !== $objectNumber) {
             throw new CrossReferenceException(
-                sprintf('Wrong object found, got %s while %s was expected.', $object->objectNumber, $objectNumber),
+                \sprintf('Wrong object found, got %s while %s was expected.', $object->objectNumber, $objectNumber),
                 CrossReferenceException::OBJECT_NOT_FOUND
             );
         }
@@ -266,11 +266,11 @@ class CrossReference
         $reader->reset(-self::$trailerSearchLength, self::$trailerSearchLength);
 
         $buffer = $reader->getBuffer(false);
-        $pos = strrpos($buffer, 'startxref');
+        $pos = \strrpos($buffer, 'startxref');
         $addOffset = 9;
         if (false === $pos) {
             // Some corrupted documents uses startref, instead of startxref
-            $pos = strrpos($buffer, 'startref');
+            $pos = \strrpos($buffer, 'startref');
             if (false === $pos) {
                 throw new CrossReferenceException(
                     'Unable to find pointer to xref table',
