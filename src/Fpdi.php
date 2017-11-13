@@ -98,11 +98,11 @@ class Fpdi extends FpdfTpl
             $this->_put('endobj');
         }
 
-        foreach (array_keys($this->readers) as $readerId) {
+        foreach (\array_keys($this->readers) as $readerId) {
             $parser = $this->getPdfReader($readerId)->getParser();
             $this->currentReaderId = $readerId;
 
-            while (($objectNumber = array_pop($this->objectsToCopy[$readerId])) !== null) {
+            while (($objectNumber = \array_pop($this->objectsToCopy[$readerId])) !== null) {
                 try {
                     $object = $parser->getIndirectObject($objectNumber);
 

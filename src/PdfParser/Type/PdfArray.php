@@ -73,9 +73,9 @@ class PdfArray extends PdfType
     {
         $result = PdfType::ensureType(self::class, $array, 'Array value expected.');
 
-        if ($size !== null && count($array->value) !== $size) {
+        if ($size !== null && \count($array->value) !== $size) {
             throw new PdfTypeException(
-                sprintf('Array with %s entries expected.', $size),
+                \sprintf('Array with %s entries expected.', $size),
                 PdfTypeException::INVALID_DATA_SIZE
             );
         }

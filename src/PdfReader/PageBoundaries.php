@@ -91,6 +91,6 @@ abstract class PageBoundaries
      */
     public static function isValidName($name)
     {
-        return in_array($name, self::$all, true);
+        return \in_array($name, self::$all, true);
     }
 }
