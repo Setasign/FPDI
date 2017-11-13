@@ -126,7 +126,7 @@ class TcpdfFpdi extends \TCPDF
      */
     public function getTemplateSize($tpl, $width = null, $height = null)
     {
-       return $this->getImportedPageSize($tpl, $width, $height);
+        return $this->getImportedPageSize($tpl, $width, $height);
     }
 
     /**

@@ -10,8 +10,6 @@
 
 namespace setasign\Fpdi\PdfParser\Filter;
 
-use setasign\Fpdi\PdfParser\PdfParserException;
-
 /**
  * Exception for Ascii85 filter class
  *
