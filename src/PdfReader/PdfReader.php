@@ -56,8 +56,10 @@ class PdfReader
      */
     public function __destruct()
     {
-        /** @noinspection PhpInternalEntityUsedInspection */
-        $this->parser->cleanUp();
+        if ($this->parser !== null) {
+            /** @noinspection PhpInternalEntityUsedInspection */
+            $this->parser->cleanUp();
+        }
     }
 
     /**
