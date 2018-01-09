@@ -22,8 +22,7 @@ if ($pdf instanceof \TCPDF) {
 }
 
 $files = [
-        '/var/www/privatewebs/jan.slabon/default/html/pdfs/specials/0 0 R/template_pracovny_prikaz7-ooo-a.pdf',
-//    __DIR__ . '/../tests/_files/pdfs/Fantastic-Speaker.pdf',
+    __DIR__ . '/../tests/_files/pdfs/Fantastic-Speaker.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/stamps/ENU/StandardBusiness.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/tektown/Logo.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/1000.pdf',
