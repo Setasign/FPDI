@@ -40,6 +40,22 @@ class PdfName extends PdfType
     }
 
     /**
+     * Unescapes a name string.
+     *
+     * @param string $value
+     * @return string
+     */
+    static public function unescape($value)
+    {
+        if (false === strpos($value, '#'))
+            return $value;
+
+        return preg_replace_callback('/#[a-fA-F\d]{2}/', function($matches) {
+            return chr(hexdec($matches[0]));
+        }, $value);
+    }
+
+    /**
      * Helper method to create an instance.
      *
      * @param string $string

@@ -170,7 +170,7 @@ class PdfParserTest extends TestCase
         $pdf = "%PDF-1.4\n"
             . "%% anything\n"
             . "1 0 obj\n"
-            . "<</Version /1.5>>\n"
+            . "<</Version /1#2E5>>\n" // we use an escaped sequence to test this behaviour as well
             . "endobj\n"
             . "xref\n"
             . "1 1\n"
@@ -178,7 +178,7 @@ class PdfParserTest extends TestCase
             . "trailer\n"
             . "<</Root 1 0 R>>\n"
             . "startxref\n"
-            . "54\n"
+            . "56\n"
             . "%%EOF";
 
         $reader = StreamReader::createByString($pdf);

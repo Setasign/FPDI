@@ -39,4 +39,26 @@ class PdfNameTest extends TestCase
         $b = PdfName::ensure($a);
         $this->assertSame($a, $b);
     }
+
+    public function unescapeProvider()
+    {
+        return [
+            ['1.5'                , '1#2E5'],
+            ['#Test'              , '#23Test'],
+            ['Adobe Green'        , 'Adobe#20Green'],
+            ['PANTONE 5757 CV'    , 'PANTONE#205757#20CV'],
+            ['paired()parentheses', 'paired#28#29parentheses'],
+            ['Abc'                , 'Abc']
+        ];
+    }
+
+    /**
+     * @param $expectedResult
+     * @param $escaped
+     * @dataProvider unescapeProvider
+     */
+    public function testUnescape($expectedResult, $escaped)
+    {
+        $this->assertEquals($expectedResult, PdfName::unescape($escaped));
+    }
 }
