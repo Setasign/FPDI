@@ -43,8 +43,8 @@ class FpdfTpl extends \FPDF
     /**
      * Set the page format of the current page.
      *
-     * @param string $orientation "L" for landscape, "P" for portrait.
      * @param array $size An array with two values defining the size.
+     * @param string $orientation "L" for landscape, "P" for portrait.
      */
     public function setPageFormat($size, $orientation)
     {
