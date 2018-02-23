@@ -321,7 +321,7 @@ class FpdfTpl extends \FPDF
     /**
      * @inheritdoc
      */
-    public function SetDrawColor($r, $g = null, $b = null)
+    public function SetDrawColor($r = 0, $g = null, $b = null)
     {
         parent::SetDrawColor($r, $g, $b);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
@@ -332,7 +332,7 @@ class FpdfTpl extends \FPDF
     /**
      * @inheritdoc
      */
-    public function SetFillColor($r, $g = null, $b = null)
+    public function SetFillColor($r = 0, $g = null, $b = null)
     {
         parent::SetFillColor($r, $g, $b);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
