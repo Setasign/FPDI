@@ -171,13 +171,14 @@ class pdf_parser
      * Constructor
      *
      * @param string $filename Source filename
+     * @param array $$context Resource stream context
      * @throws InvalidArgumentException
      */
-    public function __construct($filename)
+    public function __construct($filename, $context = [])
     {
         $this->filename = $filename;
 
-        $this->_f = @fopen($this->filename, 'rb');
+        $this->_f = @fopen($this->filename, 'rb', false, $context);
 
         if (!$this->_f) {
             throw new InvalidArgumentException(sprintf('Cannot open %s !', $filename));
