@@ -58,10 +58,11 @@ class fpdi_pdf_parser extends pdf_parser
      * The constructor.
      *
      * @param string $filename The source filename
+     * @param array $context Resource stream context
      */
-    public function __construct($filename)
+    public function __construct($filename, $context = [])
     {
-        parent::__construct($filename);
+        parent::__construct($filename, $context);
 
         // resolve Pages-Dictonary
         $pages = $this->resolveObject($this->_root[1][1]['/Pages']);
