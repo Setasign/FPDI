@@ -185,9 +185,10 @@ class FpdfTpl extends \FPDF
      *
      * @param float|int|null $width The width of the template. If null, the current page width is used.
      * @param float|int|null $height The height of the template. If null, the current page height is used.
+     * @param bool $groupXObject Define the form XObject as a group XObject to support transparency (if used).
      * @return int A template identifier.
      */
-    public function beginTemplate($width = null, $height = null)
+    public function beginTemplate($width = null, $height = null, $groupXObject = false)
     {
         if ($width === null) {
             $width = $this->w;
@@ -214,12 +215,17 @@ class FpdfTpl extends \FPDF
             $buffer .= $this->FillColor . "\n";
         }
 
+        if ($groupXObject && \version_compare('1.4', $this->PDFVersion, '>')) {
+            $this->PDFVersion = '1.4';
+        }
+
         $this->templates[$templateId] = [
             'objectNumber' => null,
             'id' => 'TPL' . $templateId,
             'buffer' => $buffer,
             'width' => $width,
             'height' => $height,
+            'groupXObject' => $groupXObject,
             'state' => [
                 'x' => $this->x,
                 'y' => $this->y,
@@ -415,6 +421,11 @@ class FpdfTpl extends \FPDF
             }
 
             $this->_put('/Length ' . \strlen($buffer));
+
+            if ($template['groupXObject']) {
+                $this->_put('/Group <</Type/Group/S/Transparency>>');
+            }
+
             $this->_put('>>');
             $this->_putstream($buffer);
             $this->_put('endobj');
