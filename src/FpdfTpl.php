@@ -233,7 +233,8 @@ class FpdfTpl extends \FPDF
                 'FontFamily' => $this->FontFamily,
                 'FontStyle' => $this->FontStyle,
                 'FontSizePt' => $this->FontSizePt,
-                'FontSize' => $this->FontSize
+                'FontSize' => $this->FontSize,
+                'underline' => $this->underline
             ]
         ];
 
@@ -276,6 +277,8 @@ class FpdfTpl extends \FPDF
         $this->FontStyle = $state['FontStyle'];
         $this->FontSizePt = $state['FontSizePt'];
         $this->FontSize = $state['FontSize'];
+
+        $this->underline = $state['underline'];
 
         $fontKey = $this->FontFamily . $this->FontStyle;
         if ($fontKey) {
