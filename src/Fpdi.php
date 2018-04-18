@@ -5,7 +5,7 @@
  * @package   setasign\Fpdi
  * @copyright Copyright (c) 2017 Setasign - Jan Slabon (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
- * @version   2.0.0
+ * @version   2.0.3
  */
 
 namespace setasign\Fpdi;
@@ -30,7 +30,7 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.0.0';
+    const VERSION = '2.0.3';
 
     /**
      * Draws an imported page or a template onto the page or another template.
