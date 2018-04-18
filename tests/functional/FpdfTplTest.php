@@ -7,6 +7,8 @@ use setasign\Fpdi\FpdfTpl;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\PdfParser\Type\PdfDictionary;
+use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
@@ -385,5 +387,43 @@ class FpdfTplTest extends TestCase
             . "0.000 1.000 0.000 rg\n"
             . "0.00 12.00 100.00 -12.00 re B q 0.000 0.000 1.000 rg BT 2.83 2.40 Td (My Test Template) Tj ET Q\n";
         $this->assertEquals($expectedStream, $tplObject->getUnfilteredStream());
+    }
+
+
+    public function testGroupXObjectParameter()
+    {
+        $pdf = new FpdfTpl();
+        $tplIdA = $pdf->beginTemplate(100, 40, true);
+        $pdf->SetFillColor(255, 0, 0);
+        $pdf->Rect(0, 0, 100, 40, 'F');
+        $pdf->endTemplate();
+
+        $tplIdB = $pdf->beginTemplate(100, 40);
+        $pdf->SetFillColor(0, 255, 0);
+        $pdf->Rect(0, 0, 100, 40, 'F');
+        $pdf->endTemplate();
+
+        $pdf->AddPage();
+        $pdf->useTemplate($tplIdA, 10, 10);
+        $pdf->useTemplate($tplIdB, 10, 60);
+
+        $pdfString = $pdf->Output('S');
+//        file_put_contents('out.pdf', $pdfString);
+
+        $parser = new PdfParser(StreamReader::createByString($pdfString));
+
+        $this->assertEquals([1, 4], $parser->getPdfVersion());
+
+        // $tplIdA -> TPL0 -> 5 0 R
+        $tplObject = $parser->getIndirectObject(5);
+        $this->assertTrue(isset($tplObject->value->value->value['Group']));
+        $this->assertEquals(PdfDictionary::create([
+            'Type' => PdfName::create('Group'),
+            'S' => PdfName::create('Transparency')
+        ]), $tplObject->value->value->value['Group']);
+
+        // $tplIdB -> TPL1 -> 6 0 R
+        $tplObject = $parser->getIndirectObject(6);
+        $this->assertFalse(isset($tplObject->value->value->value['Group']));
     }
 }

@@ -5,7 +5,7 @@
  * @package   setasign\Fpdi
  * @copyright Copyright (c) 2017 Setasign - Jan Slabon (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
- * @version   2.0.0
+ * @version   2.0.3
  */
 
 namespace setasign\Fpdi;
@@ -45,9 +45,14 @@ class FpdfTpl extends \FPDF
      *
      * @param array $size An array with two values defining the size.
      * @param string $orientation "L" for landscape, "P" for portrait.
+     * @throws \BadMethodCallException
      */
     public function setPageFormat($size, $orientation)
     {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('The page format cannot be changed when writing to a template.');
+        }
+
         if (!\in_array($orientation, ['P', 'L'], true)) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid page orientation "%s"! Only "P" and "L" are allowed!',
@@ -180,9 +185,10 @@ class FpdfTpl extends \FPDF
      *
      * @param float|int|null $width The width of the template. If null, the current page width is used.
      * @param float|int|null $height The height of the template. If null, the current page height is used.
+     * @param bool $groupXObject Define the form XObject as a group XObject to support transparency (if used).
      * @return int A template identifier.
      */
-    public function beginTemplate($width = null, $height = null)
+    public function beginTemplate($width = null, $height = null, $groupXObject = false)
     {
         if ($width === null) {
             $width = $this->w;
@@ -209,12 +215,17 @@ class FpdfTpl extends \FPDF
             $buffer .= $this->FillColor . "\n";
         }
 
+        if ($groupXObject && \version_compare('1.4', $this->PDFVersion, '>')) {
+            $this->PDFVersion = '1.4';
+        }
+
         $this->templates[$templateId] = [
             'objectNumber' => null,
             'id' => 'TPL' . $templateId,
             'buffer' => $buffer,
             'width' => $width,
             'height' => $height,
+            'groupXObject' => $groupXObject,
             'state' => [
                 'x' => $this->x,
                 'y' => $this->y,
@@ -228,7 +239,8 @@ class FpdfTpl extends \FPDF
                 'FontFamily' => $this->FontFamily,
                 'FontStyle' => $this->FontStyle,
                 'FontSizePt' => $this->FontSizePt,
-                'FontSize' => $this->FontSize
+                'FontSize' => $this->FontSize,
+                'underline' => $this->underline
             ]
         ];
 
@@ -272,6 +284,8 @@ class FpdfTpl extends \FPDF
         $this->FontSizePt = $state['FontSizePt'];
         $this->FontSize = $state['FontSize'];
 
+        $this->underline = $state['underline'];
+
         $fontKey = $this->FontFamily . $this->FontStyle;
         if ($fontKey) {
             $this->CurrentFont =& $this->fonts[$fontKey];
@@ -295,6 +309,17 @@ class FpdfTpl extends \FPDF
     }
 
     /* overwritten FPDF methods: */
+
+    /**
+     * @inheritdoc
+     */
+    public function AddPage($orientation = '', $size = '', $rotation = 0)
+    {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('Pages cannot be added when writing to a template.');
+        }
+        parent::AddPage($orientation, $size, $rotation);
+    }
 
     /**
      * @inheritdoc
@@ -396,6 +421,11 @@ class FpdfTpl extends \FPDF
             }
 
             $this->_put('/Length ' . \strlen($buffer));
+
+            if ($template['groupXObject']) {
+                $this->_put('/Group <</Type/Group/S/Transparency>>');
+            }
+
             $this->_put('>>');
             $this->_putstream($buffer);
             $this->_put('endobj');

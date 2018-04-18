@@ -58,6 +58,14 @@ class FpdfTplTest extends VisualTestCase
                 ],
                 0.1,
                 72
+            ],
+            [
+                [
+                    '_method' => 'underlineHandling',
+                    'tmpPath' => 'underlineHandling'
+                ],
+                0.1,
+                72
             ]
 
         ];
@@ -168,6 +176,30 @@ class FpdfTplTest extends VisualTestCase
 
         $pdf->AddPage();
         $pdf->useTemplate($tplId, ['adjustPageSize' => true]);
+
+        $pdf->Output('F', $outputFile);
+    }
+
+    public function underlineHandling($inputData, $outputFile)
+    {
+        $pdf = new FpdfTpl('P', 'pt');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'U', 12);
+        $pdf->Cell(0, 14, 'Underline Text.', 0, 1);
+
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+
+        $tplId = $pdf->beginTemplate(200, 20);
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetXY(0, 0);
+        $pdf->Cell(0, 14, 'No underline in template');
+        $pdf->endTemplate();
+
+        $pdf->useTemplate($tplId, $x, $y);
+
+        $pdf->Ln();
+        $pdf->Cell(0, 14, 'Underline text again.', 0, 1);
 
         $pdf->Output('F', $outputFile);
     }
