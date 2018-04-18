@@ -45,9 +45,14 @@ class FpdfTpl extends \FPDF
      *
      * @param array $size An array with two values defining the size.
      * @param string $orientation "L" for landscape, "P" for portrait.
+     * @throws \BadMethodCallException
      */
     public function setPageFormat($size, $orientation)
     {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('The page format cannot be changed when writing to a template.');
+        }
+
         if (!\in_array($orientation, ['P', 'L'], true)) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid page orientation "%s"! Only "P" and "L" are allowed!',
@@ -295,6 +300,17 @@ class FpdfTpl extends \FPDF
     }
 
     /* overwritten FPDF methods: */
+
+    /**
+     * @inheritdoc
+     */
+    public function AddPage($orientation = '', $size = '', $rotation = 0)
+    {
+        if ($this->currentTemplateId !== null) {
+            throw new \BadMethodCallException('Pages cannot be added when writing to a template.');
+        }
+        parent::AddPage($orientation, $size, $rotation);
+    }
 
     /**
      * @inheritdoc
