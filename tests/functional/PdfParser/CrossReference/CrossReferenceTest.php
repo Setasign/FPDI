@@ -25,6 +25,7 @@ class CrossReferenceTest extends TestCase
         $data = [];
 
         $data[] = [
+            " " . // we do not support xrefs at the position 0
             "xref\n" .
             "0 5\r\n" .
             "0000000000 65535 f\r\n" .
@@ -35,7 +36,7 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 5 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(5),
@@ -50,6 +51,7 @@ class CrossReferenceTest extends TestCase
         ];
 
         $data[] = [
+            " " .
             "xref\n" .
             "0 5\r\n" .
             "0000000000 65535 f\r\n" .
@@ -60,7 +62,7 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 5 /Root 1 0 R>>\n" .
             "startref\n" . // <-------- without "x"
-            "0\n" .
+            "1\n" .
             "%%EOF",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(5),
@@ -75,6 +77,7 @@ class CrossReferenceTest extends TestCase
         ];
 
         $data[] = [
+            " " .
             "xref\n" .
             "1 5\r\n" . // <--- faulty subsection header
             "0000000000 65535 f\r\n" .
@@ -85,7 +88,7 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 5 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(5),
@@ -100,6 +103,7 @@ class CrossReferenceTest extends TestCase
         ];
 
         $data[] = [
+            " " .
             "xref\n" .
             "0 3\r\n" .
             "0000000000 65535 f\r\n" .
@@ -108,20 +112,20 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 3 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF\n" .
             "xref\n" .
             "3 2\n" .
             "0000003000 00000 n\r\n" .
             "0000004000 00000 n\r\n" .
             "trailer\n" .
-            "<</Size 5 /Prev 0 /Root 1 0 R>>\n" .
+            "<</Size 5 /Prev 1 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "120\n" .
+            "121\n" .
             "%%EOF\n",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(5),
-                'Prev' => PdfNumeric::create(0),
+                'Prev' => PdfNumeric::create(1),
                 'Root' => PdfIndirectObjectReference::create(1, 0)
             ]),
             [
@@ -133,6 +137,7 @@ class CrossReferenceTest extends TestCase
         ];
 
         $data[] = [
+            " " .
             "xref\n" .
             "0 3\r\n" .
             "0000000000 65535 f\r\n" .
@@ -141,20 +146,20 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 3 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF\n" .
             "xref\n" .
             "1 2\n" .
             "0000001100 00000 n\r\n" .
             "0000002100 00000 n\r\n" .
             "trailer\n" .
-            "<</Size 3 /Prev 0 /Root 1 0 R>>\n" .
+            "<</Size 3 /Prev 1 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "120\n" .
+            "121\n" .
             "%%EOF\n",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(3),
-                'Prev' => PdfNumeric::create(0),
+                'Prev' => PdfNumeric::create(1),
                 'Root' => PdfIndirectObjectReference::create(1, 0)
             ]),
             [
@@ -164,6 +169,7 @@ class CrossReferenceTest extends TestCase
         ];
 
         $data[] = [
+            " " .
             "xref\n" .
             "1 3\r\n" . // faulty subsection header but handled as it is, because there are more tables.
             "0000000000 65535 f\r\n" .
@@ -172,20 +178,20 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 3 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF\n" .
             "xref\n" .
             "2 2\n" .
             "0000001100 00000 n\r\n" .
             "0000002100 00000 n\r\n" .
             "trailer\n" .
-            "<</Size 3 /Prev 0 /Root 1 0 R>>\n" .
+            "<</Size 3 /Prev 1 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "120\n" .
+            "121\n" .
             "%%EOF\n",
             PdfDictionary::create([
                 'Size' => PdfNumeric::create(3),
-                'Prev' => PdfNumeric::create(0),
+                'Prev' => PdfNumeric::create(1),
                 'Root' => PdfIndirectObjectReference::create(1, 0)
             ]),
             [
@@ -251,6 +257,7 @@ class CrossReferenceTest extends TestCase
 
         // test additional token after %%EOF
         $data[] = [
+            " " .
             "xref\n" .
             "0 5\r\n" .
             "0000000000 65535 f\r\n" .
@@ -261,7 +268,7 @@ class CrossReferenceTest extends TestCase
             "trailer\n" .
             "<</Size 5 /Root 1 0 R>>\n" .
             "startxref\n" .
-            "0\n" .
+            "1\n" .
             "%%EOF\n" .
             "<let's confuse",
             PdfDictionary::create([
@@ -276,6 +283,27 @@ class CrossReferenceTest extends TestCase
             ]
         ];
 
+
+        $data[] = [
+            " " .
+            "xref\n" .
+            "0 2\r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000001000 00000 n\r\n" .
+            "trailer\n" .
+            "<</Size 2 /Root 1 0 R /Prev 0>>\n" . // this /Prev entry is ignored silently
+            "startxref\n" .
+            "1\n" .
+            "%%EOF",
+            PdfDictionary::create([
+                'Size' => PdfNumeric::create(2),
+                'Root' => PdfIndirectObjectReference::create(1, 0),
+                'Prev' => PdfNumeric::create(0)
+            ]),
+            [
+                1 => 1000,
+            ]
+        ];
 
         return $data;
     }
