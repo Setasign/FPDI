@@ -52,6 +52,7 @@ class CrossReference
      * CrossReference constructor.
      *
      * @param PdfParser $parser
+     * @throws CrossReferenceException
      */
     public function __construct(PdfParser $parser, $fileHeaderOffset = 0)
     {
@@ -60,7 +61,8 @@ class CrossReference
 
         $offset = $this->findStartXref();
         $reader = null;
-        while ($offset !== false) {
+        /** @noinspection TypeUnsafeComparisonInspection */
+        while ($offset != false) { // By doing an unsafe comparsion we ignore faulty references to byte offset 0
             $reader = $this->readXref($offset + $this->fileHeaderOffset);
             $trailer = $reader->getTrailer();
             $this->checkForEncryption($trailer);
