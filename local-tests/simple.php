@@ -8,12 +8,13 @@ require_once '../vendor/autoload.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-set_time_limit(2);
+set_time_limit(20);
 date_default_timezone_set('UTC');
 $start = microtime(true);
 
-$pdf = new Fpdi\Fpdi('L', 'mm', 'A3');
-//$pdf = new Fpdi\TcpdfFpdi('L', 'mm', 'A3');
+//$pdf = new Fpdi\Fpdi('L', 'mm', 'A3');
+//$pdf = new Fpdi\Tcpdf\Fpdi('L', 'mm', 'A3');
+$pdf = new Fpdi\Tfpdf\Fpdi('L', 'mm', 'A3');
 
 if ($pdf instanceof \TCPDF) {
     $pdf->SetProtection(['print'], '', 'owner');

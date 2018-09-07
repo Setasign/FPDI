@@ -10,6 +10,7 @@ require_once '../vendor/autoload.php';
 
 $start = microtime(true);
 
+//class AlphaPDF extends Fpdi\Tfpdf\Fpdi
 class AlphaPDF extends Fpdi\Fpdi
 {
     var $extgstates = array();
@@ -90,7 +91,7 @@ $pdf->SetAlpha(.1);
 $pdf->useTemplate($tplIdA, 40, 50, 100);
 $pdf->useTemplate($tplIdB, 160, 50, 100);
 
-$pdf->Output('F', 'alpha-test.pdf');
+$pdf->Output('alpha-test.pdf', 'F');
 
 echo microtime(true) - $start;
 echo "<br>";
