@@ -47,7 +47,7 @@ class PdfName extends PdfType
      */
     static public function unescape($value)
     {
-        if (false === strpos($value, '#'))
+        if (strpos($value, '#') === false)
             return $value;
 
         return preg_replace_callback('/#[a-fA-F\d]{2}/', function($matches) {
@@ -74,6 +74,7 @@ class PdfName extends PdfType
      *
      * @param mixed $name
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($name)
     {

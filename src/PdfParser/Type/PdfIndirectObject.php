@@ -30,6 +30,7 @@ class PdfIndirectObject extends PdfType
      * @param Tokenizer $tokenizer
      * @param StreamReader $reader
      * @return bool|self
+     * @throws PdfTypeException
      */
     public static function parse(
         $objectNumberToken,
@@ -81,6 +82,7 @@ class PdfIndirectObject extends PdfType
      *
      * @param mixed $indirectObject
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($indirectObject)
     {

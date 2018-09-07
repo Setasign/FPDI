@@ -1,22 +1,22 @@
 <?php
 
-namespace setasign\Fpdi\visual;
+namespace setasign\Fpdi\visual\Tcpdf;
 
-use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
-use setasign\Fpdi\TcpdfFpdi;
+use setasign\Fpdi\Tcpdf\Fpdi;
 
-class ConcatWithTcpdfTest extends ConcatTest
+class ConcatTest extends \setasign\Fpdi\visual\ConcatTest
 {
     /**
      * If $inputData is an array the key 'tmpPath' is needed
      *
      * @param string|array $inputData
      * @param string $outputFile
+     * @throws \setasign\Fpdi\PdfReader\PdfReaderException
      */
     public function createPDF($inputData, $outputFile)
     {
-        $pdf = new TcpdfFpdi();
+        $pdf = new Fpdi();
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
 

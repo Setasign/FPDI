@@ -36,7 +36,7 @@ class PdfHexString extends PdfType
         while (true) {
             $buffer = $streamReader->getBuffer(false);
             $pos = \strpos($buffer, '>', $bufferOffset);
-            if (false === $pos) {
+            if ($pos === false) {
                 if (!$streamReader->increaseLength()) {
                     return false;
                 }
@@ -74,6 +74,7 @@ class PdfHexString extends PdfType
      *
      * @param mixed $hexString
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($hexString)
     {

@@ -34,6 +34,7 @@ class LineReader extends AbstractReader implements ReaderInterface
      * LineReader constructor.
      *
      * @param PdfParser $parser
+     * @throws CrossReferenceException
      */
     public function __construct(PdfParser $parser)
     {
@@ -80,12 +81,12 @@ class LineReader extends AbstractReader implements ReaderInterface
         while (
             ($trailerPos = \strpos($reader->getBuffer(false), 'trailer', \max($bytesPerCycle * $cycles++, 0))) === false
         ) {
-            if (false === $reader->increaseLength($bytesPerCycle)) {
+            if ($reader->increaseLength($bytesPerCycle) === false) {
                 break;
             }
         }
 
-        if (false === $trailerPos) {
+        if ($trailerPos === false) {
             throw new CrossReferenceException(
                 'Unexpected end of cross reference. trailer-keyword not found.',
                 CrossReferenceException::NO_TRAILER_FOUND

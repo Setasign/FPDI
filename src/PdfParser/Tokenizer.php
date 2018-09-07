@@ -75,7 +75,7 @@ class Tokenizer
     public function getNextToken()
     {
         $token = \array_pop($this->stack);
-        if (null !== $token) {
+        if ($token !== null) {
             return $token;
         }
 
@@ -90,7 +90,7 @@ class Tokenizer
             $byte === "\x09" ||
             $byte === "\x00"
         ) {
-            if (false === $this->leapWhiteSpaces()) {
+            if ($this->leapWhiteSpaces() === false) {
                 return false;
             }
             $byte = $this->streamReader->readByte();

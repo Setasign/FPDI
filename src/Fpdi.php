@@ -75,7 +75,7 @@ class Fpdi extends FpdfTpl
     public function getTemplateSize($tpl, $width = null, $height = null)
     {
         $size = parent::getTemplateSize($tpl, $width, $height);
-        if (false === $size) {
+        if ($size === false) {
             return $this->getImportedPageSize($tpl, $width, $height);
         }
 
@@ -84,6 +84,7 @@ class Fpdi extends FpdfTpl
 
     /**
      * @inheritdoc
+     * @throws CrossReferenceException
      */
     protected function _putimages()
     {
