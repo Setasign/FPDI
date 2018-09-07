@@ -13,14 +13,16 @@ FPDI is a collection of PHP classes facilitating developers to read pages from e
 documents and use them as templates in [FPDF](http://www.fpdf.org), which was developed by Olivier Plathey. Apart
 from a copy of [FPDF](http://www.fpdf.org), FPDI does not require any special PHP extensions.
 
-FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/TCPDF), too.
+FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/TCPDF) or 
+[tFPDF](http://fpdf.org/en/script/script92.php), too.
 
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
-Because FPDI can be used with FPDF or TCPDF we didn't added a fixed dependency in the main
-composer.json file but we added metadata packages for both 
-[FPDF](https://github.com/Setasign/FPDI-FPDF) and 
-[TCPDF](https://github.com/Setasign/FPDI-TCPDF).
+Because FPDI can be used with FPDF, TCPDF or tFPDF we didn't added a fixed dependency in the main
+composer.json file but we added metadata packages for 
+[FPDF](https://github.com/Setasign/FPDI-FPDF), 
+[TCPDF](https://github.com/Setasign/FPDI-TCPDF) and
+[tFPDF](https://github.com/Setasign/FPDI-tFPDF).
 
 ### Evaluate Dependencies Automatically
 
@@ -38,6 +40,15 @@ For TCPDF add following [package](https://github.com/Setasign/FPDI-TCPDF) to you
 {
     "require": {
         "setasign/fpdi-tcpdf": "^2.0"
+    }
+}
+```
+
+For tFPDF add following [package](https://github.com/Setasign/FPDI-tFPDF) to your composer.json:
+```json
+{
+    "require": {
+        "setasign/fpdi-tfpdf": "^2.1"
     }
 }
 ```
@@ -65,6 +76,17 @@ If you want to use TCPDF, your have to update your composer.json respectively to
     "require": {
         "tecnickcom/tcpdf": "^6.2",
         "setasign/fpdi": "^2.0"
+    }
+}
+```
+
+If you want to use tFPDF, your have to update your composer.json respectively to:
+
+```json
+{
+    "require": {
+        "tecnickcom/tfpdf": "1.25",
+        "setasign/fpdi": "^2.1"
     }
 }
 ```
@@ -110,8 +132,8 @@ version 2:
   result in an `InvalidArgumentException` now.
 - The return value of `getTemplateSize()` had changed to an array with more speaking keys
   and reusability: Use `width` instead of `w` and `height` instead of `h`.
-- If you want to use **FPDI with TCPDF** you need to refactor your code to use the class `TcpdfFpdi`
-instead of `FPDI`.
+- If you want to use **FPDI with TCPDF** you need to refactor your code to use the class `Tcpdf\Fpdi`
+(since 2.1; before it was `TcpdfFpdi`) instead of `FPDI`.
 
 ## Example and Documentation
 
@@ -119,13 +141,18 @@ A simple example, that imports a single page and places this onto a new created 
 
 ```php
 <?php
-use setasign\Fpdi;
+use setasign\Fpdi\Fpdi;
+// or for usage with TCPDF:
+// use setasign\Fpdi\Tcpdf\Fpdi;
+
+// or for usage with tFPDF:
+// use setasign\Fpdi\Tfpdf\Fpdi;
 
 // setup the autoload function
 require_once('vendor/autoload.php');
 
 // initiate FPDI
-$pdf = new Fpdi\Fpdi();
+$pdf = new Fpdi();
 // add a page
 $pdf->AddPage();
 // set the source file
