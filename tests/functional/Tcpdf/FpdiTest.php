@@ -1,22 +1,21 @@
 <?php
 
-namespace setasign\Fpdi\functional;
+namespace setasign\Fpdi\functional\Tcpdf;
 
 use PHPUnit\Framework\TestCase;
-use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
-use setasign\Fpdi\TcpdfFpdi;
+use setasign\Fpdi\Tcpdf\Fpdi;
 
-class TcpdfFpdiTest extends TestCase
+class FpdiTest extends TestCase
 {
     public function testReturnValueOfUseTemplate()
     {
-        $pdf = new TcpdfFpdi('P', 'pt');
-        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf');
+        $pdf = new Fpdi('P', 'pt');
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf');
         $pageId = $pdf->importPage(1);
 
         $pdf->AddPage();
@@ -32,10 +31,10 @@ class TcpdfFpdiTest extends TestCase
 
     public function testImportedPageInTemplate()
     {
-        $pdf = new TcpdfFpdi('P', 'pt');
+        $pdf = new Fpdi('P', 'pt');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf');
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf');
         $pageId = $pdf->importPage(1);
 
         $pdf->AddPage();
@@ -82,7 +81,7 @@ class TcpdfFpdiTest extends TestCase
         );
 
         // let's read the original string of the imported page
-        $reader = new PdfReader(new PdfParser(StreamReader::createByFile(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf')));
+        $reader = new PdfReader(new PdfParser(StreamReader::createByFile(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf')));
         $expectedStream = $reader->getPage(1)->getContentStream();
         $this->assertEquals($expectedStream, $tplAObject->getUnfilteredStream());
     }
@@ -93,16 +92,16 @@ class TcpdfFpdiTest extends TestCase
      */
     public function testBehaviourOnCompressedXref()
     {
-        $pdf = new TcpdfFpdi('P', 'pt');
-        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/compressed-xref.pdf');
+        $pdf = new Fpdi('P', 'pt');
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/compressed-xref.pdf');
     }
 
     public function testHandlingOfNoneExistingReferencedObjects()
     {
-        $pdf = new TcpdfFpdi();
+        $pdf = new Fpdi('P', 'pt');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/ReferencesToInvalidObjects.pdf');
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/ReferencesToInvalidObjects.pdf');
         $pdf->AddPage();
         $pdf->useTemplate($pdf->importPage(1));
 
@@ -122,10 +121,10 @@ class TcpdfFpdiTest extends TestCase
 
     public function testSetSourceFileWithoutUsingIt()
     {
-        $pdf = new TcpdfFpdi();
+        $pdf = new Fpdi('P', 'pt');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf');
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf');
         $pdfString = $pdf->Output('doc.pdf', 'S');
 //file_put_contents('out-tcpdf.pdf', $pdfString);
 
