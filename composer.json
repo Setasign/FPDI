@@ -39,7 +39,7 @@
         "phpunit/phpunit": "~5.7",
         "setasign/fpdf": "~1.8",
         "tecnickcom/tcpdf": "~6.2",
-        "setasign/tfpdf": "dev-master"
+        "setasign/tfpdf": "1.25"
     },
     "autoload-dev": {
         "psr-4": {
