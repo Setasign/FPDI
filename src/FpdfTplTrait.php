@@ -10,7 +10,7 @@
 namespace setasign\Fpdi;
 
 /**
- * Class FpdfTpl
+ * Trait FpdfTplTrait
  *
  * This class adds a templating feature to tFPDF.
  *
@@ -97,7 +97,7 @@ trait FpdfTplTrait
      * @param float|int|null $height The height.
      * @param bool $adjustPageSize
      * @return array The size
-     * @see FpdfTpl::getTemplateSize()
+     * @see FpdfTplTrait::getTemplateSize()
      */
     public function useTemplate($tpl, $x = 0, $y = 0, $width = null, $height = null, $adjustPageSize = false)
     {
