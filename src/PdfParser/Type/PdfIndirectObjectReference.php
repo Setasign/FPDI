@@ -38,6 +38,7 @@ class PdfIndirectObjectReference extends PdfType
      *
      * @param mixed $value
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($value)
     {

@@ -42,6 +42,6 @@ class LzwTest extends TestCase
     {
         $filter = new Lzw();
 
-        $filter->decode(0x00 . 0x01);
+        $filter->decode("\x00\x01");
     }
 }

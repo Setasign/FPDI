@@ -106,6 +106,7 @@ class PdfDictionary extends PdfType
      * @param string $key
      * @param PdfType|mixed|null $default
      * @return PdfNull|PdfType
+     * @throws PdfTypeException
      */
     public static function get($dictionary, $key, PdfType $default = null)
     {
@@ -125,6 +126,7 @@ class PdfDictionary extends PdfType
      *
      * @param mixed $dictionary
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($dictionary)
     {

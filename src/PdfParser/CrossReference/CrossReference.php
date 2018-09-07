@@ -124,7 +124,7 @@ class CrossReference
     {
         foreach ($this->getReaders() as $reader) {
             $offset = $reader->getOffsetFor($objectNumber);
-            if (false !== $offset) {
+            if ($offset !== false) {
                 return $offset;
             }
         }
@@ -155,7 +155,7 @@ class CrossReference
         $parser->getStreamReader()->reset($offset + $this->fileHeaderOffset);
 
         $object = $parser->readValue();
-        if (false === $object || !($object instanceof PdfIndirectObject)) {
+        if ($object === false || !($object instanceof PdfIndirectObject)) {
             throw new CrossReferenceException(
                 \sprintf('Object (id:%s) not found at location (%s).', $objectNumber, $offset),
                 CrossReferenceException::OBJECT_NOT_FOUND
@@ -270,10 +270,10 @@ class CrossReference
         $buffer = $reader->getBuffer(false);
         $pos = \strrpos($buffer, 'startxref');
         $addOffset = 9;
-        if (false === $pos) {
+        if ($pos === false) {
             // Some corrupted documents uses startref, instead of startxref
             $pos = \strrpos($buffer, 'startref');
-            if (false === $pos) {
+            if ($pos === false) {
                 throw new CrossReferenceException(
                     'Unable to find pointer to xref table',
                     CrossReferenceException::NO_STARTXREF_FOUND

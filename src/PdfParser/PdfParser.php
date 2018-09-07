@@ -11,6 +11,7 @@
 namespace setasign\Fpdi\PdfParser;
 
 use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
@@ -125,7 +126,7 @@ class PdfParser
         while (true) {
             $buffer = $this->streamReader->getBuffer(false);
             $offset = \strpos($buffer, '%PDF-');
-            if (false === $offset) {
+            if ($offset === false) {
                 if (!$this->streamReader->increaseLength(100) || (--$maxIterations === 0)) {
                     throw new PdfParserException(
                         'Unable to find PDF file header.',
@@ -148,10 +149,12 @@ class PdfParser
      * Get the cross reference instance.
      *
      * @return CrossReference
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public function getCrossReference()
     {
-        if (null === $this->xref) {
+        if ($this->xref === null) {
             $this->xref = new CrossReference($this, $this->resolveFileHeader());
         }
 
@@ -191,6 +194,9 @@ class PdfParser
      * Get the catalog dictionary.
      *
      * @return PdfDictionary
+     * @throws Type\PdfTypeException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public function getCatalog()
     {
@@ -208,6 +214,8 @@ class PdfParser
      * @param int $objectNumber
      * @param bool $cache
      * @return PdfIndirectObject
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public function getIndirectObject($objectNumber, $cache = false)
     {
@@ -231,14 +239,15 @@ class PdfParser
      *
      * @param null|bool|string $token
      * @return bool|PdfArray|PdfBoolean|PdfHexString|PdfName|PdfNull|PdfNumeric|PdfString|PdfToken|PdfIndirectObjectReference
+     * @throws Type\PdfTypeException
      */
     public function readValue($token = null)
     {
-        if (null === $token) {
+        if ($token === null) {
             $token = $this->tokenizer->getNextToken();
         }
 
-        if (false === $token) {
+        if ($token === false) {
             return false;
         }
 
@@ -288,11 +297,11 @@ class PdfParser
                     return PdfNumeric::create($token);
                 }
 
-                if ('true' === $token || 'false' === $token) {
-                    return PdfBoolean::create('true' === $token);
+                if ($token === 'true' || $token === 'false') {
+                    return PdfBoolean::create($token === 'true');
                 }
 
-                if ('null' === $token) {
+                if ($token === 'null') {
                     return new PdfNull();
                 }
 

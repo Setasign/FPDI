@@ -36,6 +36,7 @@ class PdfToken extends PdfType
      *
      * @param mixed $token
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($token)
     {

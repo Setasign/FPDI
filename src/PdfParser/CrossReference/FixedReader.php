@@ -39,6 +39,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
      * FixedReader constructor.
      *
      * @param PdfParser $parser
+     * @throws CrossReferenceException
      */
     public function __construct(PdfParser $parser)
     {
@@ -99,7 +100,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
             }
 
             // jump over if line content doesn't match the expected string
-            if (2 !== \sscanf($line, '%d %d', $startObject, $entryCount)) {
+            if (\sscanf($line, '%d %d', $startObject, $entryCount) !== 2) {
                 continue;
             }
 

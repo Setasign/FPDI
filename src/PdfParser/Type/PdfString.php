@@ -73,6 +73,7 @@ class PdfString extends PdfType
      *
      * @param mixed $string
      * @return self
+     * @throws PdfTypeException
      */
     public static function ensure($string)
     {

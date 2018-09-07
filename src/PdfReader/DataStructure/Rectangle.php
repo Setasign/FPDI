@@ -14,6 +14,7 @@ use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfType;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * Class representing a rectangle
@@ -48,6 +49,7 @@ class Rectangle
      * @param PdfArray|mixed $array
      * @param PdfParser $parser
      * @return Rectangle
+     * @throws PdfTypeException
      */
     public static function byPdfArray($array, PdfParser $parser)
     {
