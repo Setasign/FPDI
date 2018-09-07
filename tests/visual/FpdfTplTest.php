@@ -16,6 +16,11 @@ class FpdfTplTest extends VisualTestCase
         return __FILE__;
     }
 
+    public function getInstance()
+    {
+        return new FpdfTpl('P', 'pt');
+    }
+
     public function createProvider()
     {
         return [
@@ -73,7 +78,7 @@ class FpdfTplTest extends VisualTestCase
 
     public function templateInTemplate($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $pdf->AddPage();
 
         $tplIdx = $pdf->beginTemplate(100, 12);
@@ -93,7 +98,7 @@ class FpdfTplTest extends VisualTestCase
 
         $pdf->useTemplate($tplIdx3, 10, 10);
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 
     /**
@@ -104,7 +109,7 @@ class FpdfTplTest extends VisualTestCase
      */
     public function fontHandlingA($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $pdf->AddPage();
 
         $tplIdx = $pdf->beginTemplate(100, 12);
@@ -118,7 +123,7 @@ class FpdfTplTest extends VisualTestCase
         $pdf->SetFont('Helvetica', '', 12); // This line is required!
         $pdf->Text(200, 200, 'Text');
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 
     /**
@@ -129,7 +134,7 @@ class FpdfTplTest extends VisualTestCase
      */
     public function fontHandlingB($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $pdf->AddPage();
         $pdf->SetFont('Helvetica', '', 12);
 
@@ -142,12 +147,12 @@ class FpdfTplTest extends VisualTestCase
 
         $pdf->Text(200, 200, 'Text');
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 
     public function colorHandling($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $pdf->AddPage();
         $pdf->SetDrawColor(255, 0, 0);
         $pdf->SetFillColor(0, 255, 0);
@@ -161,12 +166,12 @@ class FpdfTplTest extends VisualTestCase
 
         $pdf->useTemplate($tplIdx, 10, 10, 400);
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 
     public function adjustPageSize($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $tplId = $pdf->beginTemplate(200, 100);
         $pdf->SetDrawColor(255, 0, 0);
         $pdf->SetFillColor(0, 255, 0);
@@ -177,12 +182,12 @@ class FpdfTplTest extends VisualTestCase
         $pdf->AddPage();
         $pdf->useTemplate($tplId, ['adjustPageSize' => true]);
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 
     public function underlineHandling($inputData, $outputFile)
     {
-        $pdf = new FpdfTpl('P', 'pt');
+        $pdf = $this->getInstance();
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'U', 12);
         $pdf->Cell(0, 14, 'Underline Text.', 0, 1);
@@ -201,6 +206,6 @@ class FpdfTplTest extends VisualTestCase
         $pdf->Ln();
         $pdf->Cell(0, 14, 'Underline text again.', 0, 1);
 
-        $pdf->Output('F', $outputFile);
+        $pdf->Output($outputFile, 'F');
     }
 }

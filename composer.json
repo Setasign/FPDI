@@ -38,7 +38,8 @@
     "require-dev": {
         "phpunit/phpunit": "~5.7",
         "setasign/fpdf": "~1.8",
-        "tecnickcom/tcpdf": "~6.2"
+        "tecnickcom/tcpdf": "~6.2",
+        "setasign/tfpdf": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {
