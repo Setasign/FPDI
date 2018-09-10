@@ -532,8 +532,8 @@ class CrossReferenceTest extends TestCase
     }
 
     /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::COMPRESSED_XREF
+     * @expectedException \setasign\Fpdi\PdfParser\UnsupportedException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\UnsupportedException::COMPRESSED_XREF
      */
     public function testBehaviourOnCompressedXref()
     {

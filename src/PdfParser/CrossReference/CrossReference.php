@@ -15,6 +15,7 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\UnsupportedException;
 
 /**
  * Class CrossReference
@@ -226,10 +227,10 @@ class CrossReference
 
             $this->checkForEncryption($stream->value);
 
-            throw new CrossReferenceException(
+            throw new UnsupportedException(
                 'This PDF document probably uses a compression technique which is not supported by the ' .
                 'free parser shipped with FPDI. (See https://www.setasign.com/fpdi-pdf-parser for more details)',
-                CrossReferenceException::COMPRESSED_XREF
+                UnsupportedException::COMPRESSED_XREF
             );
         }
 
@@ -243,14 +244,14 @@ class CrossReference
      * Check for encryption.
      *
      * @param PdfDictionary $dictionary
-     * @throws CrossReferenceException
+     * @throws UnsupportedException
      */
     protected function checkForEncryption(PdfDictionary $dictionary)
     {
         if (isset($dictionary->value['Encrypt'])) {
-            throw new CrossReferenceException(
+            throw new UnsupportedException(
                 'This PDF document is encrypted and cannot be processed with FPDI.',
-                CrossReferenceException::ENCRYPTED
+                UnsupportedException::ENCRYPTED
             );
         }
     }

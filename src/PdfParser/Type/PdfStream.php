@@ -16,6 +16,7 @@ use setasign\Fpdi\PdfParser\Filter\Flate;
 use setasign\Fpdi\PdfParser\Filter\Lzw;
 use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\PdfParser\UnsupportedException;
 use setasign\FpdiPdfParser\PdfParser\Filter\Predictor;
 
 /**
@@ -220,11 +221,11 @@ class PdfStream extends PdfType
                         $predictor = PdfDictionary::get($decodeParam, 'Predictor', PdfNumeric::create(1));
                         if ($predictor->value !== 1) {
                             if (!\class_exists(Predictor::class)) {
-                                throw new PdfParserException(
+                                throw new UnsupportedException(
                                     'This PDF document makes use of features which are only implemented in the ' .
                                     'commercial "FPDI PDF-Parser" add-on (see https://www.setasign.com/fpdi-pdf-' .
                                     'parser).',
-                                    PdfParserException::IMPLEMENTED_IN_FPDI_PDF_PARSER
+                                    UnsupportedException::IMPLEMENTED_IN_FPDI_PDF_PARSER
                                 );
                             }
 

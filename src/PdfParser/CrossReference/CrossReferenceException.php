@@ -10,6 +10,7 @@
 namespace setasign\Fpdi\PdfParser\CrossReference;
 
 use setasign\Fpdi\PdfParser\PdfParserException;
+use setasign\Fpdi\PdfParser\UnsupportedException;
 
 /**
  * Exception used by the CrossReference and Reader classes.
@@ -70,11 +71,13 @@ class CrossReferenceException extends PdfParserException
 
     /**
      * @var int
+     * @deprecated See UnsupportedException exception.
      */
-    const COMPRESSED_XREF = 0x010B;
+    const COMPRESSED_XREF = UnsupportedException::COMPRESSED_XREF;
 
     /**
      * @var int
+     * @deprecated See UnsupportedException exception.
      */
-    const ENCRYPTED = 0x010C;
+    const ENCRYPTED = UnsupportedException::ENCRYPTED;
 }
