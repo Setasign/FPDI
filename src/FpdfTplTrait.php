@@ -239,7 +239,11 @@ trait FpdfTplTrait
                 'FontStyle' => $this->FontStyle,
                 'FontSizePt' => $this->FontSizePt,
                 'FontSize' => $this->FontSize,
-                'underline' => $this->underline
+                'underline' => $this->underline,
+                'TextColor' => $this->TextColor,
+                'DrawColor' => $this->DrawColor,
+                'FillColor' => $this->FillColor,
+                'ColorFlag' => $this->ColorFlag
             ]
         ];
 
@@ -282,6 +286,11 @@ trait FpdfTplTrait
         $this->FontStyle = $state['FontStyle'];
         $this->FontSizePt = $state['FontSizePt'];
         $this->FontSize = $state['FontSize'];
+
+        $this->TextColor = $state['TextColor'];
+        $this->DrawColor = $state['DrawColor'];
+        $this->FillColor = $state['FillColor'];
+        $this->ColorFlag = $state['ColorFlag'];
 
         $this->underline = $state['underline'];
 
