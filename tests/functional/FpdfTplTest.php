@@ -149,8 +149,6 @@ class FpdfTplTest extends TestCase
         $reader = new PdfReader($parser);
         $expectedStream = "2 J\n"
             . "0.57 w\n"
-            . "0.000 1.000 0.392 RG\n"
-            . "1.000 0.392 0.392 rg\n"
             . "q 0 J 1 w 0 j 0 G 0 g 1.0000 0 0 1.0000 0.0000 0.0000 cm /TPL0 Do Q\n";
 
         $this->assertEquals($expectedStream, $reader->getPage(1)->getContentStream());
@@ -198,8 +196,6 @@ class FpdfTplTest extends TestCase
         $reader = new PdfReader($parser);
         $expectedStream = "2 J\n"
             . "0.57 w\n"
-            . "0.000 1.000 0.392 RG\n"
-            . "1.000 0.392 0.392 rg\n"
             . "0.000 0.000 0.980 RG\n"
             . "q 0 J 1 w 0 j 0 G 0 g 0.4762 0 0 0.4762 28.3465 412.6465 cm /TPL0 Do Q\n"
             . "0.00 841.89 283.46 -400.90 re S\n"
