@@ -50,8 +50,16 @@ class FpdfTplTest extends VisualTestCase
             ],
             [
                 [
-                    '_method' => 'colorHandling',
-                    'tmpPath' => 'colorHandling',
+                    '_method' => 'colorHandlingA',
+                    'tmpPath' => 'colorHandlingA',
+                ],
+                0.1,
+                72 // dpi
+            ],
+            [
+                [
+                    '_method' => 'colorHandlingB',
+                    'tmpPath' => 'colorHandlingB',
                 ],
                 0.1,
                 72 // dpi
@@ -150,7 +158,7 @@ class FpdfTplTest extends VisualTestCase
         $pdf->Output($outputFile, 'F');
     }
 
-    public function colorHandling($inputData, $outputFile)
+    public function colorHandlingA($inputData, $outputFile)
     {
         $pdf = $this->getInstance();
         $pdf->AddPage();
@@ -160,11 +168,66 @@ class FpdfTplTest extends VisualTestCase
         $pdf->SetFont('Helvetica', '', 12);
 
         $tplIdx = $pdf->beginTemplate(100, 12);
+        $pdf->SetDrawColor(255, 0, 255);
+        $pdf->SetFillColor(255, 255, 0);
+        $pdf->SetTextColor(255, 0, 0);
         $pdf->SetXY(0, 0);
         $pdf->Cell(100, 12, 'My Test Template', 1, 0, '', 'FD');
         $pdf->endTemplate();
 
-        $pdf->useTemplate($tplIdx, 10, 10, 400);
+        $tplIdx2 = $pdf->beginTemplate(120, 12);
+        $pdf->SetDrawColor(255, 255, 0);
+        $pdf->SetFillColor(255, 0, 255);
+        $pdf->SetTextColor(0, 255, 255);
+        $pdf->SetXY(0, 0);
+        $pdf->Cell(120, 12, 'My Test Template 2', 1, 0, '', 'FD');
+        $pdf->endTemplate();
+
+        $pdf->SetXY(10, 10);
+        $pdf->Cell(100, 12, 'Another test', 1, 0, '', 'FD');
+
+        $pdf->useTemplate($tplIdx, 10, 30, 400);
+        $pdf->useTemplate($tplIdx2, 10, 80, 400);
+
+        $pdf->SetXY(10, 130);
+        $pdf->Cell(100, 12, 'Another test', 1, 0, '', 'FD');
+
+        $pdf->SetXY(10, 150);
+        $pdf->SetTextColor(255);
+        $pdf->Cell(100, 12, 'Another test', 1, 0, '', 'FD');
+
+        $tplIdx3 = $pdf->beginTemplate(120, 12);
+        $pdf->SetXY(0, 0);
+        $pdf->Cell(120, 12, 'My Test Template 3', 1, 0, '', 'FD');
+        $pdf->SetTextColor(0, 255, 0);
+        $pdf->endTemplate();
+        $pdf->useTemplate($tplIdx3, 10, 180, 400);
+
+        $pdf->SetXY(10, 240);
+        $pdf->Cell(100, 12, 'Another test', 1, 0, '', 'FD');
+
+        $pdf->Output($outputFile, 'F');
+    }
+
+    public function colorHandlingB($inputData, $outputFile)
+    {
+        $pdf = $this->getInstance();
+        $pdf->AddPage();
+
+        $tplIdx = $pdf->beginTemplate(100, 12);
+        $pdf->SetTextColor(150);
+        $pdf->SetDrawColor(200);
+        $pdf->SetFont('Helvetica', '', 12);
+        $pdf->SetXY(0, 0);
+        $pdf->Cell(100, 12, 'My Test Template', 1, 0, '', 'FD');
+        $pdf->endTemplate();
+
+        $pdf->useTemplate($tplIdx, 10, 10);
+
+        $pdf->SetFont('Helvetica', '', 12);
+        $pdf->SetFillColor(255, 0, 0);
+        $pdf->SetXY(10, 40);
+        $pdf->Cell(100, 12, 'Another test', 1, 0, '', 'FD');
 
         $pdf->Output($outputFile, 'F');
     }
