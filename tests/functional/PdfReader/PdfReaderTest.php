@@ -801,8 +801,8 @@ class PdfReaderTest extends TestCase
     }
 
     /**
-     * @expectedException \setasign\Fpdi\PdfParser\UnsupportedException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\UnsupportedException::ENCRYPTED
+     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::ENCRYPTED
      */
     public function testHandlingOfEncryptedPdf()
     {
@@ -815,8 +815,8 @@ class PdfReaderTest extends TestCase
     }
 
     /**
-     * @expectedException \setasign\Fpdi\PdfParser\UnsupportedException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\UnsupportedException::ENCRYPTED
+     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::ENCRYPTED
      */
     public function testHandlingOfEncryptedPdfWithCompressedXref()
     {
