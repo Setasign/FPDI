@@ -13,6 +13,7 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfType;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * Class Fpdi
@@ -220,6 +221,7 @@ class Fpdi extends \TCPDF
      * Writes a PdfType object to the resulting buffer.
      *
      * @param PdfType $value
+     * @throws PdfTypeException
      */
     protected function writePdfType(PdfType $value)
     {

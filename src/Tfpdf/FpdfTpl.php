@@ -25,11 +25,17 @@ class FpdfTpl extends \tFPDF
         _putxobjectdict as _protectedPutxobjectdict;
     }
 
+    /**
+     * Make the method public as in tFPDF.
+     */
     public function _putimages()
     {
         $this->_protectedPutimages();
     }
 
+    /**
+     * Make the method public as in tFPDF.
+     */
     public function _putxobjectdict()
     {
         $this->_protectedPutxobjectdict();

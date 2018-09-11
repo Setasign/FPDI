@@ -9,7 +9,10 @@
 
 namespace setasign\Fpdi;
 
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\Filter\FilterException;
 use setasign\Fpdi\PdfParser\PdfParser;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
@@ -24,6 +27,7 @@ use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 use setasign\Fpdi\PdfParser\Type\PdfType;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\PdfReader\PdfReader;
 use setasign\Fpdi\PdfReader\PdfReaderException;
@@ -120,7 +124,7 @@ trait FpdiTrait
             $id = (string) $file;
         } elseif (\is_string($file)) {
             $id = \realpath($file);
-            if (false === $id) {
+            if ($id === false) {
                 $id = $file;
             }
         } elseif (\is_object($file)) {
@@ -131,6 +135,7 @@ trait FpdiTrait
             );
         }
 
+        /** @noinspection OffsetOperationsInspection */
         if (isset($this->readers[$id])) {
             return $id;
         }
@@ -144,6 +149,7 @@ trait FpdiTrait
         }
 
         $reader = new PdfReader($this->getPdfParserInstance($streamReader));
+        /** @noinspection OffsetOperationsInspection */
         $this->readers[$id] = $reader;
 
         return $id;
@@ -171,6 +177,7 @@ trait FpdiTrait
      *
      * @param string|resource|StreamReader $file Path to the file or a stream resource or a StreamReader instance.
      * @return int The page count of the PDF document.
+     * @throws PdfParserException
      */
     public function setSourceFile($file)
     {
@@ -190,8 +197,12 @@ trait FpdiTrait
      * @param string $box The page boundary to import. Default set to PageBoundaries::CROP_BOX.
      * @param bool $groupXObject Define the form XObject as a group XObject to support transparency (if used).
      * @return string A unique string identifying the imported page.
-     * @see PageBoundaries
+     * @throws CrossReferenceException
+     * @throws FilterException
+     * @throws PdfParserException
+     * @throws PdfTypeException
      * @throws PdfReaderException
+     * @see PageBoundaries
      */
     public function importPage($pageNumber, $box = PageBoundaries::CROP_BOX, $groupXObject = true)
     {
@@ -363,6 +374,7 @@ trait FpdiTrait
     public function useImportedPage($pageId, $x = 0, $y = 0, $width = null, $height = null, $adjustPageSize = false)
     {
         if (\is_array($x)) {
+            /** @noinspection OffsetOperationsInspection */
             unset($x['pageId']);
             \extract($x, EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
@@ -445,6 +457,7 @@ trait FpdiTrait
      * Writes a PdfType object to the resulting buffer.
      *
      * @param PdfType $value
+     * @throws PdfTypeException
      */
     protected function writePdfType(PdfType $value)
     {

@@ -15,6 +15,7 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * Class CrossReference
@@ -52,6 +53,7 @@ class CrossReference
      *
      * @param PdfParser $parser
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     public function __construct(PdfParser $parser, $fileHeaderOffset = 0)
     {
@@ -137,6 +139,7 @@ class CrossReference
      * @param int $objectNumber
      * @return PdfIndirectObject
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     public function getIndirectObject($objectNumber)
     {
@@ -179,6 +182,7 @@ class CrossReference
      * @param int $offset
      * @return ReaderInterface
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function readXref($offset)
     {
@@ -195,6 +199,7 @@ class CrossReference
      * @param PdfToken|PdfIndirectObject $initValue
      * @return ReaderInterface|bool
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function initReaderInstance($initValue)
     {
@@ -260,6 +265,7 @@ class CrossReference
      *
      * @return int The byte-offset position of the first cross-reference.
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function findStartXref()
     {

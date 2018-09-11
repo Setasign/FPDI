@@ -84,6 +84,7 @@ class Fpdi extends FpdfTpl
     /**
      * @inheritdoc
      * @throws CrossReferenceException
+     * @throws PdfParser\PdfParserException
      */
     protected function _putimages()
     {

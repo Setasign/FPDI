@@ -84,6 +84,7 @@ class Fpdi extends FpdfTpl
 
     /**
      * @inheritdoc
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
      */
     public function _putimages()
     {

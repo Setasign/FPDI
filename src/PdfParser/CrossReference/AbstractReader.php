@@ -12,6 +12,7 @@ namespace setasign\Fpdi\PdfParser\CrossReference;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * Abstract class for cross-reference reader classes.
@@ -35,6 +36,7 @@ abstract class AbstractReader
      *
      * @param PdfParser $parser
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     public function __construct(PdfParser $parser)
     {
@@ -56,6 +58,7 @@ abstract class AbstractReader
      * Read the trailer dictionary.
      *
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function readTrailer()
     {
