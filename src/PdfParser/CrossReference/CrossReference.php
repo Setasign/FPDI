@@ -139,12 +139,11 @@ class CrossReference
      * @param int $objectNumber
      * @return PdfIndirectObject
      * @throws CrossReferenceException
-     * @throws PdfTypeException
      */
     public function getIndirectObject($objectNumber)
     {
         $offset = $this->getOffsetFor($objectNumber);
-        if (false === $offset) {
+        if ($offset === false) {
             throw new CrossReferenceException(
                 \sprintf('Object (id:%s) not found.', $objectNumber),
                 CrossReferenceException::OBJECT_NOT_FOUND
@@ -156,11 +155,14 @@ class CrossReference
         $parser->getTokenizer()->clearStack();
         $parser->getStreamReader()->reset($offset + $this->fileHeaderOffset);
 
-        $object = $parser->readValue(null, PdfIndirectObject::class);
-        if ($object === false || !($object instanceof PdfIndirectObject)) {
+        try {
+            /** @var PdfIndirectObject $object */
+            $object = $parser->readValue(null, PdfIndirectObject::class);
+        } catch (PdfTypeException $e) {
             throw new CrossReferenceException(
                 \sprintf('Object (id:%s) not found at location (%s).', $objectNumber, $offset),
-                CrossReferenceException::OBJECT_NOT_FOUND
+                CrossReferenceException::OBJECT_NOT_FOUND,
+                $e
             );
         }
 
@@ -265,7 +267,6 @@ class CrossReference
      *
      * @return int The byte-offset position of the first cross-reference.
      * @throws CrossReferenceException
-     * @throws PdfTypeException
      */
     protected function findStartXref()
     {
@@ -294,7 +295,8 @@ class CrossReference
         } catch (PdfTypeException $e) {
             throw new CrossReferenceException(
                 'Invalid data after startxref keyword.',
-                CrossReferenceException::INVALID_DATA
+                CrossReferenceException::INVALID_DATA,
+                $e
             );
         }
 

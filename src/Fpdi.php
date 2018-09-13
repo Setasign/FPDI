@@ -10,6 +10,7 @@
 namespace setasign\Fpdi;
 
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 
@@ -84,7 +85,7 @@ class Fpdi extends FpdfTpl
     /**
      * @inheritdoc
      * @throws CrossReferenceException
-     * @throws PdfParser\PdfParserException
+     * @throws PdfParserException
      */
     protected function _putimages()
     {

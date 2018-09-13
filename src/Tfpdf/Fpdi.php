@@ -11,6 +11,7 @@ namespace setasign\Fpdi\Tfpdf;
 
 use setasign\Fpdi\FpdiTrait;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 
@@ -84,7 +85,8 @@ class Fpdi extends FpdfTpl
 
     /**
      * @inheritdoc
-     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public function _putimages()
     {
