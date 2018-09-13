@@ -3,6 +3,7 @@
 namespace setasign\Fpdi\functional\PdfParser;
 
 use PHPUnit\Framework\TestCase;
+use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
@@ -14,6 +15,7 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
+use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 
@@ -131,6 +133,144 @@ class PdfParserTest extends TestCase
         }
     }
 
+    public function readValueWithExpectedTypeProvider()
+    {
+        return [
+            [
+                "123",
+                PdfNumeric::class,
+                PdfNumeric::create(123)
+            ],
+            [
+                "true",
+                PdfBoolean::class,
+                PdfBoolean::create(true)
+            ],
+            [
+                "false",
+                PdfBoolean::class,
+                PdfBoolean::create(false)
+            ],
+            [
+                "null",
+                PdfNull::class,
+                new PdfNull()
+            ],
+            [
+                "any",
+                PdfToken::class,
+                PdfToken::create('any')
+            ],
+            [
+                "1 0 R",
+                PdfIndirectObjectReference::class,
+                PdfIndirectObjectReference::create(1, 0)
+            ],
+            [
+                "1 0 obj 1",
+                PdfIndirectObject::class,
+                PdfIndirectObject::create(1, 0, PdfNumeric::create(1))
+            ],
+            [
+                "[1]",
+                PdfArray::class,
+                PdfArray::create([PdfNumeric::create(1)])
+            ],
+            [
+                "<FA>",
+                PdfHexString::class,
+                PdfHexString::create('FA')
+            ],
+            [
+                "/Name",
+                PdfName::class,
+                PdfName::create('Name')
+            ],
+            [
+                "<</Name/value>>",
+                PdfDictionary::class,
+                PdfDictionary::create(['Name' => PdfName::create('value')])
+            ],
+            [
+                "(String)",
+                PdfString::class,
+                PdfString::create('String')
+            ]
+        ];
+    }
+
+    /**
+     * @param $in
+     * @param $expectedType
+     * @param $expectedResult
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @dataProvider readValueWithExpectedTypeProvider
+     */
+    public function testReadValueWithExpectedType($in, $expectedType, $expectedResult)
+    {
+        $stream = StreamReader::createByString($in);
+        $parser = new PdfParser($stream);
+        $result = $parser->readValue(null, $expectedType);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function readValueWithInvalidTypeProvider()
+    {
+        return [
+            [
+                '(string)',
+                PdfName::class
+            ],
+            [
+                'Anything',
+                PdfName::class
+            ],
+            [
+                '[123]',
+                PdfName::class
+            ],
+            [
+                '123',
+                PdfName::class
+            ],
+            [
+                '/Name',
+                PdfNumeric::class
+            ],
+            [
+                '<<>>',
+                PdfName::class
+            ],
+            [
+                '<FA>',
+                PdfName::class
+            ],
+            [
+                '1 0 obj',
+                PdfName::class
+            ],
+            [
+                '1 0 R',
+                PdfName::class
+            ],
+        ];
+    }
+
+    /**
+     * @param $in
+     * @param $expectedType
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
+     * @dataProvider readValueWithInvalidTypeProvider
+     */
+    public function testReadValueWithInvalidType($in, $expectedType)
+    {
+        $stream = StreamReader::createByString($in);
+        $parser = new PdfParser($stream);
+        $parser->readValue(null, $expectedType);
+    }
+
     public function testGetPdfVersion()
     {
         $pdf = "%PDF-1.4\n"
@@ -220,5 +360,23 @@ class PdfParserTest extends TestCase
         ])), $object);
 
         $this->assertEquals([1, 5], $parser->getPdfVersion());
+    }
+
+    /**
+     * If we wouldn't expect a specific object type when resolving an indirect object, this test would end in a try to
+     * build a recursive array with a depth of more than 15.000.000 which would end in a memory problem.
+     *
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @expectedException \setasign\Fpdi\PdfParser\PdfParserException
+     * @expectedExceptionMessageRegExp /Got unexpected token type/
+     */
+    public function testGetIndirectObjectWithInvalidType()
+    {
+        $parser = new PdfParser(StreamReader::createByFile(
+            __DIR__ . '/../../_files/pdfs/specials/invalid-type-at-object-offset.pdf'
+        ));
+
+        $parser->getIndirectObject(6);
     }
 }
