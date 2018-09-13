@@ -3,7 +3,7 @@
 namespace setasign\Fpdi\functional\PdfParser;
 
 use PHPUnit\Framework\TestCase;
-use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
@@ -15,7 +15,6 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
-use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 
@@ -377,6 +376,11 @@ class PdfParserTest extends TestCase
             __DIR__ . '/../../_files/pdfs/specials/invalid-type-at-object-offset.pdf'
         ));
 
-        $parser->getIndirectObject(6);
+        try {
+            $parser->getIndirectObject(6);
+        } catch (CrossReferenceException $e) {
+            $this->assertSame(CrossReferenceException::OBJECT_NOT_FOUND, $e->getCode());
+            throw $e->getPrevious();
+        }
     }
 }
