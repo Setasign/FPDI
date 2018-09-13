@@ -76,7 +76,8 @@ abstract class AbstractReader
         } catch (PdfTypeException $e) {
             throw new CrossReferenceException(
                 'Unexpected end of cross reference. "trailer"-keyword expected, got an invalid object type.',
-                CrossReferenceException::UNEXPECTED_END
+                CrossReferenceException::UNEXPECTED_END,
+                $e
             );
         }
 

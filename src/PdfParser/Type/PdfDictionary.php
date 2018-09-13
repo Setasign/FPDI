@@ -41,7 +41,7 @@ class PdfDictionary extends PdfType
             }
 
             $key = $parser->readValue($token);
-            if (false === $key) {
+            if ($key === false) {
                 return false;
             }
 
