@@ -87,7 +87,7 @@ class LineReader extends AbstractReader implements ReaderInterface
 
         if ($trailerPos === false) {
             throw new CrossReferenceException(
-                'Unexpected end of cross reference. trailer-keyword not found.',
+                'Unexpected end of cross reference. "trailer"-keyword not found.',
                 CrossReferenceException::NO_TRAILER_FOUND
             );
         }

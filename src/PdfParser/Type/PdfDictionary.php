@@ -27,6 +27,7 @@ class PdfDictionary extends PdfType
      * @param StreamReader $streamReader
      * @param PdfParser $parser
      * @return bool|self
+     * @throws PdfTypeException
      */
     public static function parse(Tokenizer $tokenizer, StreamReader $streamReader, PdfParser $parser)
     {
@@ -61,7 +62,7 @@ class PdfDictionary extends PdfType
 
 
             $value = $parser->readValue();
-            if (false === $value) {
+            if ($value === false) {
                 return false;
             }
 

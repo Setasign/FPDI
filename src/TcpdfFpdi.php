@@ -19,5 +19,5 @@ namespace setasign\Fpdi;
  */
 class TcpdfFpdi extends \setasign\Fpdi\Tcpdf\Fpdi
 {
-
+    // this class is moved to \setasign\Fpdi\Tcpdf\Fpdi
 }

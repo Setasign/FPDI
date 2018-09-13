@@ -9,7 +9,9 @@
 
 namespace setasign\Fpdi\PdfReader\DataStructure;
 
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfType;
@@ -49,6 +51,8 @@ class Rectangle
      * @param PdfParser $parser
      * @return Rectangle
      * @throws PdfTypeException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public static function byPdfArray($array, PdfParser $parser)
     {

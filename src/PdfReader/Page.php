@@ -21,6 +21,7 @@ use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 use setasign\Fpdi\PdfReader\DataStructure\Rectangle;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 
 /**
  * Class representing a page of a PDF document
@@ -77,7 +78,9 @@ class Page
      * Get the dictionary of this page.
      *
      * @return PdfDictionary
+     * @throws PdfParserException
      * @throws PdfTypeException
+     * @throws CrossReferenceException
      */
     public function getPageDictionary()
     {
@@ -94,7 +97,9 @@ class Page
      * @param string $name
      * @param bool $inherited
      * @return PdfType|null
+     * @throws PdfParserException
      * @throws PdfTypeException
+     * @throws CrossReferenceException
      */
     public function getAttribute($name, $inherited = true)
     {
@@ -144,7 +149,9 @@ class Page
      * Get the rotation value.
      *
      * @return int
+     * @throws PdfParserException
      * @throws PdfTypeException
+     * @throws CrossReferenceException
      */
     public function getRotation()
     {
@@ -168,8 +175,10 @@ class Page
      * @param string $box
      * @param bool $fallback
      * @return bool|Rectangle
-     * @see PageBoundaries
+     * @throws PdfParserException
      * @throws PdfTypeException
+     * @throws CrossReferenceException
+     * @see PageBoundaries
      */
     public function getBoundary($box = PageBoundaries::CROP_BOX, $fallback = true)
     {
@@ -201,7 +210,9 @@ class Page
      * @param string $box
      * @param bool $fallback
      * @return array|bool
+     * @throws PdfParserException
      * @throws PdfTypeException
+     * @throws CrossReferenceException
      */
     public function getWidthAndHeight($box = PageBoundaries::CROP_BOX, $fallback = true)
     {

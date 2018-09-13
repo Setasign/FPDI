@@ -138,6 +138,9 @@ class FixedReader extends AbstractReader implements ReaderInterface
             $this->reader->reset($lastLineStart);
         }
 
+        // reset after the last correct parsed line
+        $this->reader->reset($lastLineStart);
+
         if (\count($subSections) === 0) {
             throw new CrossReferenceException(
                 'No entries found in cross-reference.',

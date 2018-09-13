@@ -15,6 +15,7 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * Class CrossReference
@@ -52,6 +53,7 @@ class CrossReference
      *
      * @param PdfParser $parser
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     public function __construct(PdfParser $parser, $fileHeaderOffset = 0)
     {
@@ -137,6 +139,7 @@ class CrossReference
      * @param int $objectNumber
      * @return PdfIndirectObject
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     public function getIndirectObject($objectNumber)
     {
@@ -153,7 +156,7 @@ class CrossReference
         $parser->getTokenizer()->clearStack();
         $parser->getStreamReader()->reset($offset + $this->fileHeaderOffset);
 
-        $object = $parser->readValue();
+        $object = $parser->readValue(null, PdfIndirectObject::class);
         if ($object === false || !($object instanceof PdfIndirectObject)) {
             throw new CrossReferenceException(
                 \sprintf('Object (id:%s) not found at location (%s).', $objectNumber, $offset),
@@ -179,6 +182,7 @@ class CrossReference
      * @param int $offset
      * @return ReaderInterface
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function readXref($offset)
     {
@@ -195,6 +199,7 @@ class CrossReference
      * @param PdfToken|PdfIndirectObject $initValue
      * @return ReaderInterface|bool
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function initReaderInstance($initValue)
     {
@@ -260,6 +265,7 @@ class CrossReference
      *
      * @return int The byte-offset position of the first cross-reference.
      * @throws CrossReferenceException
+     * @throws PdfTypeException
      */
     protected function findStartXref()
     {
@@ -283,8 +289,9 @@ class CrossReference
 
         $reader->setOffset($pos + $addOffset);
 
-        $value = $this->parser->readValue();
-        if (!($value instanceof PdfNumeric)) {
+        try {
+            $value = $this->parser->readValue(null, PdfNumeric::class);
+        } catch (PdfTypeException $e) {
             throw new CrossReferenceException(
                 'Invalid data after startxref keyword.',
                 CrossReferenceException::INVALID_DATA

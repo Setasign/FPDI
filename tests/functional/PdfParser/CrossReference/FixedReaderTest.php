@@ -135,6 +135,18 @@ class FixedReaderTest extends TestCase
             CrossReferenceException::ENTRIES_TOO_SHORT
         ];
 
+        $data[] = [
+            "0 5 \r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000001000 00000 n\r\n" .
+            "0000002000 00000 n\r\n" .
+            "0000003000 00000 n\r\n" .
+            "0000004000 00000 n\r\n" .
+            "trailer 1234\r\n",
+            CrossReferenceException::class,
+            CrossReferenceException::UNEXPECTED_END
+        ];
+
         return $data;
     }
 
@@ -190,5 +202,37 @@ class FixedReaderTest extends TestCase
         foreach ($expectedOffsets as $objectId => $expectedOffset) {
             $this->assertSame($expectedOffset, $xref->getOffsetFor($objectId));
         }
+    }
+
+    /**
+     * @throws CrossReferenceException
+     * @expectedException setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionMessageRegExp /got: trialer\.$/
+     */
+    public function testReadTrailerWithInvalidData1()
+    {
+        $table = "0 2\n" .
+            "0000000000 65535 f\r\n" .
+            "0000001000 00000 n\r\n" .
+            "trialer<</Size 2>>";
+
+        $reader = StreamReader::createByString($table);
+        new FixedReader(new PdfParser($reader));
+    }
+
+    /**
+     * @throws CrossReferenceException
+     * @expectedException setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionMessageRegExp /invalid object type\.$/
+     */
+    public function testReadTrailerWithInvalidData2()
+    {
+        $table = "0 2\n" .
+            "0000000000 65535 f\r\n" .
+            "0000001000 00000 n\r\n" .
+            str_repeat('[', 150000) . "<</Size 2>>";
+
+        $reader = StreamReader::createByString($table);
+        new FixedReader(new PdfParser($reader));
     }
 }
