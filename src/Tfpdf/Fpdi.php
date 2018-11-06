@@ -31,7 +31,7 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.1.0';
+    const VERSION = '2.1.1';
 
     /**
      * Draws an imported page or a template onto the page or another template.
