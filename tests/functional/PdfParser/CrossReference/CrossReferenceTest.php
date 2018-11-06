@@ -541,4 +541,35 @@ class CrossReferenceTest extends TestCase
         $parser = new PdfParser($stream);
         new CrossReference($parser);
     }
+
+    /**
+     * Test the behavior of a single cross-reference while the startxref key points to the offset 0.
+     *
+     * @throws CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     *
+     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::XREF_MISSING
+     */
+    public function testBehaviourWithByteOffsetZero()
+    {
+        $pdf = "%PDF-1.7\n" .
+            "%\xE2\xE3\xCF\xD3\n" .
+            "1 0 obj\n" .
+            "<<>>" .
+            "xref\n" .
+            "0 2\r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000000015 00000 n\r\n" .
+            "trailer\n" .
+            "<</Size 2 /Root 1 0 R>>\n" .
+            "startxref\n" .
+            "0\n" . // this offset is ignored because it is faulty
+            "%%EOF";
+
+        $stream = StreamReader::createByString($pdf);
+        $parser = new PdfParser($stream);
+        $xref = new CrossReference($parser);
+        $xref->getTrailer();
+    }
 }

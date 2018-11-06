@@ -83,6 +83,10 @@ class CrossReference
              */
             $reader->fixFaultySubSectionShift();
         }
+
+        if ($reader === null) {
+            throw new CrossReferenceException('No cross-reference found.', CrossReferenceException::NO_XREF_FOUND);
+        }
     }
 
     /**
