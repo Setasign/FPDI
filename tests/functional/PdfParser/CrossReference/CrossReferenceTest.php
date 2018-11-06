@@ -549,7 +549,7 @@ class CrossReferenceTest extends TestCase
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      *
      * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::XREF_MISSING
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::NO_XREF_FOUND
      */
     public function testBehaviourWithByteOffsetZero()
     {
