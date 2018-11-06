@@ -63,8 +63,8 @@ class Fpdi extends \TCPDF
     /**
      * Draws an imported page onto the page or another template.
      *
-     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
-     * ratio.
+     * Give only one of the size parameters (width, height) to calculate the other one automatically in view to the
+     * aspect ratio.
      *
      * @param mixed $tpl The template id
      * @param float|int|array $x The abscissa of upper-left corner. Alternatively you could use an assoc array
@@ -84,8 +84,8 @@ class Fpdi extends \TCPDF
     /**
      * Draws an imported page onto the page.
      *
-     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
-     * ratio.
+     * Give only one of the size parameters (width, height) to calculate the other one automatically in view to the
+     * aspect ratio.
      *
      * @param mixed $pageId The page id
      * @param float|int|array $x The abscissa of upper-left corner. Alternatively you could use an assoc array
@@ -111,8 +111,8 @@ class Fpdi extends \TCPDF
     /**
      * Get the size of an imported page.
      *
-     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
-     * ratio.
+     * Give only one of the size parameters (width, height) to calculate the other one automatically in view to the
+     * aspect ratio.
      *
      * @param mixed $tpl The template id
      * @param float|int|null $width The width.
