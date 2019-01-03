@@ -572,4 +572,29 @@ class CrossReferenceTest extends TestCase
         $xref = new CrossReference($parser);
         $xref->getTrailer();
     }
+
+    public function testBehaviourWithHeaderOffsetWhichIsUsedInRealByteOffsets()
+    {
+        $pdf = "abcd\n" . // 5
+            "%PDF-1.7\n" . // 9
+            "%\xE2\xE3\xCF\xD3\n" . // 6
+            "1 0 obj\n" . // 8
+            "<<>>" . // 4
+            "xref\n" . // 5
+            "0 2\r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000000020 00000 n\r\n" .
+            "trailer\n" .
+            "<</Size 2 /Root 1 0 R>>\n" .
+            "startxref\n" .
+            "32\n" .
+            "%%EOF";
+
+        $stream = StreamReader::createByString($pdf);
+        $parser = new PdfParser($stream);
+        $xref = $parser->getCrossReference();
+        $object = $xref->getIndirectObject(1);
+
+        $this->assertEquals(PdfIndirectObject::create(1, 0, PdfDictionary::create([])), $object);
+    }
 }

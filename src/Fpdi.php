@@ -3,9 +3,9 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
+ * @copyright Copyright (c) 2019 Setasign - Jan Slabon (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
-  */
+ */
 
 namespace setasign\Fpdi;
 
@@ -30,13 +30,13 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.1.1';
+    const VERSION = '2.1.2';
 
     /**
      * Draws an imported page or a template onto the page or another template.
      *
-     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
-     * ratio.
+     * Give only one of the size parameters (width, height) to calculate the other one automatically in view to the
+     * aspect ratio.
      *
      * @param mixed $tpl The template id
      * @param float|int|array $x The abscissa of upper-left corner. Alternatively you could use an assoc array
@@ -64,8 +64,8 @@ class Fpdi extends FpdfTpl
     /**
      * Get the size of an imported page or template.
      *
-     * Omit one of the size parameters (width, height) to calculate the other one automatically in view to the aspect
-     * ratio.
+     * Give only one of the size parameters (width, height) to calculate the other one automatically in view to the
+     * aspect ratio.
      *
      * @param mixed $tpl The template id
      * @param float|int|null $width The width.
