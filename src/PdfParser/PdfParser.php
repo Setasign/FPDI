@@ -112,6 +112,7 @@ class PdfParser
      * Resolves the file header.
      *
      * @throws PdfParserException
+     * @return int
      */
     protected function resolveFileHeader()
     {

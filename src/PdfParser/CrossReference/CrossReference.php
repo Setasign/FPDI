@@ -64,7 +64,18 @@ class CrossReference
         $reader = null;
         /** @noinspection TypeUnsafeComparisonInspection */
         while ($offset != false) { // By doing an unsafe comparsion we ignore faulty references to byte offset 0
-            $reader = $this->readXref($offset + $this->fileHeaderOffset);
+            try {
+                $reader = $this->readXref($offset + $this->fileHeaderOffset);
+            } catch (CrossReferenceException $e) {
+                // sometimes the file header offset is part of the byte offsets, so let's retry by resetting it to zero.
+                if ($e->getCode() === CrossReferenceException::INVALID_DATA && $this->fileHeaderOffset !== 0) {
+                    $this->fileHeaderOffset = 0;
+                    $reader = $this->readXref($offset + $this->fileHeaderOffset);
+                } else {
+                    throw $e;
+                }
+            }
+
             $trailer = $reader->getTrailer();
             $this->checkForEncryption($trailer);
             $this->readers[] = $reader;
