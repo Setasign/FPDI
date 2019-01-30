@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\PdfParser\Tokenizer;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
@@ -14,6 +15,7 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfType;
 
 class PdfStreamTest extends TestCase
 {
@@ -162,9 +164,17 @@ class PdfStreamTest extends TestCase
             ->setMethods(['getIndirectObject'])
             ->getMock();
 
+        $tokenizer = $this->getMockBuilder(Tokenizer::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['clearStack'])
+            ->getMock();
+
+        $tokenizer->expects($this->exactly(1))
+            ->method('clearStack');
+
         $parser = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCrossReference', 'readValue'])
+            ->setMethods(['getCrossReference', 'readValue', 'getTokenizer'])
             ->getMock();
 
         $parser->expects($this->exactly(1))
@@ -174,6 +184,10 @@ class PdfStreamTest extends TestCase
         $parser->expects($this->exactly(1))
             ->method('readValue')
             ->willReturn(PdfToken::create('endstream'));
+
+        $parser->expects($this->exactly(1))
+            ->method('getTokenizer')
+            ->willReturn($tokenizer);
 
         $expectedResult = PdfIndirectObject::create(1, 0, PdfNumeric::create(strlen($streamContent)));
         $xref->expects($this->exactly(1))
@@ -203,14 +217,26 @@ class PdfStreamTest extends TestCase
         // Length of 5 is invalid
         $dict = PdfDictionary::create(['Length' => PdfNumeric::create(5)]);
 
+        $tokenizer = $this->getMockBuilder(Tokenizer::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['clearStack'])
+            ->getMock();
+
+        $tokenizer->expects($this->exactly(1))
+            ->method('clearStack');
+
         $parser = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['readValue'])
+            ->setMethods(['readValue', 'getTokenizer'])
             ->getMock();
 
         $parser->expects($this->exactly(1))
             ->method('readValue')
             ->willReturn(PdfToken::create('ple'));
+
+        $parser->expects($this->exactly(1))
+            ->method('getTokenizer')
+            ->willReturn($tokenizer);
 
         $result = PdfStream::parse($dict, $stream, $parser);
 
@@ -260,6 +286,46 @@ class PdfStreamTest extends TestCase
 
         $this->assertSame($dict, $result->value);
         $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithTokenStack()
+    {
+        /**
+         * This test ensures that the Length value was used and that the stream is not read by the extractStream()
+         * method. Also the stream itself is something special. It ends with a \n which is part of the stream.
+         * So resolving this manually would result in a kind of faulty string.
+         */
+        $streamContent = "A simple text with some dummy text in it.\n";
+        $pdf = "%PDF-1.7\n" .
+            "%\xE2\xE3\xCF\xD3\n" .
+            "1 0 obj\n" .
+            "<</Length " . strlen($streamContent) . ">>\n"
+            . "stream\n"
+            . $streamContent // without additional \n
+            . "endstream\n"
+            . "endobj";
+        $offset = strlen($pdf);
+        $pdf .=
+            "xref\n" .
+            "0 2\r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000000015 00000 n\r\n" .
+            "trailer\n" .
+            "<</Size 2 /Root 1 0 R>>\n" .
+            "startxref\n" .
+            "$offset\n" .
+            "%%EOF";
+
+        $stream = StreamReader::createByString($pdf);
+        $parser = new PdfParser($stream);
+        $xref = new CrossReference($parser);
+        $stream = PdfType::resolve($xref->getIndirectObject(1), $parser);
+
+        // Simulate filling of token stack
+        $token = $parser->getTokenizer()->getNextToken();
+        $parser->getTokenizer()->pushStack($token);
+
+        $this->assertSame($streamContent, $stream->getStream());
     }
 
     public function getUnfilteredStreamProvider()

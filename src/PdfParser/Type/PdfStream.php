@@ -143,13 +143,15 @@ class PdfStream extends PdfType
                 $length = PdfType::resolve($length, $this->parser);
             }
 
-            $this->reader->reset($this->stream, $length->value);
             if (!($length instanceof PdfNumeric) || $length->value === 0) {
+                $this->reader->reset($this->stream, 100000);
                 $buffer = $this->extractStream();
             } else {
+                $this->reader->reset($this->stream, $length->value);
                 $buffer = $this->reader->getBuffer(false);
                 if ($this->parser !== null) {
                     $this->reader->reset($this->stream + strlen($buffer));
+                    $this->parser->getTokenizer()->clearStack();
                     $token = $this->parser->readValue();
                     if ($token === false || !($token instanceof PdfToken) || $token->value !== 'endstream') {
                         $this->reader->reset($this->stream, 100000);
