@@ -126,18 +126,14 @@ class FpdiTest extends TestCase
         $pdf = new Fpdi();
         $pdf->setSourceFile('test.pdf');
 
-        $unlinked = false;
         try {
-            $unlinked = unlink('test.pdf');
-        } catch (\Exception $e) {
+            unlink('test.pdf');
+            $this->markTestSkipped('Stream was not locked on this OS.');
+        } catch (\PHPUnit_Framework_Error_Warning $e) {
             $pdf->cleanUp();
         }
 
-        if (!$unlinked) {
-            $this->assertTrue(unlink('test.pdf'));
-        } else {
-            $this->markTestIncomplete('Stream was not locked on this OS.');
-        }
+        $this->assertTrue(unlink('test.pdf'));
     }
 
     public function testReleaseOfStreamHandleOnUnset()
