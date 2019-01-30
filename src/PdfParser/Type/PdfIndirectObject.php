@@ -45,7 +45,7 @@ class PdfIndirectObject extends PdfType
 
         $nextToken = $tokenizer->getNextToken();
         if ($nextToken === 'stream') {
-            $value = PdfStream::parse($value, $reader);
+            $value = PdfStream::parse($value, $reader, $parser);
         } elseif ($nextToken !== false) {
             $tokenizer->pushStack($nextToken);
         }

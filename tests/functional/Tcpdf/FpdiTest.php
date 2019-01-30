@@ -133,4 +133,37 @@ class FpdiTest extends TestCase
 
         $this->assertSame(10, $trailer->value['Size']->value);
     }
+
+    public function testStreamHandleIsOpen()
+    {
+        copy(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf', 'test.pdf');
+        $pdf = new Fpdi();
+        $pdf->setSourceFile('test.pdf');
+
+        try {
+            unlink('test.pdf');
+            $this->markTestSkipped('Stream was not locked on this OS.');
+        } catch (\PHPUnit_Framework_Error_Warning $e) {
+            $pdf->cleanUp();
+        }
+
+        $this->assertTrue(unlink('test.pdf'));
+    }
+
+    public function testReleaseOfStreamHandleOnUnset()
+    {
+        copy(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf', 'test.pdf');
+        $pdf = new Fpdi();
+        $pdf->setSourceFile('test.pdf');
+        $tpl = $pdf->importPage(1);
+        $pdf->AddPage();
+        $pdf->useTemplate($tpl);
+        $a = $pdf->Output('doc.pdf', 'S');
+        $b = $pdf->Output('doc.pdf','S');
+        unset($pdf);
+
+        $this->assertSame($a, $b);
+
+        $this->assertTrue(unlink('test.pdf'));
+    }
 }

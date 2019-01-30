@@ -124,7 +124,15 @@ class StreamReader
      */
     public function __destruct()
     {
-        if ($this->closeStream) {
+        $this->cleanUp();
+    }
+
+    /**
+     * Closes the file handle.
+     */
+    public function cleanUp()
+    {
+        if ($this->closeStream && is_resource($this->stream)) {
             \fclose($this->stream);
         }
     }

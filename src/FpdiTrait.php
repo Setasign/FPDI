@@ -54,6 +54,13 @@ trait FpdiTrait
     protected $readers = [];
 
     /**
+     * Instances created internally.
+     *
+     * @var array
+     */
+    protected $createdReaders = [];
+
+    /**
      * The current reader id.
      *
      * @var string
@@ -80,6 +87,25 @@ trait FpdiTrait
      * @var array
      */
     protected $objectsToCopy = [];
+
+    /**
+     * Release resources and file handles.
+     *
+     * This method is called internally when the document is created successfully. By default it only cleans up
+     * stream reader instances which were created internally.
+     *
+     * @param bool $allReaders
+     */
+    public function cleanUp($allReaders = false)
+    {
+        $readers = $allReaders ? array_keys($this->readers) : $this->createdReaders;
+        foreach ($readers as $id) {
+            $this->readers[$id]->getParser()->getStreamReader()->cleanUp();
+            unset($this->readers[$id]);
+        }
+
+        $this->createdReaders= [];
+    }
 
     /**
      * Set the minimal PDF version.
@@ -144,6 +170,7 @@ trait FpdiTrait
             $streamReader = new StreamReader($file);
         } elseif (\is_string($file)) {
             $streamReader = StreamReader::createByFile($file);
+            $this->createdReaders[] = $id;
         } else {
             $streamReader = $file;
         }

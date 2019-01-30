@@ -96,7 +96,7 @@ class PdfIndirectObjectTest extends TestCase
             [
                 '1',
                 '0',
-                "<</Length 4>> % let's start\nstream\nabcd\endstreamendobj",
+                "<</Length 4>> % let's start\nstream\nabcd\nendstreamendobj",
                 PdfIndirectObject::create(
                     1,
                     0,
