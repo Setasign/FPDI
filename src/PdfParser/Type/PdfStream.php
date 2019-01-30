@@ -9,11 +9,13 @@
 
 namespace setasign\Fpdi\PdfParser\Type;
 
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\Filter\Ascii85;
 use setasign\Fpdi\PdfParser\Filter\AsciiHex;
 use setasign\Fpdi\PdfParser\Filter\FilterException;
 use setasign\Fpdi\PdfParser\Filter\Flate;
 use setasign\Fpdi\PdfParser\Filter\Lzw;
+use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\FpdiPdfParser\PdfParser\Filter\Predictor;
@@ -30,14 +32,16 @@ class PdfStream extends PdfType
      *
      * @param PdfDictionary $dictionary
      * @param StreamReader $reader
+     * @param PdfParser $parser Optional to keep backwards compatibility
      * @return self
      * @throws PdfTypeException
      */
-    public static function parse(PdfDictionary $dictionary, StreamReader $reader)
+    public static function parse(PdfDictionary $dictionary, StreamReader $reader, PdfParser $parser = null)
     {
         $v = new self;
         $v->value = $dictionary;
         $v->reader = $reader;
+        $v->parser = $parser;
 
         $offset = $reader->getOffset();
 
@@ -116,46 +120,45 @@ class PdfStream extends PdfType
     protected $reader;
 
     /**
+     * The PDF parser instance.
+     *
+     * @var PdfParser
+     */
+    protected $parser;
+
+    /**
      * Get the stream data.
      *
      * @param bool $cache Whether cache the stream data or not.
      * @return bool|string
      * @throws PdfTypeException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
      */
     public function getStream($cache = false)
     {
         if (\is_int($this->stream)) {
             $length = PdfDictionary::get($this->value, 'Length');
+            if ($this->parser !== null) {
+                $length = PdfType::resolve($length, $this->parser);
+            }
+
             $this->reader->reset($this->stream, $length->value);
             if (!($length instanceof PdfNumeric) || $length->value === 0) {
-                while (true) {
-                    $buffer = $this->reader->getBuffer(false);
-                    $length = \strpos($buffer, 'endstream');
-                    if ($length === false) {
-                        if (!$this->reader->increaseLength(100000)) {
-                            return false;
-                        }
-                        continue;
-                    }
-                    break;
-                }
-
-                $buffer = \substr($buffer, 0, $length);
-                $lastByte = \substr($buffer, -1);
-
-                // Check for EOL
-                if ($lastByte === "\n") {
-                    $buffer = \substr($buffer, 0, -1);
-                }
-
-                $lastByte = \substr($buffer, -1);
-                if ($lastByte === "\r") {
-                    $buffer = \substr($buffer, 0, -1);
-                }
-
+                $buffer = $this->extractStream();
             } else {
                 $buffer = $this->reader->getBuffer(false);
+                if ($this->parser !== null) {
+                    $this->reader->reset($this->stream + strlen($buffer));
+                    $token = $this->parser->readValue();
+                    if ($token === false || !($token instanceof PdfToken) || $token->value !== 'endstream') {
+                        $this->reader->reset($this->stream, 100000);
+                        $buffer = $this->extractStream();
+                        $this->reader->reset($this->stream + strlen($buffer));
+                    }
+                }
             }
+
             if ($cache === false) {
                 return $buffer;
             }
@@ -165,6 +168,45 @@ class PdfStream extends PdfType
         }
 
         return $this->stream;
+    }
+
+    /**
+     * Extract the stream "manually".
+     *
+     * @return string
+     * @throws PdfTypeException
+     */
+    protected function extractStream()
+    {
+        while (true) {
+            $buffer = $this->reader->getBuffer(false);
+            $length = \strpos($buffer, 'endstream');
+            if ($length === false) {
+                if (!$this->reader->increaseLength(100000)) {
+                    throw new PdfTypeException('Cannot extract stream.');
+                }
+                continue;
+            }
+            break;
+        }
+
+        $buffer = \substr($buffer, 0, $length);
+        $lastByte = \substr($buffer, -1);
+
+        /* Check for EOL marker =
+         *   CARRIAGE RETURN (\r) and a LINE FEED (\n) or just a LINE FEED (\n},
+         *   and not by a CARRIAGE RETURN (\r) alone
+         */
+        if ($lastByte === "\n") {
+            $buffer = \substr($buffer, 0, -1);
+
+            $lastByte = \substr($buffer, -1);
+            if ($lastByte === "\r") {
+                $buffer = \substr($buffer, 0, -1);
+            }
+        }
+
+        return $buffer;
     }
 
     /**

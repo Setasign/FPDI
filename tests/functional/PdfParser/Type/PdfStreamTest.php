@@ -3,13 +3,17 @@
 namespace setasign\Fpdi\functional\PdfParser\Type;
 
 use PHPUnit\Framework\TestCase;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
+use setasign\Fpdi\PdfParser\Type\PdfToken;
 
 class PdfStreamTest extends TestCase
 {
@@ -21,7 +25,7 @@ class PdfStreamTest extends TestCase
 
         // set position and prepare dictionary (equals to result)
         $stream->setOffset(30);
-        $this->assertSame("\n", $stream->getByte()); // this is the \n after the stream keywords
+        $this->assertSame("\n", $stream->getByte()); // this is the \n after the stream keyword
 
         $dict = PdfDictionary::create([
             'Length' => PdfNumeric::create(5)
@@ -41,7 +45,7 @@ class PdfStreamTest extends TestCase
 
         // set position and prepare dictionary (equals to result)
         $stream->setOffset(32);
-        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keywords
+        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keyword
 
         $dict = PdfDictionary::create([
             'Length' => PdfNumeric::create(5)
@@ -62,7 +66,7 @@ class PdfStreamTest extends TestCase
 
         // set position and prepare dictionary (equals to result)
         $stream->setOffset(36);
-        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keywords
+        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keyword
 
         $dict = PdfDictionary::create([
             'Length' => PdfNumeric::create(12000)
@@ -82,7 +86,7 @@ class PdfStreamTest extends TestCase
 
         // set position and prepare dictionary (equals to result)
         $stream->setOffset(23);
-        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keywords
+        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keyword
 
         $dict = PdfDictionary::create([]);
 
@@ -101,9 +105,156 @@ class PdfStreamTest extends TestCase
 
         // set position and prepare dictionary (equals to result)
         $stream->setOffset(23);
-        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keywords
+        $this->assertSame("\r", $stream->getByte()); // this is the \r after the stream keyword
 
         $dict = PdfDictionary::create([]);
+
+        $result = PdfStream::parse($dict, $stream);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithoutLength3()
+    {
+        // validate EOL behavior. The eol marker should be:
+        //   CARRIAGE RETURN and a LINE FEED or just a LINE FEED, and not by a CARRIAGE RETURN alone
+        // So the \r is part of the stream.
+        $streamContent = str_repeat('Hello World,', 300000) . "\r";
+        $in = "123 0 obj\n<<>>\nstream\n$streamContent" . "endstream\nendobj";
+
+        $stream = StreamReader::createByString($in);
+
+        // set position and prepare dictionary (equals to result)
+        $stream->setOffset(21);
+        $this->assertSame("\n", $stream->getByte()); // this is the \n after the stream keyword
+
+        $dict = PdfDictionary::create([]);
+
+        $result = PdfStream::parse($dict, $stream);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithLengthInIndirectObject()
+    {
+        /**
+         * This tests the indirect object handling and also the behavior if the eol marker \n is part of the stream
+         * while an eol marker is missing completely (found in real life documents).
+         */
+        $streamContent = "a simple text with a line end on its end\n";
+        $in = "stream\n"
+            . $streamContent
+            . "endstream\n"
+            . "endobj";
+
+        $stream = StreamReader::createByString($in);
+
+        // set position and prepare dictionary (equals to result)
+        $stream->setOffset(6);
+        $this->assertSame("\n", $stream->getByte()); // this is the \n after the stream keyword
+
+        $dict = PdfDictionary::create(['Length' => PdfIndirectObjectReference::create(1, 0)]);
+
+        $xref = $this->getMockBuilder(CrossReference::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getIndirectObject'])
+            ->getMock();
+
+        $parser = $this->getMockBuilder(PdfParser::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getCrossReference', 'readValue'])
+            ->getMock();
+
+        $parser->expects($this->exactly(1))
+            ->method('getCrossReference')
+            ->willReturn($xref);
+
+        $parser->expects($this->exactly(1))
+            ->method('readValue')
+            ->willReturn(PdfToken::create('endstream'));
+
+        $expectedResult = PdfIndirectObject::create(1, 0, PdfNumeric::create(strlen($streamContent)));
+        $xref->expects($this->exactly(1))
+            ->method('getIndirectObject')
+            ->with(1)
+            ->willReturn($expectedResult);
+
+        $result = PdfStream::parse($dict, $stream, $parser);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithInvalidLength()
+    {
+        $streamContent = "A simple text with some dummy text in it.";
+        $in = "stream\n"
+            . $streamContent . "\n"
+            . "endstream\n"
+            . "endobj";
+
+        $stream = StreamReader::createByString($in);
+
+        $stream->setOffset(6);
+        $this->assertSame("\n", $stream->getByte());
+
+        // Length of 5 is invalid
+        $dict = PdfDictionary::create(['Length' => PdfNumeric::create(5)]);
+
+        $parser = $this->getMockBuilder(PdfParser::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['readValue'])
+            ->getMock();
+
+        $parser->expects($this->exactly(1))
+            ->method('readValue')
+            ->willReturn(PdfToken::create('ple'));
+
+        $result = PdfStream::parse($dict, $stream, $parser);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithZeroLength()
+    {
+        $streamContent = "A simple text with some dummy text in it.";
+        $in = "stream\n"
+            . $streamContent . "\n"
+            . "endstream\n"
+            . "endobj";
+
+        $stream = StreamReader::createByString($in);
+
+        $stream->setOffset(6);
+        $this->assertSame("\n", $stream->getByte());
+
+        // Length of 0 - extract the stream manually
+        $dict = PdfDictionary::create(['Length' => PdfNumeric::create(0)]);
+
+        $result = PdfStream::parse($dict, $stream);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithEmptyStream()
+    {
+        $streamContent = "";
+        $in = "stream\n"
+            . $streamContent . "\n"
+            . "endstream\n"
+            . "endobj";
+
+        $stream = StreamReader::createByString($in);
+
+        $stream->setOffset(6);
+        $this->assertSame("\n", $stream->getByte());
+
+        // Length of 0 - correct
+        $dict = PdfDictionary::create(['Length' => PdfNumeric::create(0)]);
 
         $result = PdfStream::parse($dict, $stream);
 
