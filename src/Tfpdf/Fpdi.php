@@ -33,6 +33,12 @@ class Fpdi extends FpdfTpl
      */
     const VERSION = '2.1.2';
 
+    public function _enddoc()
+    {
+        parent::_enddoc();
+        $this->cleanUp();
+    }
+
     /**
      * Draws an imported page or a template onto the page or another template.
      *

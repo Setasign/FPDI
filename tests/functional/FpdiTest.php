@@ -123,4 +123,36 @@ class FpdiTest extends TestCase
 
         $this->assertSame(7, $trailer->value['Size']->value);
     }
+
+    public function testStreamHandleIsOpen()
+    {
+        copy(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf', 'test.pdf');
+        $pdf = new Fpdi();
+        $pdf->setSourceFile('test.pdf');
+
+        try {
+            unlink('test.pdf');
+        } catch (\Exception $e) {
+            $pdf->cleanUp();
+        }
+
+        $this->assertTrue(unlink('test.pdf'));
+    }
+
+    public function testReleaseOfStreamHandleOnUnset()
+    {
+        copy(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf', 'test.pdf');
+        $pdf = new Fpdi();
+        $pdf->setSourceFile('test.pdf');
+        $tpl = $pdf->importPage(1);
+        $pdf->AddPage();
+        $pdf->useTemplate($tpl);
+        $a = $pdf->Output('S');
+        $b = $pdf->Output('S');
+        unset($pdf);
+
+        $this->assertSame($a, $b);
+
+        $this->assertTrue(unlink('test.pdf'));
+    }
 }

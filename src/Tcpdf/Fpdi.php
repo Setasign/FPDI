@@ -50,6 +50,12 @@ class Fpdi extends \TCPDF
      */
     protected $currentObjectNumber;
 
+    protected function _enddoc()
+    {
+        parent::_enddoc();
+        $this->cleanUp();
+    }
+
     /**
      * Get the next template id.
      *
