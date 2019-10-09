@@ -29,6 +29,8 @@ class Ascii85 implements FilterInterface
         $state = 0;
         $chn = null;
 
+        $data = preg_replace('/\s/', '', $data);
+
         $l = \strlen($data);
 
         /** @noinspection ForeachInvariantsInspection */
