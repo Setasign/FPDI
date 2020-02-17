@@ -152,9 +152,10 @@ class FpdiTest extends TestCase
 
     public function testReleaseOfStreamHandleOnUnset()
     {
-        copy(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf', 'test.pdf');
+        $tmpName = tempnam(sys_get_temp_dir(), 'fpdi-test');
+        copy(__DIR__ . '/../../_files/pdfs/Noisy-Tube.pdf', $tmpName);
         $pdf = new Fpdi();
-        $pdf->setSourceFile('test.pdf');
+        $pdf->setSourceFile($tmpName);
         $tpl = $pdf->importPage(1);
         $pdf->AddPage();
         $pdf->useTemplate($tpl);
@@ -164,6 +165,6 @@ class FpdiTest extends TestCase
 
         $this->assertSame($a, $b);
 
-        $this->assertTrue(unlink('test.pdf'));
+        $this->assertTrue(unlink($tmpName));
     }
 }
