@@ -49,8 +49,8 @@ class PdfName extends PdfType
         if (strpos($value, '#') === false)
             return $value;
 
-        return preg_replace_callback('/#[a-fA-F\d]{2}/', function($matches) {
-            return chr(hexdec($matches[0]));
+        return preg_replace_callback('/#([a-fA-F\d]{2})/', function($matches) {
+            return chr(hexdec($matches[1]));
         }, $value);
     }
 
