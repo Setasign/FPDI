@@ -3,7 +3,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2019 Setasign - Jan Slabon (https://www.setasign.com)
+ * @copyright Copyright (c) 2020 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -30,7 +30,7 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.2.0';
+    const VERSION = '2.3.0';
 
     protected function _enddoc()
     {

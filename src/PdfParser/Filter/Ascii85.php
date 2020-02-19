@@ -3,7 +3,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2019 Setasign - Jan Slabon (https://www.setasign.com)
+ * @copyright Copyright (c) 2020 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -29,6 +29,8 @@ class Ascii85 implements FilterInterface
         $state = 0;
         $chn = null;
 
+        $data = \preg_replace('/\s/', '', $data);
+
         $l = \strlen($data);
 
         /** @noinspection ForeachInvariantsInspection */
@@ -44,13 +46,12 @@ class Ascii85 implements FilterInterface
             if ($ch === 126 && isset($data[$k + 1]) && (\ord($data[$k + 1]) & 0xFF) === 62) {
                 break;
             }
-            if (\preg_match('/^\s$/', \chr($ch))) {
-                continue;
-            }
+
             if ($ch === 122 /* z */ && $state === 0) {
                 $out .= \chr(0) . \chr(0) . \chr(0) . \chr(0);
                 continue;
             }
+
             if ($ch < 33 /* ! */ || $ch > 117 /* u */) {
                 throw new Ascii85Exception(
                     'Illegal character found while ASCII85 decode.',

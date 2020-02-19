@@ -35,6 +35,14 @@ class Ascii85Test extends TestCase
                 'HalloWelt'
             ],
             [
+                "<~87?=NDc^LdF8~\n>",
+                'HalloWelt'
+            ],
+            [
+                "<\n~ 8 7 ? = ND\nc^LdF8~\n>",
+                'HalloWelt'
+            ],
+            [
                 'z',
                 "\x00\x00\x00\x00"
             ],
