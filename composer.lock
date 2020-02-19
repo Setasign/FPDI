@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c261738f72ecf21b6b2baad058a326f",
+    "content-hash": "7d8c574aa47027c580c11c8b1cdf1624",
     "packages": [],
     "packages-dev": [
         {
@@ -1260,7 +1260,7 @@
         },
         {
             "name": "setasign/tfpdf",
-            "version": "dev-master",
+            "version": "1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/tFPDF.git",
@@ -1538,9 +1538,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "setasign/tfpdf": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
