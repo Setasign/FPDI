@@ -133,7 +133,7 @@ class Fpdi extends FpdfTpl
     /**
      * @inheritdoc
      */
-    public function _putxobjectdict()
+    protected function _putxobjectdict()
     {
         foreach ($this->importedPages as $key => $pageData) {
             $this->_put('/' . $pageData['id'] . ' ' . $pageData['objectNumber'] . ' 0 R');
@@ -145,20 +145,12 @@ class Fpdi extends FpdfTpl
     /**
      * @inheritdoc
      */
-    public function _newobj($n = null)
+    protected function _put($s, $newLine = true)
     {
-        // Begin a new object
-        if($n === null)
-            $n = ++$this->n;
-        $this->offsets[$n] = $this->_getoffset();
-        $this->_put($n.' 0 obj');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function _getoffset()
-    {
-        return strlen($this->buffer);
+        if ($newLine) {
+            $this->buffer .= $s . "\n";
+        } else {
+            $this->buffer .= $s;
+        }
     }
 }

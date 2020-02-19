@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cf27004bba2c7d6810fc5132fea2d63",
+    "content-hash": "6c261738f72ecf21b6b2baad058a326f",
     "packages": [],
     "packages-dev": [
         {
@@ -703,6 +703,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
@@ -1259,16 +1260,16 @@
         },
         {
             "name": "setasign/tfpdf",
-            "version": "1.25",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/tFPDF.git",
-                "reference": "f5fa74ebca027c685de70b48ee9212ae30e9f0eb"
+                "reference": "f0ece1cf1bb134b4fdff5eebe2ecb349dbeb00f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/tFPDF/zipball/f5fa74ebca027c685de70b48ee9212ae30e9f0eb",
-                "reference": "f5fa74ebca027c685de70b48ee9212ae30e9f0eb",
+                "url": "https://api.github.com/repos/Setasign/tFPDF/zipball/f0ece1cf1bb134b4fdff5eebe2ecb349dbeb00f9",
+                "reference": "f0ece1cf1bb134b4fdff5eebe2ecb349dbeb00f9",
                 "shasum": ""
             },
             "type": "library",
@@ -1284,16 +1285,20 @@
             ],
             "authors": [
                 {
+                    "name": "Ian Back"
+                },
+                {
+                    "name": "Tycho Veltmeijer",
+                    "email": "tfpdf@tychoveltmeijer.nl",
+                    "role": "Maintainer"
+                },
+                {
                     "name": "Olivier Plathey",
                     "email": "oliver@fpdf.org",
                     "homepage": "http://fpdf.org/"
-                },
-                {
-                    "name": "Ian Back",
-                    "email": "ian@bpm1.com"
                 }
             ],
-            "description": "This class is a modified version of FPDF that adds UTF-8 support. It is based on FPDF 1.7.",
+            "description": "This class is a modified version of FPDF that adds UTF-8 support. As of version 1.31 it is based on FPDF 1.82. Before it was based on FPDF 1.7.",
             "homepage": "http://fpdf.org/en/script/script92.php",
             "keywords": [
                 "fpdf",
@@ -1301,7 +1306,7 @@
                 "tfpdf",
                 "unicode"
             ],
-            "time": "2018-09-05T15:36:21+00:00"
+            "time": "2020-02-19T09:51:17+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1533,7 +1538,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "setasign/tfpdf": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
