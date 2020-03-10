@@ -85,7 +85,7 @@ If you want to use tFPDF, your have to update your composer.json respectively to
 ```json
 {
     "require": {
-        "tecnickcom/tfpdf": "1.31",
+        "setasign/tfpdf": "1.31",
         "setasign/fpdi": "^2.3"
     }
 }
