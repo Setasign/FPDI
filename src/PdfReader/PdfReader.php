@@ -140,48 +140,48 @@ class PdfReader
         $page = $this->pages[$pageNumber - 1];
 
         if ($page instanceof PdfIndirectObjectReference) {
-            try {
-                $readPages = function ($kids) use (&$readPages) {
-                    $kids = PdfArray::ensure($kids);
+            $readPages = function ($kids) use (&$readPages) {
+                $kids = PdfArray::ensure($kids);
 
-                    /** @noinspection LoopWhichDoesNotLoopInspection */
-                    foreach ($kids->value as $reference) {
-                        $reference = PdfIndirectObjectReference::ensure($reference);
-                        $object = $this->parser->getIndirectObject($reference->value);
-                        $type = PdfDictionary::get($object->value, 'Type');
+                /** @noinspection LoopWhichDoesNotLoopInspection */
+                foreach ($kids->value as $reference) {
+                    $reference = PdfIndirectObjectReference::ensure($reference);
+                    $object = $this->parser->getIndirectObject($reference->value);
+                    $type = PdfDictionary::get($object->value, 'Type');
 
-                        if ($type->value === 'Pages') {
-                            return $readPages(PdfDictionary::get($object->value, 'Kids'));
-                        }
-
-                        return $object;
+                    if ($type->value === 'Pages') {
+                        return $readPages(PdfDictionary::get($object->value, 'Kids'));
                     }
 
-                    throw new PdfReaderException(
-                        'Kids array cannot be empty.',
-                        PdfReaderException::KIDS_EMPTY
-                    );
-                };
+                    return $object;
+                }
 
-                $page = $this->parser->getIndirectObject($page->value);
-                $dict = PdfType::resolve($page, $this->parser);
-                $type = PdfDictionary::get($dict, 'Type');
-                if ($type->value === 'Pages') {
-                    $kids = PdfType::resolve(PdfDictionary::get($dict, 'Kids'), $this->parser);
+                throw new PdfReaderException(
+                    'Kids array cannot be empty.',
+                    PdfReaderException::KIDS_EMPTY
+                );
+            };
+
+            $page = $this->parser->getIndirectObject($page->value);
+            $dict = PdfType::resolve($page, $this->parser);
+            $type = PdfDictionary::get($dict, 'Type');
+
+            if ($type->value === 'Pages') {
+                $kids = PdfType::resolve(PdfDictionary::get($dict, 'Kids'), $this->parser);
+                try {
                     $page = $this->pages[$pageNumber - 1] = $readPages($kids);
-                } else {
-                    $this->pages[$pageNumber - 1] = $page;
-                }
+                } catch (PdfReaderException $e) {
+                    if ($e->getCode() !== PdfReaderException::KIDS_EMPTY) {
+                        throw $e;
+                    }
 
-            } catch (PdfReaderException $e) {
-                if ($e->getCode() !== PdfReaderException::KIDS_EMPTY) {
-                    throw $e;
+                    // let's reset the pages array and read all page objects
+                    $this->pages = [];
+                    $this->readPages(true);
+                    $page = $this->pages[$pageNumber - 1];
                 }
-
-                // let's reset the pages array and read all page objects
-                $this->pages = [];
-                $this->readPages(true);
-                $page = $this->pages[$pageNumber - 1];
+            } else {
+                $this->pages[$pageNumber - 1] = $page;
             }
         }
 
@@ -204,12 +204,12 @@ class PdfReader
 
         $readPages = function ($kids, $count) use (&$readPages, $readAll) {
             $kids = PdfArray::ensure($kids);
-            $isLeaf = !$readAll && ($count->value === \count($kids->value));
+            $isLeaf = ($count->value === \count($kids->value));
 
             foreach ($kids->value as $reference) {
                 $reference = PdfIndirectObjectReference::ensure($reference);
 
-                if ($isLeaf) {
+                if (!$readAll && $isLeaf) {
                     $this->pages[] = $reference;
                     continue;
                 }
