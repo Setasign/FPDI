@@ -55,7 +55,6 @@ class Flate implements FilterInterface
                 }
 
                 // Try this fallback
-                // Try this fallback
                 $tries = 0;
 
                 $oDataLen = strlen($oData);
