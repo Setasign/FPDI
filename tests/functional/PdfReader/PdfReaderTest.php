@@ -40,12 +40,12 @@ class PdfReaderTest extends TestCase
         ];
 
         $data[] = [
-            $path . '/PageTree.pdf',
+            $path . '/specials/page-trees/PageTree.pdf',
             10
         ];
 
         $data[] = [
-            $path . '/PageTree2.pdf',
+            $path . '/specials/page-trees/PageTree2.pdf',
             13
         ];
 
@@ -203,7 +203,7 @@ class PdfReaderTest extends TestCase
         ];
 
         $data[] = [
-            $path . '/PageTree.pdf',
+            $path . '/specials/page-trees/PageTree.pdf',
             [
                 1 => PdfIndirectObject::create(
                     4,
@@ -341,7 +341,7 @@ class PdfReaderTest extends TestCase
         ];
 
         $data[] = [
-            $path . '/PageTree2.pdf',
+            $path . '/specials/page-trees/PageTree2.pdf',
             [
                 1 => PdfIndirectObject::create(
                     1,
@@ -727,7 +727,7 @@ class PdfReaderTest extends TestCase
         ];
 
         $data[] = [
-            $path . '/PageTreeWithEmptyKids.pdf',
+            $path . '/specials/page-trees/PageTreeWithEmptyKids.pdf',
             [
                 1 => PdfIndirectObject::create(
                     4,
@@ -749,6 +749,87 @@ class PdfReaderTest extends TestCase
                             PdfIndirectObjectReference::create(5, 0)
                         ]),
                         'Parent' => PdfIndirectObjectReference::create(2, 0),
+                    ])
+                )
+            ]
+        ];
+
+        /* /Pages <<
+         *     /Count 5
+         *     /Kids [
+         *         <</Pages /Count 0 /Kids []>>
+         *         <</Pages /Count 4 /Kids [
+         *              <</Page>>
+         *              <</Page>>
+         *              <</Page>>
+         *              <</Page>>
+         *         ]>>
+         *         <</Page>>
+         *     ]
+         * >>
+         */
+        $data[] = [
+            $path . '/specials/page-trees/PageTreeWithEmptyKids2.pdf',
+            [
+                1 => PdfIndirectObject::create(
+                    4,
+                    0,
+                    PdfDictionary::create([
+                        'Type' => PdfName::create('Page'),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(841.89),
+                            PdfNumeric::create(595.28)
+                        ]),
+                        'Resources' => PdfDictionary::create([
+                            'Font' => PdfDictionary::create([
+                                'F1' => PdfIndirectObjectReference::create(3, 0)
+                            ])
+                        ]),
+                        'Contents' => PdfArray::create([
+                            PdfIndirectObjectReference::create(5, 0)
+                        ]),
+                        'Parent' => PdfIndirectObjectReference::create(15, 0),
+                    ])
+                )
+            ]
+        ];
+
+        /* /Pages <<
+         *     /Count 2
+         *     /Kids [
+         *         <</Pages /Count 0 /Kids []>>
+         *         <</Pages /Count 2 /Kids [
+         *              <</Page>>
+         *              <</Page>>
+         *         ]>>
+         *     ]
+         * >>
+         */
+        $data[] = [
+            $path . '/specials/page-trees/PageTreeWithEmptyKids3.pdf',
+            [
+                1 => PdfIndirectObject::create(
+                    4,
+                    0,
+                    PdfDictionary::create([
+                        'Type' => PdfName::create('Page'),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(841.89),
+                            PdfNumeric::create(595.28)
+                        ]),
+                        'Resources' => PdfDictionary::create([
+                            'Font' => PdfDictionary::create([
+                                'F1' => PdfIndirectObjectReference::create(3, 0)
+                            ])
+                        ]),
+                        'Contents' => PdfArray::create([
+                            PdfIndirectObjectReference::create(5, 0)
+                        ]),
+                        'Parent' => PdfIndirectObjectReference::create(9, 0),
                     ])
                 )
             ]
