@@ -108,12 +108,12 @@ class FpdiTraitTest extends TestCase
         ];
 
         $data[] = [
-            $path . '/PageTree.pdf',
+            $path . '/specials/page-trees/PageTree.pdf',
             10
         ];
 
         $data[] = [
-            $path . '/PageTree2.pdf',
+            $path . '/specials/page-trees/PageTree2.pdf',
             13
         ];
 
