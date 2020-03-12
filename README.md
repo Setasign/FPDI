@@ -18,74 +18,38 @@ FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/
 
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
-Because FPDI can be used with FPDF, TCPDF or tFPDF we didn't added a fixed dependency in the main
-composer.json file but we added metadata packages for 
-[FPDF](https://github.com/Setasign/FPDI-FPDF), 
-[TCPDF](https://github.com/Setasign/FPDI-TCPDF) and
-[tFPDF](https://github.com/Setasign/FPDI-tFPDF).
-
-### Evaluate Dependencies Automatically
-
-For FPDF add following [package](https://github.com/Setasign/FPDI-FPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-fpdf": "^2.0"
-    }
-}
-```
-
-For TCPDF add following [package](https://github.com/Setasign/FPDI-TCPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-tcpdf": "^2.0"
-    }
-}
-```
-
-For tFPDF add following [package](https://github.com/Setasign/FPDI-tFPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-tfpdf": "^2.1"
-    }
-}
-```
-
-### Manual Dependencies
-
-If you don't want to use the metadata packages, it is up to you to add the dependencies to your
-composer.json file.
+Because FPDI can be used with FPDF, TCPDF or tFPDF we haven't added a fixed dependency in the main
+composer.json file. You need to add the dependency to the PDF generation library of your choice
+yourself.
 
 To use FPDI with FPDF include following in your composer.json file:
 
 ```json
 {
     "require": {
-        "setasign/fpdf": "^1.8",
+        "setasign/fpdf": "1.8.*",
         "setasign/fpdi": "^2.0"
     }
 }
 ```
 
-If you want to use TCPDF, your have to update your composer.json respectively to:
+If you want to use TCPDF, you have to update your composer.json to:
 
 ```json
 {
     "require": {
-        "tecnickcom/tcpdf": "^6.2",
+        "tecnickcom/tcpdf": "6.2.*",
         "setasign/fpdi": "^2.0"
     }
 }
 ```
 
-If you want to use tFPDF, your have to update your composer.json respectively to:
+If you want to use tFPDF, you have to update your composer.json to:
 
 ```json
 {
     "require": {
-        "setasign/tfpdf": "1.31",
+        "setasign/tfpdf": "1.31.*",
         "setasign/fpdi": "^2.3"
     }
 }
