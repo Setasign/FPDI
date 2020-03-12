@@ -18,7 +18,7 @@ FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/
 
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
-Because FPDI can be used with FPDF, TCPDF or tFPDF we didn't added a fixed dependency in the main
+Because FPDI can be used with FPDF, TCPDF or tFPDF we haven't added a fixed dependency in the main
 composer.json file. You need to add the dependency to the PDF generation library of your choice
 your own.
 
