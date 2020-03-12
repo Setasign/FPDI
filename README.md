@@ -19,44 +19,8 @@ FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
 Because FPDI can be used with FPDF, TCPDF or tFPDF we didn't added a fixed dependency in the main
-composer.json file but we added metadata packages for 
-[FPDF](https://github.com/Setasign/FPDI-FPDF), 
-[TCPDF](https://github.com/Setasign/FPDI-TCPDF) and
-[tFPDF](https://github.com/Setasign/FPDI-tFPDF).
-
-### Evaluate Dependencies Automatically
-
-For FPDF add following [package](https://github.com/Setasign/FPDI-FPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-fpdf": "^2.0"
-    }
-}
-```
-
-For TCPDF add following [package](https://github.com/Setasign/FPDI-TCPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-tcpdf": "^2.0"
-    }
-}
-```
-
-For tFPDF add following [package](https://github.com/Setasign/FPDI-tFPDF) to your composer.json:
-```json
-{
-    "require": {
-        "setasign/fpdi-tfpdf": "^2.1"
-    }
-}
-```
-
-### Manual Dependencies
-
-If you don't want to use the metadata packages, it is up to you to add the dependencies to your
-composer.json file.
+composer.json file. You need to add the dependency to the PDF generation library of your choice
+your own.
 
 To use FPDI with FPDF include following in your composer.json file:
 

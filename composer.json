@@ -34,10 +34,7 @@
         }
     ],
     "suggest": {
-        "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured.",
-        "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
-        "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
-        "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
+        "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7",
