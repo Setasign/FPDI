@@ -20,7 +20,7 @@ FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/
 
 Because FPDI can be used with FPDF, TCPDF or tFPDF we haven't added a fixed dependency in the main
 composer.json file. You need to add the dependency to the PDF generation library of your choice
-your own.
+yourself.
 
 To use FPDI with FPDF include following in your composer.json file:
 
@@ -33,7 +33,7 @@ To use FPDI with FPDF include following in your composer.json file:
 }
 ```
 
-If you want to use TCPDF, your have to update your composer.json respectively to:
+If you want to use TCPDF, you have to update your composer.json to:
 
 ```json
 {
@@ -44,7 +44,7 @@ If you want to use TCPDF, your have to update your composer.json respectively to
 }
 ```
 
-If you want to use tFPDF, your have to update your composer.json respectively to:
+If you want to use tFPDF, you have to update your composer.json to:
 
 ```json
 {
