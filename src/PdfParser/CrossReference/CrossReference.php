@@ -235,8 +235,16 @@ class CrossReference
         }
 
         if ($initValue instanceof PdfIndirectObject) {
-            // check for encryption
-            $stream = PdfStream::ensure($initValue->value);
+            try {
+                $stream = PdfStream::ensure($initValue->value);
+
+            } catch (PdfTypeException $e) {
+                throw new CrossReferenceException(
+                    'Invalid object type at xref reference offset.',
+                    CrossReferenceException::INVALID_DATA,
+                    $e
+                );
+            }
 
             $type = PdfDictionary::get($stream->value, 'Type');
             if ($type->value !== 'XRef') {

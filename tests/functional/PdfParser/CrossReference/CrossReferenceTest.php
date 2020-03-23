@@ -597,4 +597,30 @@ class CrossReferenceTest extends TestCase
 
         $this->assertEquals(PdfIndirectObject::create(1, 0, PdfDictionary::create([])), $object);
     }
+
+    /**
+     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::INVALID_DATA
+     */
+    public function testBehaviourWithWrongObjectTypeAttXrefOffset()
+    {
+        $pdf = "%PDF-1.7\n" .
+            "%\xE2\xE3\xCF\xD3\n" .
+            "1 0 obj\n" .
+            "<<>>" .
+            "xref\n" .
+            "0 2\r\n" .
+            "0000000000 65535 f\r\n" .
+            "0000000015 00000 n\r\n" .
+            "trailer\n" .
+            "<</Size 2 /Root 1 0 R>>\n" .
+            "startxref\n" .
+            "15\n" . //
+            "%%EOF";
+
+        $stream = StreamReader::createByString($pdf);
+        $parser = new PdfParser($stream);
+        $xref = new CrossReference($parser);
+        $xref->getTrailer();
+    }
 }
