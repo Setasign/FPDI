@@ -208,6 +208,13 @@ class PdfStream extends PdfType
             }
         }
 
+        // There are streams in the wild, which have only white signs in them but need to be parsed manually due
+        // to a problem encountered before (e.g. Length === 0). We should set them to empty streams to avoid problems
+        // in further processing (e.g. applying of filters).
+        if (trim($buffer) === '') {
+            $buffer = '';
+        }
+
         return $buffer;
     }
 

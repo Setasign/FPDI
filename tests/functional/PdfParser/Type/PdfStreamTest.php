@@ -11,6 +11,7 @@ use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
+use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
@@ -264,6 +265,27 @@ class PdfStreamTest extends TestCase
 
         $this->assertSame($dict, $result->value);
         $this->assertSame($streamContent, $result->getStream());
+    }
+
+    public function testParseWithZeroLengthButAMixOfLinefeedAndCarrigeReturn()
+    {
+        $in = "stream\r"
+            . "\n"
+            . "\rendstream\r" // the inital \r in this line will be the content because of the \r\n | \r | \n logic to match the start of a content stream.
+            . "endobj";
+
+        $stream = StreamReader::createByString($in);
+
+        $stream->setOffset(6);
+        $this->assertSame("\r", $stream->getByte());
+
+        // Length of 0 - extract the stream manually
+        $dict = PdfDictionary::create(['Length' => PdfNumeric::create(0), 'Filter' => PdfName::create('FlateDecode')]);
+
+        $result = PdfStream::parse($dict, $stream);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame('', $result->getStream());
     }
 
     public function testParseWithEmptyStream()
