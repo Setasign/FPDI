@@ -55,6 +55,11 @@ If you want to use tFPDF, you have to update your composer.json to:
 }
 ```
 
+To use FPDI, include the Tfpdf version:
+```php
+use setasign\Fpdi\Tfpdf\Fpdi;
+```
+
 ## Manual Installation
 
 If you do not use composer, just require the autoload.php in the /src folder:
