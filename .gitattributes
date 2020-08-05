@@ -1,4 +1,5 @@
 *.pdf binary
+*.php text eol=lf
 /local-tests export-ignore
 /scratches export-ignore
 /tests export-ignore

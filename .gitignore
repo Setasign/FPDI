@@ -1,1 +1,3 @@
 vendor
+/phpstan.phar
+/composer.phar
