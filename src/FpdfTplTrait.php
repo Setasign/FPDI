@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -13,8 +14,6 @@ namespace setasign\Fpdi;
  * Trait FpdfTplTrait
  *
  * This class adds a templating feature to tFPDF.
- *
- * @package setasign\Fpdi
  */
 trait FpdfTplTrait
 {

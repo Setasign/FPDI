@@ -57,7 +57,7 @@ abstract class VisualTestCase extends TestCase
             : basename($inputData);
 
         $tmpDir = dirname($classFile) . DIRECTORY_SEPARATOR
-            . pathinfo($classFile, PATHINFO_FILENAME). DIRECTORY_SEPARATOR
+            . pathinfo($classFile, PATHINFO_FILENAME) . DIRECTORY_SEPARATOR
             . $tmpPath . DIRECTORY_SEPARATOR
             . 'compare';
 
@@ -106,7 +106,7 @@ abstract class VisualTestCase extends TestCase
             $testImages[] = $filename;
         }
 
-        $this->assertEquals(count($originalImages), count($testImages), 'Count of pages for file '.$tmpPath);
+        $this->assertEquals(count($originalImages), count($testImages), 'Count of pages for file ' . $tmpPath);
 
         foreach ($originalImages as $k => $filename) {
             $out = exec(sprintf(
@@ -128,7 +128,7 @@ abstract class VisualTestCase extends TestCase
                 $out . ' for file ' . $tmpPath
             );
             //var_dump($out);
-            $this->assertLessThan($tolerance, $out, 'Page '. $filename.' for file '.$tmpPath);
+            $this->assertLessThan($tolerance, $out, 'Page ' . $filename . ' for file ' . $tmpPath);
 
             unlink($diff);
         }

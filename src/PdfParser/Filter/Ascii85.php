@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Filter;
 
 /**
  * Class for handling ASCII base-85 encoded data
- *
- * @package setasign\Fpdi\PdfParser\Filter
  */
 class Ascii85 implements FilterInterface
 {

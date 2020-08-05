@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -22,8 +23,6 @@ use setasign\FpdiPdfParser\PdfParser\Filter\Predictor;
 
 /**
  * Class representing a PDF stream object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfStream extends PdfType
 {

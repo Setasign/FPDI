@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -17,8 +18,6 @@ use setasign\Fpdi\PdfParser\StreamReader;
  *
  * This reader class read all cross-reference entries in a single run.
  * It supports reading cross-references with e.g. invalid data (e.g. entries with a length < or > 20 bytes).
- *
- * @package setasign\Fpdi\PdfParser\CrossReference
  */
 class LineReader extends AbstractReader implements ReaderInterface
 {

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * This file is part of FPDI
+ *
+ * @package   setasign\Fpdi
+ * @copyright Copyright (c) 2020 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @license   http://opensource.org/licenses/mit-license The MIT License
+ */
+
 namespace setasign\Fpdi\Tcpdf;
 
 use setasign\Fpdi\FpdiTrait;
@@ -19,8 +27,6 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
  * Class Fpdi
  *
  * This class let you import pages of existing PDF documents into a reusable structure for TCPDF.
- *
- * @package setasign\Fpdi
  */
 class Fpdi extends \TCPDF
 {

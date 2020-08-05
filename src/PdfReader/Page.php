@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -25,8 +26,6 @@ use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 
 /**
  * Class representing a page of a PDF document
- *
- * @package setasign\Fpdi\PdfReader
  */
 class Page
 {

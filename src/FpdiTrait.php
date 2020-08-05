@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -41,8 +42,6 @@ use /* This namespace/class is used by the commercial FPDI PDF-Parser add-on. */
  *
  * This trait offers the core functionalities of FPDI. By passing them to a trait we can reuse it with e.g. TCPDF in a
  * very easy way.
- *
- * @package setasign\Fpdi
  */
 trait FpdiTrait
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -18,8 +19,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
  * Class Fpdi
  *
  * This class let you import pages of existing PDF documents into a reusable structure for FPDF.
- *
- * @package setasign\Fpdi
  */
 class Fpdi extends FpdfTpl
 {

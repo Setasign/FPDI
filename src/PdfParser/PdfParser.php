@@ -26,8 +26,6 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
 
 /**
  * A PDF parser class
- *
- * @package setasign\Fpdi\PdfParser
  */
 class PdfParser
 {

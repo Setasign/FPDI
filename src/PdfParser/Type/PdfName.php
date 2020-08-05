@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -14,8 +15,6 @@ use setasign\Fpdi\PdfParser\Tokenizer;
 
 /**
  * Class representing a PDF name object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfName extends PdfType
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -21,8 +22,6 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
  * Class CrossReference
  *
  * This class processes the standard cross reference of a PDF document.
- *
- * @package setasign\Fpdi\PdfParser\CrossReference
  */
 class CrossReference
 {

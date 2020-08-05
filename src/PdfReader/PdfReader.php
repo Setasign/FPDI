@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -22,8 +23,6 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * A PDF reader class
- *
- * @package setasign\Fpdi\PdfReader
  */
 class PdfReader
 {
