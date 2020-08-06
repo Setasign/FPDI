@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -15,7 +16,6 @@ use setasign\Fpdi\PdfParser\Tokenizer;
 /**
  * Class representing a PDF array object
  *
- * @package setasign\Fpdi\PdfParser\Type
  * @property array $value The value of the PDF type.
  */
 class PdfArray extends PdfType

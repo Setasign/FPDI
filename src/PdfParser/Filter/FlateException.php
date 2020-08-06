@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Filter;
 
 /**
  * Exception for flate filter class
- *
- * @package setasign\Fpdi\PdfParser\Filter
  */
 class FlateException extends FilterException
 {

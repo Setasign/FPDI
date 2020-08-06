@@ -1,3 +1,4 @@
 vendor
 /phpstan.phar
 /composer.phar
+/tests/visual/**/compare/

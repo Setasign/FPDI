@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser;
 
 /**
  * A stream reader class
- *
- * @package setasign\Fpdi\PdfParser
  */
 class StreamReader
 {
@@ -245,7 +244,7 @@ class StreamReader
      *
      * @param int $length
      * @param int|null $position
-     * @return string
+     * @return string|false
      */
     public function readBytes($length, $position = null)
     {

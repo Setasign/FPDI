@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfReader;
 
 /**
  * An abstract class for page boundary constants and some helper methods
- *
- * @package setasign\Fpdi\PdfReader
  */
 abstract class PageBoundaries
 {

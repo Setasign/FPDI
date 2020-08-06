@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Type;
 
 /**
  * Class representing a numeric PDF object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfNumeric extends PdfType
 {

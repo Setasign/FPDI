@@ -12,7 +12,7 @@ class AlphaPdf extends Fpdi\Fpdi
     // bm:    blend mode, one of the following:
     //          Normal, Multiply, Screen, Overlay, Darken, Lighten, ColorDodge, ColorBurn,
     //          HardLight, SoftLight, Difference, Exclusion, Hue, Saturation, Color, Luminosity
-    public function SetAlpha($alpha, $bm='Normal')
+    public function SetAlpha($alpha, $bm = 'Normal')
     {
         // set alpha for stroking (CA) and non-stroking (ca) operations
         $gs = $this->AddExtGState(['ca'=>$alpha, 'CA'=>$alpha, 'BM'=>'/'.$bm]);

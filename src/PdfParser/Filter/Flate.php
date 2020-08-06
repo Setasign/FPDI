@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Filter;
 
 /**
  * Class for handling zlib/deflate encoded data
- *
- * @package setasign\Fpdi\PdfParser\Filter
  */
 class Flate implements FilterInterface
 {
@@ -32,7 +31,7 @@ class Flate implements FilterInterface
     /**
      * Decodes a flate compressed string.
      *
-     * @param string $data The input string
+     * @param string|false $data The input string
      * @return string
      * @throws FlateException
      */
@@ -40,7 +39,7 @@ class Flate implements FilterInterface
     {
         if ($this->extensionLoaded()) {
             $oData = $data;
-            $data = @((\strlen($data) > 0) ? \gzuncompress($data) : '');
+            $data = (($data !== '') ? @\gzuncompress($data) : '');
             if ($data === false) {
                 // let's try if the checksum is CRC32
                 $fh = fopen('php://temp', 'w+b');
@@ -58,7 +57,7 @@ class Flate implements FilterInterface
                 $tries = 0;
 
                 $oDataLen = strlen($oData);
-                while ($tries < 6 && ($data === false || (strlen($data) < (strlen($oDataLen) - $tries - 1)))) {
+                while ($tries < 6 && ($data === false || (strlen($data) < ($oDataLen - $tries - 1)))) {
                     $data = @(gzinflate(substr($oData, $tries)));
                     $tries++;
                 }

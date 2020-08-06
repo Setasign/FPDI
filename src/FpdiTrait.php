@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -41,8 +42,6 @@ use /* This namespace/class is used by the commercial FPDI PDF-Parser add-on. */
  *
  * This trait offers the core functionalities of FPDI. By passing them to a trait we can reuse it with e.g. TCPDF in a
  * very easy way.
- *
- * @package setasign\Fpdi
  */
 trait FpdiTrait
 {
@@ -63,7 +62,7 @@ trait FpdiTrait
     /**
      * The current reader id.
      *
-     * @var string
+     * @var string|null
      */
     protected $currentReaderId;
 
@@ -494,26 +493,20 @@ trait FpdiTrait
             } else {
                 $this->_put(\rtrim(\rtrim(\sprintf('%.5F', $value->value), '0'), '.') . ' ', false);
             }
-
         } elseif ($value instanceof PdfName) {
             $this->_put('/' . $value->value . ' ', false);
-
         } elseif ($value instanceof PdfString) {
             $this->_put('(' . $value->value . ')', false);
-
         } elseif ($value instanceof PdfHexString) {
             $this->_put('<' . $value->value . '>');
-
         } elseif ($value instanceof PdfBoolean) {
             $this->_put($value->value ? 'true ' : 'false ', false);
-
         } elseif ($value instanceof PdfArray) {
             $this->_put('[', false);
             foreach ($value->value as $entry) {
                 $this->writePdfType($entry);
             }
             $this->_put(']');
-
         } elseif ($value instanceof PdfDictionary) {
             $this->_put('<<', false);
             foreach ($value->value as $name => $entry) {
@@ -521,13 +514,10 @@ trait FpdiTrait
                 $this->writePdfType($entry);
             }
             $this->_put('>>');
-
         } elseif ($value instanceof PdfToken) {
             $this->_put($value->value);
-
         } elseif ($value instanceof PdfNull) {
             $this->_put('null ');
-
         } elseif ($value instanceof PdfStream) {
             /**
              * @var $value PdfStream
@@ -536,7 +526,6 @@ trait FpdiTrait
             $this->_put('stream');
             $this->_put($value->getStream());
             $this->_put('endstream');
-
         } elseif ($value instanceof PdfIndirectObjectReference) {
             if (!isset($this->objectMap[$this->currentReaderId])) {
                 $this->objectMap[$this->currentReaderId] = [];
@@ -548,10 +537,9 @@ trait FpdiTrait
             }
 
             $this->_put($this->objectMap[$this->currentReaderId][$value->value] . ' 0 R ', false);
-
         } elseif ($value instanceof PdfIndirectObject) {
             /**
-             * @var $value PdfIndirectObject
+             * @var PdfIndirectObject $value
              */
             $n = $this->objectMap[$this->currentReaderId][$value->objectNumber];
             $this->_newobj($n);

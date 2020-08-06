@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Filter;
 
 /**
  * Class for handling ASCII hexadecimal encoded data
- *
- * @package setasign\Fpdi\PdfParser\Filter
  */
 class AsciiHex implements FilterInterface
 {

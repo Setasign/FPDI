@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -13,8 +14,6 @@ use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 
 /**
  * ReaderInterface for cross-reference readers.
- *
- * @package setasign\Fpdi\PdfParser\CrossReference
  */
 interface ReaderInterface
 {

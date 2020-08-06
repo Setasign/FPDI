@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -15,8 +16,6 @@ use setasign\Fpdi\PdfParser\Tokenizer;
 
 /**
  * Class representing an indirect object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfIndirectObject extends PdfType
 {
