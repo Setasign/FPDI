@@ -27,6 +27,8 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
  * Class Fpdi
  *
  * This class let you import pages of existing PDF documents into a reusable structure for TCPDF.
+ *
+ * @method _encrypt_data(int $n, string $s) string
  */
 class Fpdi extends \TCPDF
 {
@@ -52,7 +54,7 @@ class Fpdi extends \TCPDF
     /**
      * The currently used object number.
      *
-     * @var int
+     * @var int|null
      */
     protected $currentObjectNumber;
 
@@ -258,7 +260,7 @@ class Fpdi extends \TCPDF
             $value = PdfStream::create($dictionary, $stream);
         } elseif ($value instanceof PdfIndirectObject) {
             /**
-             * @var $value PdfIndirectObject
+             * @var PdfIndirectObject $value
              */
             $this->currentObjectNumber = $this->objectMap[$this->currentReaderId][$value->objectNumber];
         }

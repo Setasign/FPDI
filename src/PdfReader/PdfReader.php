@@ -177,6 +177,7 @@ class PdfReader
                     // let's reset the pages array and read all page objects
                     $this->pages = [];
                     $this->readPages(true);
+                    // @phpstan-ignore-next-line
                     $page = $this->pages[$pageNumber - 1];
                 }
             } else {

@@ -103,7 +103,7 @@ class PdfDictionary extends PdfType
      *
      * @param mixed $dictionary
      * @param string $key
-     * @param PdfType|mixed|null $default
+     * @param PdfType|null $default
      * @return PdfNull|PdfType
      * @throws PdfTypeException
      */

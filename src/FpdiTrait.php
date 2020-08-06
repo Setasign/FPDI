@@ -62,7 +62,7 @@ trait FpdiTrait
     /**
      * The current reader id.
      *
-     * @var string
+     * @var string|null
      */
     protected $currentReaderId;
 
@@ -539,7 +539,7 @@ trait FpdiTrait
             $this->_put($this->objectMap[$this->currentReaderId][$value->value] . ' 0 R ', false);
         } elseif ($value instanceof PdfIndirectObject) {
             /**
-             * @var $value PdfIndirectObject
+             * @var PdfIndirectObject $value
              */
             $n = $this->objectMap[$this->currentReaderId][$value->objectNumber];
             $this->_newobj($n);

@@ -244,7 +244,7 @@ class StreamReader
      *
      * @param int $length
      * @param int|null $position
-     * @return string
+     * @return string|false
      */
     public function readBytes($length, $position = null)
     {

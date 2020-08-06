@@ -53,7 +53,7 @@ class PdfStream extends PdfType
             }
         }
 
-        if (false === $firstByte) {
+        if ($firstByte === false) {
             throw new PdfTypeException(
                 'Unable to parse stream data. No newline after the stream keyword found.',
                 PdfTypeException::NO_NEWLINE_AFTER_STREAM_KEYWORD
@@ -114,7 +114,7 @@ class PdfStream extends PdfType
     /**
      * The stream reader instance.
      *
-     * @var StreamReader
+     * @var StreamReader|null
      */
     protected $reader;
 

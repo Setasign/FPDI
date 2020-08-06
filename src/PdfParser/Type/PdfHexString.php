@@ -27,10 +27,6 @@ class PdfHexString extends PdfType
     {
         $bufferOffset = $streamReader->getOffset();
 
-        /**
-         * @var string $buffer
-         * @var int $pos
-         */
         while (true) {
             $buffer = $streamReader->getBuffer(false);
             $pos = \strpos($buffer, '>', $bufferOffset);

@@ -62,6 +62,10 @@ class FixedReader extends AbstractReader implements ReaderInterface
     public function getOffsetFor($objectNumber)
     {
         foreach ($this->subSections as $offset => list($startObject, $objectCount)) {
+            /**
+             * @var int $startObject
+             * @var int $objectCount
+             */
             if ($objectNumber >= $startObject && $objectNumber < ($startObject + $objectCount)) {
                 $position = $offset + 20 * ($objectNumber - $startObject);
                 $this->reader->ensure($position, 20);
