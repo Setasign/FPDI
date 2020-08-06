@@ -102,7 +102,6 @@ class Lzw implements FilterInterface
 
                 $uncompData .= $this->sTable[$code];
                 $oldCode = $code;
-
             } else {
                 if ($code < $this->tIdx) {
                     $string = $this->sTable[$code];

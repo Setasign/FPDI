@@ -179,7 +179,10 @@ class PdfParser
 
         $catalog = $this->getCatalog();
         if (isset($catalog->value['Version'])) {
-            $versionParts = \explode('.', PdfName::unescape(PdfType::resolve($catalog->value['Version'], $this)->value));
+            $versionParts = \explode(
+                '.',
+                PdfName::unescape(PdfType::resolve($catalog->value['Version'], $this)->value)
+            );
             if (count($versionParts) === 2) {
                 list($major, $minor) = $versionParts;
             }
@@ -285,7 +288,8 @@ class PdfParser
                                     case 'obj':
                                         if ($expectedType !== null && $expectedType !== PdfIndirectObject::class) {
                                             throw new Type\PdfTypeException(
-                                                'Got unexpected token type.', Type\PdfTypeException::INVALID_DATA_TYPE
+                                                'Got unexpected token type.',
+                                                Type\PdfTypeException::INVALID_DATA_TYPE
                                             );
                                         }
 
@@ -301,7 +305,8 @@ class PdfParser
                                             $expectedType !== PdfIndirectObjectReference::class
                                         ) {
                                             throw new Type\PdfTypeException(
-                                                'Got unexpected token type.', Type\PdfTypeException::INVALID_DATA_TYPE
+                                                'Got unexpected token type.',
+                                                Type\PdfTypeException::INVALID_DATA_TYPE
                                             );
                                         }
 
@@ -317,7 +322,8 @@ class PdfParser
 
                     if ($expectedType !== null && $expectedType !== PdfNumeric::class) {
                         throw new Type\PdfTypeException(
-                            'Got unexpected token type.', Type\PdfTypeException::INVALID_DATA_TYPE
+                            'Got unexpected token type.',
+                            Type\PdfTypeException::INVALID_DATA_TYPE
                         );
                     }
                     return PdfNumeric::create($token);
@@ -335,7 +341,8 @@ class PdfParser
 
                 if ($expectedType !== null && $expectedType !== PdfToken::class) {
                     throw new Type\PdfTypeException(
-                        'Got unexpected token type.', Type\PdfTypeException::INVALID_DATA_TYPE
+                        'Got unexpected token type.',
+                        Type\PdfTypeException::INVALID_DATA_TYPE
                     );
                 }
 

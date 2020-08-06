@@ -86,12 +86,10 @@ class Ascii85 implements FilterInterface
         if ($state === 2) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + ($chn[1] + 1) * 85 * 85 * 85;
             $out .= \chr($r >> 24);
-
         } elseif ($state === 3) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + $chn[1] * 85 * 85 * 85 + ($chn[2] + 1) * 85 * 85;
             $out .= \chr($r >> 24);
             $out .= \chr($r >> 16);
-
         } elseif ($state === 4) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + $chn[1] * 85 * 85 * 85 + $chn[2] * 85 * 85 + ($chn[3] + 1) * 85;
             $out .= \chr($r >> 24);

@@ -108,7 +108,7 @@ trait FpdfTplTrait
             unset($x['tpl']);
             \extract($x, EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
-            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+            /** @noinspection PhpConditionAlreadyCheckedInspection */
             if (\is_array($x)) {
                 $x = 0;
             }
@@ -265,7 +265,7 @@ trait FpdfTplTrait
      */
     public function endTemplate()
     {
-        if (null === $this->currentTemplateId) {
+        if ($this->currentTemplateId === null) {
             return false;
         }
 
@@ -417,7 +417,11 @@ trait FpdfTplTrait
             $this->templates[$key]['objectNumber'] = $this->n;
 
             $this->_put('<</Type /XObject /Subtype /Form /FormType 1');
-            $this->_put(\sprintf('/BBox[0 0 %.2F %.2F]', $template['width'] * $this->k, $template['height'] * $this->k));
+            $this->_put(\sprintf(
+                '/BBox[0 0 %.2F %.2F]',
+                $template['width'] * $this->k,
+                $template['height'] * $this->k
+            ));
             $this->_put('/Resources 2 0 R'); // default resources dictionary of FPDF
 
             if ($this->compress) {

@@ -113,7 +113,6 @@ class Fpdi extends FpdfTpl
             while (($objectNumber = \array_pop($this->objectsToCopy[$readerId])) !== null) {
                 try {
                     $object = $parser->getIndirectObject($objectNumber);
-
                 } catch (CrossReferenceException $e) {
                     if ($e->getCode() === CrossReferenceException::OBJECT_NOT_FOUND) {
                         $object = PdfIndirectObject::create($objectNumber, 0, new PdfNull());

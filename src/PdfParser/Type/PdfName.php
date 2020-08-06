@@ -43,12 +43,13 @@ class PdfName extends PdfType
      * @param string $value
      * @return string
      */
-    static public function unescape($value)
+    public static function unescape($value)
     {
-        if (strpos($value, '#') === false)
+        if (strpos($value, '#') === false) {
             return $value;
+        }
 
-        return preg_replace_callback('/#([a-fA-F\d]{2})/', function($matches) {
+        return preg_replace_callback('/#([a-fA-F\d]{2})/', function ($matches) {
             return chr(hexdec($matches[1]));
         }, $value);
     }

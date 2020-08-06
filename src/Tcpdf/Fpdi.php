@@ -172,7 +172,6 @@ class Fpdi extends \TCPDF
             while (($objectNumber = \array_pop($this->objectsToCopy[$readerId])) !== null) {
                 try {
                     $object = $parser->getIndirectObject($objectNumber);
-
                 } catch (CrossReferenceException $e) {
                     if ($e->getCode() === CrossReferenceException::OBJECT_NOT_FOUND) {
                         $object = PdfIndirectObject::create($objectNumber, 0, new PdfNull());
@@ -246,20 +245,17 @@ class Fpdi extends \TCPDF
             $string = PdfString::unescape($value->value);
             $string = $this->_encrypt_data($this->currentObjectNumber, $string);
             $value->value = \TCPDF_STATIC::_escape($string);
-
         } elseif ($value instanceof PdfHexString) {
             $filter = new AsciiHex();
             $string = $filter->decode($value->value);
             $string = $this->_encrypt_data($this->currentObjectNumber, $string);
             $value->value = $filter->encode($string, true);
-
         } elseif ($value instanceof PdfStream) {
             $stream = $value->getStream();
             $stream = $this->_encrypt_data($this->currentObjectNumber, $stream);
             $dictionary = $value->value;
             $dictionary->value['Length'] = PdfNumeric::create(\strlen($stream));
             $value = PdfStream::create($dictionary, $stream);
-
         } elseif ($value instanceof PdfIndirectObject) {
             /**
              * @var $value PdfIndirectObject

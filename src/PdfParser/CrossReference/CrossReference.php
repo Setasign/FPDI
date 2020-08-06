@@ -30,7 +30,7 @@ class CrossReference
      *
      * @var int
      */
-    static public $trailerSearchLength = 5500;
+    public static $trailerSearchLength = 5500;
 
     /**
      * @var int
@@ -236,7 +236,6 @@ class CrossReference
         if ($initValue instanceof PdfIndirectObject) {
             try {
                 $stream = PdfStream::ensure($initValue->value);
-
             } catch (PdfTypeException $e) {
                 throw new CrossReferenceException(
                     'Invalid object type at xref reference offset.',
