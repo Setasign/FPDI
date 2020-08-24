@@ -24,6 +24,5 @@ jobs:
 
       - name: Run phpunit
         run: |
-#          ./vendor/bin/phpunit
           ./vendor/bin/phpunit --testsuite "Unit Tests"
           ./vendor/bin/phpunit --testsuite "Functional Tests"
