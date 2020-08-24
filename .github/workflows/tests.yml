@@ -11,8 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install mupdf
-        run: sudo apt-get install mupdf-tools=1.11.0
+#      - name: Install mupdf
+#        run: sudo apt-get install mupdf-tools=1.11.0
 
       - name: Install php
         uses: shivammathur/setup-php@v2
@@ -24,4 +24,6 @@ jobs:
 
       - name: Run phpunit
         run: |
-          ./vendor/bin/phpunit
+#          ./vendor/bin/phpunit
+          ./vendor/bin/phpunit --testsuite "Unit Tests"
+          ./vendor/bin/phpunit --testsuite "Functional Tests"
