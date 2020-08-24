@@ -1,0 +1,44 @@
+name: Code Style
+on: [pull_request]
+jobs:
+  phpcs:
+    name: phpcs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the workspace
+        uses: actions/checkout@v2
+
+      - name: Install php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "5.6"
+
+      - name: Install dependencies
+        run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
+
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1
+        with:
+          phpcs_bin_path: './vendor/bin/phpcs'
+          enable_warnings: true
+
+  phpstan:
+    name: phpstan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the workspace
+        uses: actions/checkout@v2
+
+      - name: Install php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.1"
+
+      - name: Install dependencies
+        run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
+
+      - name: Require phpstan
+        run: composer require --dev phpstan/phpstan --no-interaction
+
+      - name: Run phpstan
+        run: php ./vendor/phpstan/phpstan/phpstan.phar analyse --no-progress
