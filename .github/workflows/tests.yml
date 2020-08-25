@@ -1,0 +1,27 @@
+name: Tests
+on: [pull_request]
+jobs:
+  tests:
+    name: Run PHP Unit tests
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install mupdf and imagemagick
+        run: sudo apt-get install mupdf-tools imagemagick
+
+      - name: Install php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+
+      - name: Install dependencies
+        run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
+
+      - name: Run phpunit
+        run: |
+          ./vendor/bin/phpunit
