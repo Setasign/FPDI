@@ -46,7 +46,7 @@ class Flate implements FilterInterface
                 fwrite($fh, "\x1f\x8b\x08\x00\x00\x00\x00\x00" . $oData);
                 stream_filter_append($fh, 'zlib.inflate', STREAM_FILTER_READ, ['window' => 30]);
                 fseek($fh, 0);
-                $data = stream_get_contents($fh);
+                $data = @stream_get_contents($fh);
                 fclose($fh);
 
                 if ($data) {
