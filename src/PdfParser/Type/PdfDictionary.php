@@ -78,7 +78,7 @@ class PdfDictionary extends PdfType
             $entries[$key->value] = $value;
         }
 
-        $v = new self;
+        $v = new self();
         $v->value = $entries;
 
         return $v;
@@ -92,7 +92,7 @@ class PdfDictionary extends PdfType
      */
     public static function create(array $entries = [])
     {
-        $v = new self;
+        $v = new self();
         $v->value = $entries;
 
         return $v;

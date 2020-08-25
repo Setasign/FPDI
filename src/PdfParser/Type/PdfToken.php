@@ -23,7 +23,7 @@ class PdfToken extends PdfType
      */
     public static function create($token)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $token;
 
         return $v;

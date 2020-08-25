@@ -23,8 +23,8 @@ class PdfBoolean extends PdfType
      */
     public static function create($value)
     {
-        $v = new self;
-        $v->value = (boolean) $value;
+        $v = new self();
+        $v->value = (bool) $value;
         return $v;
     }
 

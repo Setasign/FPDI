@@ -46,7 +46,7 @@ class PdfString extends PdfType
         $result = \substr($buffer, $startPos, $openBrackets + $pos - $startPos - 1);
         $streamReader->setOffset($pos);
 
-        $v = new self;
+        $v = new self();
         $v->value = $result;
 
         return $v;
@@ -60,7 +60,7 @@ class PdfString extends PdfType
      */
     public static function create($value)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $value;
 
         return $v;
@@ -137,22 +137,23 @@ class PdfString extends PdfType
                         $actualChar = \ord($s[$count]);
                         // ascii 48 = number 0
                         // ascii 57 = number 9
-                        if ($actualChar >= 48 &&
-                            $actualChar <= 57) {
+                        if ($actualChar >= 48 && $actualChar <= 57) {
                             $oct = '' . $s[$count];
 
                             /** @noinspection NotOptimalIfConditionsInspection */
-                            if ($count + 1 < $n &&
-                                \ord($s[$count + 1]) >= 48 &&
-                                \ord($s[$count + 1]) <= 57
+                            if (
+                                $count + 1 < $n
+                                && \ord($s[$count + 1]) >= 48
+                                && \ord($s[$count + 1]) <= 57
                             ) {
                                 $count++;
                                 $oct .= $s[$count];
 
                                 /** @noinspection NotOptimalIfConditionsInspection */
-                                if ($count + 1 < $n &&
-                                    \ord($s[$count + 1]) >= 48 &&
-                                    \ord($s[$count + 1]) <= 57
+                                if (
+                                    $count + 1 < $n
+                                    && \ord($s[$count + 1]) >= 48
+                                    && \ord($s[$count + 1]) <= 57
                                 ) {
                                     $oct .= $s[++$count];
                                 }

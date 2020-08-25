@@ -23,7 +23,7 @@ class PdfNumeric extends PdfType
      */
     public static function create($value)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $value + 0;
 
         return $v;
