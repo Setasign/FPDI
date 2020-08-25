@@ -1,0 +1,40 @@
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+
+name: Create release
+
+jobs:
+  build:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Replace version constant
+        run: |
+          sed -i "s/VERSION\s*=\s*[^;]*/VERSION = '${{ github.event.inputs.version }}'/g" ./src/Fpdi.php ./src/Tcpdf/Fpdi.php ./src/Tfpdf/Fpdi.php
+      - name: Commit and push version constant update
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated version constant
+          push_options: --force
+      - name: Declare actual commit sha
+        id: actual_commit_sha
+        shell: bash
+        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commitish: ${{ steps.actual_commit_sha.outputs.sha }}
+          tag_name: v${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
+          draft: true
