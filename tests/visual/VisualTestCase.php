@@ -15,12 +15,17 @@ abstract class VisualTestCase extends TestCase
      */
     abstract public function getClassFile();
 
+    /**
+     * @param string $inputFile
+     * @param string $tmpDir
+     * @param int $dpi
+     */
     public function createImage($inputFile, $tmpDir, $dpi = 150)
     {
-        if (!file_exists($tmpDir)) {
+        if (!is_dir($tmpDir)) {
             $old = umask(0);
             if (!@mkdir($tmpDir, 0775, true) && !is_dir($tmpDir)) {
-                throw new \Exception(sprintf(
+                throw new \RuntimeException(sprintf(
                     'Couldn\'t create tmpDir "%s"',
                     $tmpDir
                 ));
@@ -35,18 +40,22 @@ abstract class VisualTestCase extends TestCase
         );
 
         $old = umask(0);
-        foreach (glob($tmpDir . '/*.png') as $filename) {
+        foreach (glob($tmpDir . '/*.png', GLOB_NOSORT) as $filename) {
             chmod($filename, 0775);
         }
         umask($old);
 
         if ($status != 0) {
-            $this->fail(implode("\n", $output));
+            self::fail(implode("\n", $output));
         }
     }
 
     /**
      * @dataProvider createProvider
+     *
+     * @param array|string $inputData
+     * @param int|float $tolerance
+     * @param int $dpi
      */
     public function testCreate($inputData, $tolerance, $dpi = 150)
     {
@@ -61,10 +70,10 @@ abstract class VisualTestCase extends TestCase
             . $tmpPath . DIRECTORY_SEPARATOR
             . 'compare';
 
-        if (!file_exists($tmpDir)) {
+        if (!is_dir($tmpDir)) {
             $old = umask(0);
             if (!@mkdir($tmpDir, 0775, true) && !is_dir($tmpDir)) {
-                throw new \Exception(sprintf(
+                throw new \RuntimeException(sprintf(
                     'Couldn\'t create tmpDir "%s"',
                     $tmpDir
                 ));
@@ -85,28 +94,31 @@ abstract class VisualTestCase extends TestCase
         chmod($outputFile, 0775);
         umask($old);
 
+        $this->createImage($outputFile, $tmpDir . '/../original', $dpi);
         $this->createImage($outputFile, $tmpDir, $dpi);
 
         $esc = function ($path) {
-            return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+            return preg_replace('/([*?\[])/', '[$1]', $path);
         };
 
-        $originalImages = array();
-        $testImages = array();
+        $originalImages = [];
+        $testImages = [];
+        /** @noinspection LowPerformingFilesystemOperationsInspection */
         foreach (glob($esc($tmpDir) . '/../original/*.png') as $filename) {
             $originalImages[] = $filename;
         }
 
         $diff = $tmpDir . '/diff.png';
-        if (file_exists($diff)) {
+        if (is_file($diff)) {
             unlink($diff);
         }
 
+        /** @noinspection LowPerformingFilesystemOperationsInspection */
         foreach (glob($esc($tmpDir) . '/*.png') as $filename) {
             $testImages[] = $filename;
         }
 
-        $this->assertEquals(count($originalImages), count($testImages), 'Count of pages for file ' . $tmpPath);
+        self::assertCount(count($originalImages), $testImages, 'Count of pages for file ' . $tmpPath);
 
         foreach ($originalImages as $k => $filename) {
             $out = exec(sprintf(
@@ -116,25 +128,28 @@ abstract class VisualTestCase extends TestCase
                 $diff
             ));
 
-            if (file_exists($diff)) {
+            if (is_file($diff)) {
                 $old = umask(0);
                 chmod($diff, 0775);
                 umask($old);
             }
 
-            $this->assertNotEquals(
-                0,
-                preg_match('~^[0-9.]*(\s\([0-9e.\-]*\))?$~', $out),
+            self::assertRegExp(
+                '~^[0-9.]*(\s\([0-9e.\-]*\))?$~',
+                $out,
                 $out . ' for file ' . $tmpPath
             );
             //var_dump($out);
-            $this->assertLessThan($tolerance, $out, 'Page ' . $filename . ' for file ' . $tmpPath);
+            self::assertLessThan($tolerance, $out, 'Page ' . $filename . ' for file ' . $tmpPath);
 
             unlink($diff);
         }
 
         //clean up
         foreach ($testImages as $filename) {
+            unlink($filename);
+        }
+        foreach ($originalImages as $filename) {
             unlink($filename);
         }
         unlink($tmpDir . DIRECTORY_SEPARATOR . 'result.pdf');
