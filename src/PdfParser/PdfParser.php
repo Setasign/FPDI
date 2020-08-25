@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -298,7 +299,8 @@ class PdfParser
                                         $this->streamReader
                                     );
                                 case 'R':
-                                    if ($expectedType !== null &&
+                                    if (
+                                        $expectedType !== null &&
                                         $expectedType !== PdfIndirectObjectReference::class
                                     ) {
                                         throw new Type\PdfTypeException(

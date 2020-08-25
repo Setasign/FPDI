@@ -60,7 +60,8 @@ trait FpdfTplTrait
 
         $size = $this->_getpagesize($size);
 
-        if ($orientation != $this->CurOrientation
+        if (
+            $orientation != $this->CurOrientation
             || $size[0] != $this->CurPageSize[0]
             || $size[1] != $this->CurPageSize[1]
         ) {

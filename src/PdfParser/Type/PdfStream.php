@@ -37,7 +37,7 @@ class PdfStream extends PdfType
      */
     public static function parse(PdfDictionary $dictionary, StreamReader $reader, PdfParser $parser = null)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $dictionary;
         $v->reader = $reader;
         $v->parser = $parser;
@@ -85,7 +85,7 @@ class PdfStream extends PdfType
      */
     public static function create(PdfDictionary $dictionary, $stream)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $dictionary;
         $v->stream = (string) $stream;
 

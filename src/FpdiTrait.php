@@ -103,7 +103,7 @@ trait FpdiTrait
             unset($this->readers[$id]);
         }
 
-        $this->createdReaders= [];
+        $this->createdReaders = [];
     }
 
     /**
@@ -298,7 +298,7 @@ trait FpdiTrait
 
         if ($rotation !== 0) {
             $rotation *= -1;
-            $angle = $rotation * M_PI/180;
+            $angle = $rotation * M_PI / 180;
             $a = \cos($angle);
             $b = \sin($angle);
             $c = -$b;
@@ -335,7 +335,8 @@ trait FpdiTrait
         $contents =  PdfType::resolve($contentsObject, $reader->getParser());
 
         // just copy the stream reference if it is only a single stream
-        if (($contentsIsStream = ($contents instanceof PdfStream))
+        if (
+            ($contentsIsStream = ($contents instanceof PdfStream))
             || ($contents instanceof PdfArray && \count($contents->value) === 1)
         ) {
             if ($contentsIsStream) {

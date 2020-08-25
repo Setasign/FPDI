@@ -191,8 +191,9 @@ class StreamReader
     public function getByte($position = null)
     {
         $position = (int) ($position !== null ? $position : $this->offset);
-        if ($position >= $this->bufferLength &&
-            (!$this->increaseLength() || $position >= $this->bufferLength)
+        if (
+            $position >= $this->bufferLength
+            && (!$this->increaseLength() || $position >= $this->bufferLength)
         ) {
             return false;
         }
@@ -225,8 +226,9 @@ class StreamReader
             $offset = $this->offset;
         }
 
-        if ($offset >= $this->bufferLength &&
-            ((!$this->increaseLength()) || $offset >= $this->bufferLength)
+        if (
+            $offset >= $this->bufferLength
+            && ((!$this->increaseLength()) || $offset >= $this->bufferLength)
         ) {
             return false;
         }
@@ -261,8 +263,9 @@ class StreamReader
             $offset = $this->offset;
         }
 
-        if (($offset + $length) > $this->bufferLength &&
-            ((!$this->increaseLength($length)) || ($offset + $length) > $this->bufferLength)
+        if (
+            ($offset + $length) > $this->bufferLength
+            && ((!$this->increaseLength($length)) || ($offset + $length) > $this->bufferLength)
         ) {
             return false;
         }
@@ -432,7 +435,8 @@ class StreamReader
      */
     public function ensure($pos, $length)
     {
-        if ($pos >= $this->position
+        if (
+            $pos >= $this->position
             && $pos < ($this->position + $this->bufferLength)
             && ($this->position + $this->bufferLength) >= ($pos + $length)
         ) {

@@ -43,7 +43,7 @@ class PdfHexString extends PdfType
         $result = \substr($buffer, $bufferOffset, $pos - $bufferOffset);
         $streamReader->setOffset($pos + 1);
 
-        $v = new self;
+        $v = new self();
         $v->value = $result;
 
         return $v;
@@ -57,7 +57,7 @@ class PdfHexString extends PdfType
      */
     public static function create($string)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $string;
 
         return $v;
