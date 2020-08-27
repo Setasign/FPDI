@@ -30,7 +30,7 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.3.1';
+    const VERSION = '2.3.4';
 
     public function _enddoc()
     {
