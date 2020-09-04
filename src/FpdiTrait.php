@@ -35,7 +35,7 @@ use setasign\Fpdi\PdfReader\PdfReaderException;
 use /* This namespace/class is used by the commercial FPDI PDF-Parser add-on. */
     /** @noinspection PhpUndefinedClassInspection */
     /** @noinspection PhpUndefinedNamespaceInspection */
-    setasign\FpdiPdfParser\PdfParser\PdfParser as FpdiPdfParser;
+    setasign\Fpdi\PdfParser\PdfParser as FpdiPdfParser;
 
 /**
  * The FpdiTrait

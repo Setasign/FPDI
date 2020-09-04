@@ -19,7 +19,7 @@ use setasign\Fpdi\PdfParser\Filter\Lzw;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
-use setasign\FpdiPdfParser\PdfParser\Filter\Predictor;
+use setasign\Fpdi\PdfParser\PdfParser\Filter\Predictor;
 
 /**
  * Class representing a PDF stream object
