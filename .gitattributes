@@ -9,3 +9,5 @@
 /.travis.yml export-ignore
 /composer.lock export-ignore
 /phpunit.xml export-ignore
+/phpcs.xml export-ignore
+/phpstan.neon export-ignore
