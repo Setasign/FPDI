@@ -128,7 +128,7 @@ trait FpdiTrait
     protected function getPdfParserInstance(StreamReader $streamReader)
     {
         // note: if you get an exception here - turn off errors/warnings on not found for your autoloader.
-        // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw 
+        // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw
         // exceptions, MUST NOT raise errors of any level, and SHOULD NOT return a value.
         /** @noinspection PhpUndefinedClassInspection */
         if (\class_exists(FpdiPdfParser::class)) {
