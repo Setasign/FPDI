@@ -65,10 +65,8 @@ abstract class VisualTestCase extends TestCase
             ? $inputData['tmpPath']
             : basename($inputData);
 
-        $tmpDir = dirname($classFile) . DIRECTORY_SEPARATOR
-            . pathinfo($classFile, PATHINFO_FILENAME) . DIRECTORY_SEPARATOR
-            . $tmpPath . DIRECTORY_SEPARATOR
-            . 'compare';
+        $directory = dirname($classFile) . '/' . pathinfo($classFile, PATHINFO_FILENAME) . '/' . $tmpPath;
+        $tmpDir = $directory . '/compare';
 
         if (!is_dir($tmpDir)) {
             $old = umask(0);
@@ -79,6 +77,12 @@ abstract class VisualTestCase extends TestCase
                 ));
             }
             umask($old);
+        }
+
+        $originalDir = $directory . '/original';
+        $originalFile = $originalDir . '/result.pdf';
+        if (!\is_file($originalFile)) {
+            throw new \RuntimeException(\sprintf('Couldn\'t find original file: %s', $originalFile));
         }
 
         $outputFile = realpath($tmpDir) . '/result.pdf';
@@ -94,7 +98,7 @@ abstract class VisualTestCase extends TestCase
         chmod($outputFile, 0775);
         umask($old);
 
-        $this->createImage($outputFile, $tmpDir . '/../original', $dpi);
+        $this->createImage($originalFile, $originalDir, $dpi);
         $this->createImage($outputFile, $tmpDir, $dpi);
 
         $esc = function ($path) {
