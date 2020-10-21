@@ -79,12 +79,6 @@ abstract class VisualTestCase extends TestCase
             umask($old);
         }
 
-        $originalDir = $directory . '/original';
-        $originalFile = $originalDir . '/result.pdf';
-        if (!\is_file($originalFile)) {
-            throw new \RuntimeException(\sprintf('Couldn\'t find original file: %s', $originalFile));
-        }
-
         $outputFile = realpath($tmpDir) . '/result.pdf';
 
         if (isset($inputData['_method'])) {
@@ -97,6 +91,12 @@ abstract class VisualTestCase extends TestCase
         $old = umask(0);
         chmod($outputFile, 0775);
         umask($old);
+
+        $originalDir = $directory . '/original';
+        $originalFile = $originalDir . '/result.pdf';
+        if (!\is_file($originalFile)) {
+            throw new \RuntimeException(\sprintf('Couldn\'t find original file: %s', $originalFile));
+        }
 
         $this->createImage($originalFile, $originalDir, $dpi);
         $this->createImage($outputFile, $tmpDir, $dpi);
