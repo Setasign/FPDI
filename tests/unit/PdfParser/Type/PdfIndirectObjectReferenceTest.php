@@ -5,6 +5,7 @@ namespace setasign\Fpdi\unit\PdfParser\Type;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfIndirectObjectReferenceTest extends TestCase
 {
@@ -18,21 +19,17 @@ class PdfIndirectObjectReferenceTest extends TestCase
         $this->assertSame($result->generationNumber, 2);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument1()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfIndirectObjectReference::ensure('test');
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument2()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfIndirectObjectReference::ensure(PdfName::create('test'));
     }
 

@@ -7,6 +7,7 @@ use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfArrayTest extends TestCase
 {
@@ -23,21 +24,17 @@ class PdfArrayTest extends TestCase
         $this->assertSame($values, $dict->value);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument1()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfArray::ensure('test');
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument2()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfArray::ensure(PdfName::create('test'));
     }
 
@@ -55,14 +52,11 @@ class PdfArrayTest extends TestCase
         $this->assertSame($a, $b);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_SIZE
-     */
     public function testEnsureWithCountWithInvalidArgument()
     {
         $a = PdfArray::create([PdfNumeric::create(1)]);
-        $b = PdfArray::ensure($a, 2);
-        $this->assertSame($a, $b);
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_SIZE);
+        PdfArray::ensure($a, 2);
     }
 }

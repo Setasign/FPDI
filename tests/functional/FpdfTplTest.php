@@ -66,23 +66,19 @@ class FpdfTplTest extends TestCase
         ], $size);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetTemplateSizeWithZeroWidth()
     {
         $pdf = new FpdfTpl();
         $tplId = $pdf->beginTemplate(100, 200);
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->getTemplateSize($tplId, 0);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetTemplateSizeWithZeroHeight()
     {
         $pdf = new FpdfTpl();
         $tplId = $pdf->beginTemplate(100, 200);
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->getTemplateSize($tplId, null, 0);
     }
 

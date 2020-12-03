@@ -79,12 +79,6 @@ abstract class VisualTestCase extends TestCase
             umask($old);
         }
 
-        $originalDir = $directory . '/original';
-        $originalFile = $originalDir . '/result.pdf';
-        if (!\is_file($originalFile)) {
-            throw new \RuntimeException(\sprintf('Couldn\'t find original file: %s', $originalFile));
-        }
-
         $outputFile = realpath($tmpDir) . '/result.pdf';
 
         if (isset($inputData['_method'])) {
@@ -97,6 +91,12 @@ abstract class VisualTestCase extends TestCase
         $old = umask(0);
         chmod($outputFile, 0775);
         umask($old);
+
+        $originalDir = $directory . '/original';
+        $originalFile = $originalDir . '/result.pdf';
+        if (!\is_file($originalFile)) {
+            throw new \RuntimeException(\sprintf('Couldn\'t find original file: %s', $originalFile));
+        }
 
         $this->createImage($originalFile, $originalDir, $dpi);
         $this->createImage($outputFile, $tmpDir, $dpi);
@@ -138,7 +138,12 @@ abstract class VisualTestCase extends TestCase
                 umask($old);
             }
 
-            self::assertRegExp(
+            $assertMethod = (
+                \method_exists($this, 'assertMatchesRegularExpression')
+                ? 'assertMatchesRegularExpression'
+                : 'assertRegExp'
+            );
+            $this->$assertMethod(
                 '~^[0-9.]*(\s\([0-9e.\-]*\))?$~',
                 $out,
                 $out . ' for file ' . $tmpPath

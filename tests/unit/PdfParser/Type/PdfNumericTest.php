@@ -5,6 +5,7 @@ namespace setasign\Fpdi\unit\PdfParser\Type;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfNumericTest extends TestCase
 {
@@ -83,21 +84,17 @@ class PdfNumericTest extends TestCase
         $this->assertSame($expectedResult, $result->value);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument1()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfNumeric::ensure('test');
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument2()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfNumeric::ensure(PdfString::create('test'));
     }
 

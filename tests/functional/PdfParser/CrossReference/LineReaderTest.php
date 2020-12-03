@@ -162,13 +162,11 @@ class LineReaderTest extends TestCase
         $trailerKeyword = $reader->readBytes(7);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::NO_TRAILER_FOUND
-     */
     public function testExtractWithInvalidData()
     {
         $reader = StreamReader::createByString('anything but the keyword t r a i l e r.');
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::NO_TRAILER_FOUND);
         new LineReader(new PdfParser($reader));
     }
 
@@ -200,12 +198,12 @@ class LineReaderTest extends TestCase
     /**
      * @param $table
      * @dataProvider parseFlexibleWithInvalidDataProvider
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
      */
     public function testParseFlexibleWithInvalidData($table, $expectedExceptionCode)
     {
         $this->expectExceptionCode($expectedExceptionCode);
         $reader = StreamReader::createByString($table);
+        $this->expectException(CrossReferenceException::class);
         new LineReader(new PdfParser($reader));
     }
 

@@ -4,6 +4,7 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Flate;
+use setasign\Fpdi\PdfParser\Filter\FlateException;
 
 class FlateTest extends TestCase
 {
@@ -51,8 +52,6 @@ class FlateTest extends TestCase
 
     /**
      * @covers \setasign\Fpdi\PdfParser\Filter\Flate::decode
-     * @expectedException \setasign\Fpdi\PdfParser\Filter\FlateException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Filter\FlateException::NO_ZLIB
      */
     public function testDecodeWithoutZlib()
     {
@@ -64,6 +63,8 @@ class FlateTest extends TestCase
             ->method('extensionLoaded')
             ->will($this->returnValue(false));
 
+        $this->expectException(FlateException::class);
+        $this->expectExceptionCode(FlateException::NO_ZLIB);
         $mock->decode("\x78\x9c\xF3\x48\xCC\xC9\xC9\x57\x08\x4F\xCD\x29\x01\x00\x13\xA8\x03\xAD");
     }
 }

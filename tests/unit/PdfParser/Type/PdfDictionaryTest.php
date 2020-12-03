@@ -8,6 +8,7 @@ use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfDictionaryTest extends TestCase
 {
@@ -46,21 +47,17 @@ class PdfDictionaryTest extends TestCase
         $this->assertSame($type, PdfDictionary::get($dict, 'Type'));
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument1()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfDictionary::ensure('test');
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument2()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfDictionary::ensure(PdfName::create('test'));
     }
 

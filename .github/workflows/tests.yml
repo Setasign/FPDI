@@ -25,3 +25,31 @@ jobs:
       - name: Run phpunit
         run: |
           ./vendor/bin/phpunit
+
+  testsPhp8:
+    name: Run PHP Unit tests (>= 8.0)
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php: ['8.0']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install mupdf and imagemagick
+        run: sudo apt-get install mupdf-tools imagemagick
+
+      - name: Install php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+
+      - name: Upgrade phpunit
+        run: composer require --dev --with-all-dependencies "phpunit/phpunit=^9.0"
+
+      - name: Install dependencies
+        run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
+
+      - name: Run phpunit
+        run: |
+          ./vendor/bin/phpunit

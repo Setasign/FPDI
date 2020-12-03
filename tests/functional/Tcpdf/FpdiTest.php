@@ -3,6 +3,7 @@
 namespace setasign\Fpdi\functional\Tcpdf;
 
 use PHPUnit\Framework\TestCase;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
@@ -86,13 +87,11 @@ class FpdiTest extends TestCase
         $this->assertEquals($expectedStream, $tplAObject->getUnfilteredStream());
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::COMPRESSED_XREF
-     */
     public function testBehaviourOnCompressedXref()
     {
         $pdf = new Fpdi('P', 'pt');
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::COMPRESSED_XREF);
         $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/compressed-xref.pdf');
     }
 

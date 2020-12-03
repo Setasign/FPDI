@@ -22,6 +22,7 @@ class ReleaseCycledReferencesTest extends TestCase
             unset($pdf);
 
             rename($file, $newFile);
+            self::assertTrue(\file_exists($newFile));
         } finally {
             @unlink($file);
             @unlink($newFile);

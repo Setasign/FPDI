@@ -855,9 +855,6 @@ class PdfReaderTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetPageWithInvalidArgument()
     {
         $path = __DIR__ . '/../../_files/pdfs/Boombastic-Box.pdf';
@@ -865,12 +862,10 @@ class PdfReaderTest extends TestCase
         $parser = new PdfParser($stream);
 
         $pdfReader = new PdfReader($parser);
+        $this->expectException(\InvalidArgumentException::class);
         $pdfReader->getPage('nothing numeric');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetPageWithInvalidArgument2()
     {
         $path = __DIR__ . '/../../_files/pdfs/Boombastic-Box.pdf';
@@ -878,13 +873,10 @@ class PdfReaderTest extends TestCase
         $parser = new PdfParser($stream);
 
         $pdfReader = new PdfReader($parser);
+        $this->expectException(\InvalidArgumentException::class);
         $pdfReader->getPage(100000);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::ENCRYPTED
-     */
     public function testHandlingOfEncryptedPdf()
     {
         $path = __DIR__ . '/../../_files/pdfs/encrypted/ex37.pdf';
@@ -892,13 +884,11 @@ class PdfReaderTest extends TestCase
         $parser = new PdfParser($stream);
 
         $pdfReader = new PdfReader($parser);
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::ENCRYPTED);
         $pdfReader->getPageCount();
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::ENCRYPTED
-     */
     public function testHandlingOfEncryptedPdfWithCompressedXref()
     {
         $path = __DIR__ . '/../../_files/pdfs/encrypted/AES256-R6-u=user-o=owner.pdf';
@@ -906,6 +896,8 @@ class PdfReaderTest extends TestCase
         $parser = new PdfParser($stream);
 
         $pdfReader = new PdfReader($parser);
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::ENCRYPTED);
         $pdfReader->getPageCount();
     }
 }

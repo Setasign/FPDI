@@ -67,23 +67,19 @@ class FpdiTraitTest extends TestCase
         ], $size);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetTemplateSizeWithZeroWidth()
     {
         $pdf = new Fpdi();
         $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/boxes/All2.pdf');
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->getTemplateSize($pdf->importPage(1), 0);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetTemplateSizeWithZeroHeight()
     {
         $pdf = new Fpdi();
         $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/boxes/All2.pdf');
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->getTemplateSize($pdf->importPage(1), null, 0);
     }
 
@@ -141,13 +137,11 @@ class FpdiTraitTest extends TestCase
         $this->assertEquals($idA, $idB);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testImportPageWithInvalidBoxParameter()
     {
         $pdf = new Fpdi();
         $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/boxes/All2.pdf');
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->importPage(1, 'CropsBox');
     }
 }

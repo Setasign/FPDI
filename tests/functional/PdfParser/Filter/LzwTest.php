@@ -4,6 +4,7 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Lzw;
+use setasign\Fpdi\PdfParser\Filter\LzwException;
 
 class LzwTest extends TestCase
 {
@@ -34,14 +35,12 @@ class LzwTest extends TestCase
         $this->assertEquals($expected, $decoded);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Filter\LzwException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Filter\LzwException::LZW_FLAVOUR_NOT_SUPPORTED
-     */
     public function testDecodeWithLZWflavour()
     {
         $filter = new Lzw();
 
+        $this->expectException(LzwException::class);
+        $this->expectExceptionCode(LzwException::LZW_FLAVOUR_NOT_SUPPORTED);
         $filter->decode("\x00\x01");
     }
 }
