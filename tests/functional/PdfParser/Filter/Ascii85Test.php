@@ -4,6 +4,7 @@ namespace setasign\Fpdi\functional\PdfParser\Filter;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Ascii85;
+use setasign\Fpdi\PdfParser\Filter\Ascii85Exception;
 
 class Ascii85Test extends TestCase
 {
@@ -79,25 +80,21 @@ class Ascii85Test extends TestCase
         $this->assertSame($expected, $decoded);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Filter\Ascii85Exception
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Filter\Ascii85Exception::ILLEGAL_CHAR_FOUND
-     */
     public function testDecodeWithIllegalCharacter()
     {
         $filter = new Ascii85();
 
+        $this->expectException(Ascii85Exception::class);
+        $this->expectExceptionCode(Ascii85Exception::ILLEGAL_CHAR_FOUND);
         $filter->decode("\x00");
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Filter\Ascii85Exception
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Filter\Ascii85Exception::ILLEGAL_LENGTH
-     */
     public function testDecodeWithIllegalLength()
     {
         $filter = new Ascii85();
 
+        $this->expectException(Ascii85Exception::class);
+        $this->expectExceptionCode(Ascii85Exception::ILLEGAL_LENGTH);
         $filter->decode("a");
     }
 }

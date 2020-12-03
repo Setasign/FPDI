@@ -3,7 +3,6 @@
 namespace setasign\Fpdi\unit;
 
 use PHPUnit\Framework\TestCase;
-use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiTrait;
 
 abstract class FpdiTraitTest extends TestCase
@@ -13,22 +12,18 @@ abstract class FpdiTraitTest extends TestCase
      */
     abstract public function getInstance();
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testImportedPageWithoutSettingSourceFile()
     {
         $fpdi = $this->getInstance();
+        $this->expectException(\BadMethodCallException::class);
         $fpdi->importPage(1);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUseImportedPageWithoutSettingSourceFile()
     {
         $fpdi = $this->getInstance();
         $fpdi->AddPage();
+        $this->expectException(\InvalidArgumentException::class);
         $fpdi->useImportedPage(1);
     }
 }

@@ -328,22 +328,16 @@ class CrossReferenceTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::INVALID_DATA
-     */
     public function testWithInvalidTokenAfterStartXrefKeyword()
     {
         $pdf = "startxref\nTOKEN";
         $stream = StreamReader::createByString($pdf);
         $parser = new PdfParser($stream);
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::INVALID_DATA);
         new CrossReference($parser);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::INVALID_DATA
-     */
     public function testWithInvalidPrevValue()
     {
         $pdf =
@@ -369,6 +363,8 @@ class CrossReferenceTest extends TestCase
 
         $stream = StreamReader::createByString($pdf);
         $parser = new PdfParser($stream);
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::INVALID_DATA);
         new CrossReference($parser);
     }
 
@@ -531,14 +527,12 @@ class CrossReferenceTest extends TestCase
         $this->assertGreaterThan(0, $expectedResults);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::COMPRESSED_XREF
-     */
     public function testBehaviourOnCompressedXref()
     {
         $stream = StreamReader::createByFile(__DIR__ . '/../../../_files/pdfs/compressed-xref.pdf');
         $parser = new PdfParser($stream);
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::COMPRESSED_XREF);
         new CrossReference($parser);
     }
 
@@ -547,9 +541,6 @@ class CrossReferenceTest extends TestCase
      *
      * @throws CrossReferenceException
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     *
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::NO_XREF_FOUND
      */
     public function testBehaviourWithByteOffsetZero()
     {
@@ -569,8 +560,9 @@ class CrossReferenceTest extends TestCase
 
         $stream = StreamReader::createByString($pdf);
         $parser = new PdfParser($stream);
-        $xref = new CrossReference($parser);
-        $xref->getTrailer();
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::NO_XREF_FOUND);
+        new CrossReference($parser);
     }
 
     public function testBehaviourWithHeaderOffsetWhichIsUsedInRealByteOffsets()
@@ -598,10 +590,6 @@ class CrossReferenceTest extends TestCase
         $this->assertEquals(PdfIndirectObject::create(1, 0, PdfDictionary::create([])), $object);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::INVALID_DATA
-     */
     public function testBehaviourWithWrongObjectTypeAttXrefOffset()
     {
         $pdf = "%PDF-1.7\n" .
@@ -620,7 +608,8 @@ class CrossReferenceTest extends TestCase
 
         $stream = StreamReader::createByString($pdf);
         $parser = new PdfParser($stream);
-        $xref = new CrossReference($parser);
-        $xref->getTrailer();
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::INVALID_DATA);
+        new CrossReference($parser);
     }
 }

@@ -5,6 +5,7 @@ namespace setasign\Fpdi\unit\PdfParser\Type;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfHexString;
 use setasign\Fpdi\PdfParser\Type\PdfName;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfHexStringTest extends TestCase
 {
@@ -15,21 +16,17 @@ class PdfHexStringTest extends TestCase
         $this->assertSame('F6F6', $v->value);
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument1()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfHexString::ensure('test');
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
-     */
     public function testEnsureWithInvlaidArgument2()
     {
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         PdfHexString::ensure(PdfName::create('test'));
     }
 

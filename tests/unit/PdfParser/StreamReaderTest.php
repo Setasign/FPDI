@@ -7,20 +7,16 @@ use setasign\Fpdi\PdfParser\StreamReader;
 
 class StreamReaderTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testConstructorWithNonStream()
     {
+        $this->expectException(\InvalidArgumentException::class);
         /** @noinspection PhpParamsInspection */
         new StreamReader('test');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testConstructorWithNonSeekableStream()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $h = fopen('php://output', 'rb');
         try {
             new StreamReader($h);
@@ -169,21 +165,17 @@ class StreamReaderTest extends TestCase
         $this->assertEquals(88, $streamReader->getOffset());
     }
 
-    /**
-     * @expectedException \OutOfRangeException
-     */
     public function testSetOffsetWithInvalidArgumentTooBigNumbers()
     {
         $streamReader = StreamReader::createByString('Hallo Welt');
+        $this->expectException(\OutOfRangeException::class);
         $streamReader->setOffset(100);
     }
 
-    /**
-     * @expectedException \OutOfRangeException
-     */
     public function testSetOffsetWithInvalidArgumentNegativeNumbers()
     {
         $streamReader = StreamReader::createByString('Hallo Welt');
+        $this->expectException(\OutOfRangeException::class);
         $streamReader->setOffset(-1);
     }
 
@@ -197,13 +189,11 @@ class StreamReaderTest extends TestCase
         $this->assertEquals(5, $streamReader->getOffset());
     }
 
-    /**
-     * @expectedException \OutOfRangeException
-     */
     public function testAddOffsetWithInvalidArgument()
     {
         $streamReader = StreamReader::createByString(str_repeat('abcdefghijklmnopqurstuvwxyz', 20));
         $streamReader->reset(0, 100);
+        $this->expectException(\OutOfRangeException::class);
         $streamReader->addOffset(101);
     }
 

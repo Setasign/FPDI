@@ -9,23 +9,19 @@ require_once __DIR__ . '/FpdiTraitTest.php';
 
 class FpdfTplTest extends TestCase
 {
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testAddPageInTemplate()
     {
         $pdf = new FpdfTpl();
         $pdf->beginTemplate();
+        $this->expectException(\BadMethodCallException::class);
         $pdf->AddPage();
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testSetPageFormatInTemplate()
     {
         $pdf = new FpdfTpl();
         $pdf->beginTemplate();
+        $this->expectException(\BadMethodCallException::class);
         $pdf->setPageFormat([10, 10], 'L');
     }
 }

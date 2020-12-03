@@ -4,6 +4,7 @@ namespace setasign\Fpdi\unit\PdfParser\CrossReference;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\CrossReference\FixedReader;
 
 class CrossReferenceTest extends TestCase
@@ -44,10 +45,6 @@ class CrossReferenceTest extends TestCase
         $this->assertSame(1000, $mock->getOffsetFor(123));
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::OBJECT_NOT_FOUND
-     */
     public function testGetIndirectObjectWithInvalidObjectId()
     {
         $mock = $this->getMockBuilder(CrossReference::class)
@@ -60,6 +57,8 @@ class CrossReferenceTest extends TestCase
             ->with(123)
             ->willReturn(false);
 
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::OBJECT_NOT_FOUND);
         $mock->getIndirectObject(123);
     }
 }

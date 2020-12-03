@@ -206,8 +206,6 @@ class FixedReaderTest extends TestCase
 
     /**
      * @throws CrossReferenceException
-     * @expectedException setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionMessageRegExp /got: trialer\.$/
      */
     public function testReadTrailerWithInvalidData1()
     {
@@ -217,13 +215,18 @@ class FixedReaderTest extends TestCase
             "trialer<</Size 2>>";
 
         $reader = StreamReader::createByString($table);
+        $this->expectException(CrossReferenceException::class);
+        $assertionMethodName = (
+            \method_exists($this, 'expectExceptionMessageMatches')
+            ? 'expectExceptionMessageMatches'
+            : 'expectExceptionMessageRegExp'
+        );
+        $this->$assertionMethodName('/got: trialer\.$/');
         new FixedReader(new PdfParser($reader));
     }
 
     /**
      * @throws CrossReferenceException
-     * @expectedException setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionMessageRegExp /invalid object type\.$/
      */
     public function testReadTrailerWithInvalidData2()
     {
@@ -233,6 +236,13 @@ class FixedReaderTest extends TestCase
             str_repeat('[', 150000) . "<</Size 2>>";
 
         $reader = StreamReader::createByString($table);
+        $this->expectException(CrossReferenceException::class);
+        $assertionMethodName = (
+            \method_exists($this, 'expectExceptionMessageMatches')
+            ? 'expectExceptionMessageMatches'
+            : 'expectExceptionMessageRegExp'
+        );
+        $this->$assertionMethodName('/invalid object type\.$/');
         new FixedReader(new PdfParser($reader));
     }
 }

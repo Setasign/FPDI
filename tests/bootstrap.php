@@ -1,6 +1,11 @@
 <?php
 
-error_reporting(E_ALL);
+if (version_compare(PHP_VERSION, '8.0', '>=')) {
+    // required for tcpdf
+    error_reporting(E_ALL & ~E_DEPRECATED);
+} else {
+    error_reporting(E_ALL);
+}
 ini_set('display_errors', 1);
 
 // if in travis scope

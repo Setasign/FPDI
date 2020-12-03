@@ -138,7 +138,12 @@ abstract class VisualTestCase extends TestCase
                 umask($old);
             }
 
-            self::assertRegExp(
+            $assertMethod = (
+                \method_exists($this, 'assertMatchesRegularExpression')
+                ? 'assertMatchesRegularExpression'
+                : 'assertRegExp'
+            );
+            $this->$assertMethod(
                 '~^[0-9.]*(\s\([0-9e.\-]*\))?$~',
                 $out,
                 $out . ' for file ' . $tmpPath

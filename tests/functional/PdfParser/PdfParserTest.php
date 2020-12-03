@@ -5,6 +5,7 @@ namespace setasign\Fpdi\functional\PdfParser;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
@@ -17,6 +18,7 @@ use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfParserTest extends TestCase
 {
@@ -259,14 +261,14 @@ class PdfParserTest extends TestCase
      * @param $in
      * @param $expectedType
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedException \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\Type\PdfTypeException::INVALID_DATA_TYPE
      * @dataProvider readValueWithInvalidTypeProvider
      */
     public function testReadValueWithInvalidType($in, $expectedType)
     {
         $stream = StreamReader::createByString($in);
         $parser = new PdfParser($stream);
+        $this->expectException(PdfTypeException::class);
+        $this->expectExceptionCode(PdfTypeException::INVALID_DATA_TYPE);
         $parser->readValue(null, $expectedType);
     }
 
@@ -292,15 +294,13 @@ class PdfParserTest extends TestCase
         $this->assertSame([1, 4], $parser->getPdfVersion());
     }
 
-    /**
-     * @expectedException \setasign\Fpdi\PdfParser\PdfParserException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\PdfParserException::FILE_HEADER_NOT_FOUND
-     */
     public function testGetPdfVersionOnLargeNonPdfDocument()
     {
         $pdf = str_repeat('This is not a PDF ', 100000);
         $reader = StreamReader::createByString($pdf);
         $parser = new PdfParser($reader);
+        $this->expectException(PdfParserException::class);
+        $this->expectExceptionCode(PdfParserException::FILE_HEADER_NOT_FOUND);
         $parser->getPdfVersion();
     }
 
@@ -328,20 +328,21 @@ class PdfParserTest extends TestCase
 
     /**
      * This document has objects hidden through a compressed cross-reference
-     *
-     * @expectedException \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @expectedExceptionCode \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException::OBJECT_NOT_FOUND
      */
     public function testGetIndirectObjectOnHybridFile()
     {
-        $parser = new PdfParser(StreamReader::createByFile( __DIR__ . '/../../_files/pdfs/HybridFile.pdf'));
+        $parser = new PdfParser(StreamReader::createByFile(__DIR__ . '/../../_files/pdfs/HybridFile.pdf'));
+
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::OBJECT_NOT_FOUND);
         $parser->getIndirectObject(25);
     }
 
     public function testDocumentWithBytesBeforeFileHeader()
     {
         $parser = new PdfParser(StreamReader::createByFile(
-            __DIR__ . '/../../_files/pdfs/specials/bytes-before-file-header/Fantastic-Speaker-bytes-before-fileheader.pdf'
+            __DIR__ . '/../../_files/pdfs/specials/bytes-before-file-header/'
+            . 'Fantastic-Speaker-bytes-before-fileheader.pdf'
         ));
 
         $object = $parser->getIndirectObject(6);
@@ -365,10 +366,7 @@ class PdfParserTest extends TestCase
      * If we wouldn't expect a specific object type when resolving an indirect object, this test would end in a try to
      * build a recursive array with a depth of more than 15.000.000 which would end in a memory problem.
      *
-     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
-     * @throws \setasign\Fpdi\PdfParser\PdfParserException
-     * @expectedException \setasign\Fpdi\PdfParser\PdfParserException
-     * @expectedExceptionMessageRegExp /Got unexpected token type/
+     * @throws PdfParserException
      */
     public function testGetIndirectObjectWithInvalidType()
     {
@@ -376,6 +374,13 @@ class PdfParserTest extends TestCase
             __DIR__ . '/../../_files/pdfs/specials/invalid-type-at-object-offset.pdf'
         ));
 
+        $this->expectException(PdfParserException::class);
+        $assertionMethodName = (
+            \method_exists($this, 'expectExceptionMessageMatches')
+            ? 'expectExceptionMessageMatches'
+            : 'expectExceptionMessageRegExp'
+        );
+        $this->$assertionMethodName('/Got unexpected token type/');
         try {
             $parser->getIndirectObject(6);
         } catch (CrossReferenceException $e) {
