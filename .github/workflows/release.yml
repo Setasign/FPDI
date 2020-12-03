@@ -24,6 +24,7 @@ jobs:
         with:
           commit_message: Updated version constant
           push_options: --force
+
       - name: Declare actual commit sha
         id: actual_commit_sha
         shell: bash
@@ -36,5 +37,5 @@ jobs:
         with:
           commitish: ${{ steps.actual_commit_sha.outputs.sha }}
           tag_name: v${{ github.event.inputs.version }}
-          release_name: Release ${{ github.event.inputs.version }}
+          release_name: FPDI ${{ github.event.inputs.version }}
           draft: true
