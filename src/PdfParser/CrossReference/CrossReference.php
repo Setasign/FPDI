@@ -205,7 +205,7 @@ class CrossReference
         $this->parser->getStreamReader()->reset($offset);
         $this->parser->getTokenizer()->clearStack();
         $initValue = $this->parser->readValue();
-        
+
         return $this->initReaderInstance($initValue);
     }
 
