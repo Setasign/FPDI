@@ -126,7 +126,7 @@ abstract class VisualTestCase extends TestCase
 
         foreach ($originalImages as $k => $filename) {
             $out = exec(sprintf(
-                'compare -alpha on -metric mae "%s" "%s" "%s" 2>&1',
+                'compare -quiet -alpha on -metric mae "%s" "%s" "%s" 2>&1',
                 $originalImages[$k],
                 $testImages[$k],
                 $diff

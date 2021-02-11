@@ -144,4 +144,28 @@ class FpdiTraitTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $pdf->importPage(1, 'CropsBox');
     }
+
+    public function faultyStructuresProvider()
+    {
+        return [
+            [__DIR__ . '/../_files/pdfs/specials/NoContentsEntry.pdf'],
+            [__DIR__ . '/../_files/pdfs/specials/ContentsArrayWithNoStream.pdf'],
+            [__DIR__ . '/../_files/pdfs/specials/ContentsArrayWithReferenceToNotExistingObject.pdf'],
+            [__DIR__ . '/../_files/pdfs/specials/ContentsWithReferenceToNotExistingObject.pdf'],
+        ];
+    }
+
+    /**
+     * @param $path
+     * @param $pageNo
+     * @dataProvider faultyStructuresProvider
+     */
+    public function testFaultyStructures($path, $pageNo = 1)
+    {
+        $pdf = new Fpdi();
+        $pdf->setSourceFile($path);
+
+        $id = $pdf->importPage($pageNo);
+        $this->assertTrue(isset($id));
+    }
 }
