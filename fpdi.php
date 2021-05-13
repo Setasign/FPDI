@@ -377,7 +377,7 @@ class FPDI extends FPDF_TPL
     /**
      * Writes the form XObjects to the PDF document.
      */
-    protected function _putformxobjects()
+    public function _putformxobjects()
     {
         $filter = ($this->compress) ? '/Filter /FlateDecode ' : '';
         reset($this->_tpls);
