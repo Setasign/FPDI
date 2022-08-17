@@ -19,7 +19,11 @@ class LzwTest extends TestCase
                 "\x80\x0D\x47\x23\x91\x00\xC2\x0A\x20\x1C\x0D\x06\x30\x78\x31\x8C\xDA\x0A\x17\x92"
                 . "\x4D\xA6\x78\x59\x10\xDF\x01",
                 "599 0 0 841 0 0 cm\n/Img1 Do"
-            ]
+            ],
+            [
+                "\x80\x40\x05\xB0\x28\x11\x06\x06\x42\x80\x80",
+                "-----A---B"
+            ],
         ];
     }
 
