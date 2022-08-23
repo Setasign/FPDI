@@ -6,14 +6,14 @@ parameters:
 
 	ignoreErrors:
 		-
-			message: "#^Return typehint of method setasign\\\\Fpdi\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
+			message: "#^Method setasign\\\\Fpdi\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid return type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
 			count: 1
 			path: src/Fpdi.php
 		-
-			message: "#^Return typehint of method setasign\\\\Fpdi\\\\Tcpdf\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
+			message: "#^Method setasign\\\\Fpdi\\\\Tcpdf\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid return type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
 			count: 1
 			path: src/Tcpdf/Fpdi.php
 		-
-			message: "#^Return typehint of method setasign\\\\Fpdi\\\\Tfpdf\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
+			message: "#^Method setasign\\\\Fpdi\\\\Tfpdf\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid return type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
 			count: 1
 			path: src/Tfpdf/Fpdi.php
