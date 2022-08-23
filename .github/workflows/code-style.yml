@@ -32,7 +32,7 @@ jobs:
       - name: Install php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.1"
+          php-version: "7.4"
 
       - name: Install dependencies
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
