@@ -140,6 +140,7 @@ class Fpdi extends \TCPDF
 
     /**
      * @inheritdoc
+     * @return string
      */
     protected function _getxobjectdict()
     {
