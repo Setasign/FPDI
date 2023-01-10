@@ -26,7 +26,7 @@ $pdf->Write(8, $txt);
 $pdf->endTemplate();
 
 $pdf->useTemplate($tplId2, 0, 30);
-$pdf->useTemplate($tplId2, $pdf->w / 2, 30);
+$pdf->useTemplate($tplId2, $pdf->GetPageWidth() / 2, 30);
 
 // Select a standard font (uses windows-1252)
 $pdf->SetFont('Arial', '', 14);
