@@ -49,6 +49,11 @@ class PdfReaderTest extends TestCase
             13
         ];
 
+        $data[] = [
+            $path . '/specials/page-trees/PageTreeWithInvalidTypeAndMisslLeadingCount.pdf',
+            1
+        ];
+
         return $data;
     }
 
@@ -830,6 +835,27 @@ class PdfReaderTest extends TestCase
                             PdfIndirectObjectReference::create(5, 0)
                         ]),
                         'Parent' => PdfIndirectObjectReference::create(9, 0),
+                    ])
+                )
+            ]
+        ];
+
+        $data[] = [
+            $path . '/specials/page-trees/PageTreeWithInvalidTypeAndMisslLeadingCount.pdf',
+            [
+                1 => PdfIndirectObject::create(
+                    1,
+                    0,
+                    PdfDictionary::create([
+                        'Type' => PdfName::create('Page'),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.28),
+                            PdfNumeric::create(841.89)
+                        ]),
+                        'Resources' => PdfDictionary::create(),
+                        'Parent' => PdfIndirectObjectReference::create(3, 0),
                     ])
                 )
             ]
