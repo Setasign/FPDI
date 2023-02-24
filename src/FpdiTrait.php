@@ -88,6 +88,20 @@ trait FpdiTrait
     protected $objectsToCopy = [];
 
     /**
+     * String buffer.
+     *
+     * @var string
+     */
+    protected $buffer;
+
+    /**
+     * Object number.
+     *
+     * @var int
+     */
+    protected $n;
+
+    /**
      * Release resources and file handles.
      *
      * This method is called internally when the document is created successfully. By default it only cleans up
