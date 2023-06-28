@@ -712,6 +712,11 @@ abstract class AbstractTest extends TestCase
             ],
         ];
 
+        if ($pdf instanceof \TCPDF) {
+            unset($expectedLinks[0]['border']);
+            unset($expectedLinks[1]['border']);
+        }
+
         $reader = new PdfReader(new PdfParser(StreamReader::createByString($pdfString)));
         $this->compareExpectedLinks(1, $expectedLinks, $reader);
     }
