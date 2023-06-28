@@ -13,7 +13,7 @@ namespace setasign\Fpdi;
 /**
  * Trait FpdfTplTrait
  *
- * This class adds a templating feature to tFPDF.
+ * This class adds a templating feature to FPDF and tFPDF.
  */
 trait FpdfTplTrait
 {
@@ -412,9 +412,6 @@ trait FpdfTplTrait
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function _putimages()
     {
         parent::_putimages();
