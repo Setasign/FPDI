@@ -55,7 +55,7 @@ foreach ($files as $file) {
     for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
         $pdf->AddPage();
 
-        $pageId = $pdf->importPage($pageNo, 'ArtBox');
+        $pageId = $pdf->importPage($pageNo, 'TrimBox', true, true);
         if ($useLegacy) {
             $pdf->useTemplate($pageId, null, null, 0, 0, true);
         } else {
