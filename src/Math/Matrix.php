@@ -15,13 +15,44 @@ namespace setasign\Fpdi\Math;
  */
 class Matrix
 {
+    /**
+     * @var float
+     */
     protected $a;
+
+    /**
+     * @var float
+     */
     protected $b;
+
+    /**
+     * @var float
+     */
     protected $c;
+
+    /**
+     * @var float
+     */
     protected $d;
+
+    /**
+     * @var float
+     */
     protected $e;
+
+    /**
+     * @var float
+     */
     protected $f;
 
+    /**
+     * @param int|float $a
+     * @param int|float $b
+     * @param int|float $c
+     * @param int|float $d
+     * @param int|float $e
+     * @param int|float $f
+     */
     public function __construct($a = 1, $b = 0, $c = 0, $d = 1, $e = 0, $f = 0)
     {
         $this->a = (float)$a;
@@ -32,11 +63,18 @@ class Matrix
         $this->f = (float)$f;
     }
 
+    /**
+     * @return float[]
+     */
     public function getValues()
     {
         return [$this->a, $this->b, $this->c, $this->d, $this->e, $this->f];
     }
 
+    /**
+     * @param Matrix $by
+     * @return Matrix
+     */
     public function multiply(self $by)
     {
         $a =
