@@ -22,7 +22,17 @@ use setasign\Fpdi\PdfReader\PdfReader;
  */
 abstract class AbstractTest extends TestCase
 {
-    protected abstract function getInstance($orientation='P', $unit='mm', $size='A4');
+    abstract protected function getInstance($orientation='P', $unit='mm', $size='A4');
+
+    protected function compatAssertEqualsWithDelta($expected, $actual, $message = '', $delta = 0.0)
+    {
+        if (\method_exists(self::class, 'assertEqualsWithDelta')) {
+            parent::assertEqualsWithDelta($expected, $actual, $delta, $message);
+        } else {
+            parent::assertEquals($expected, $actual, $message, $delta);
+        }
+    }
+
 
     protected function save($pdf)
     {
@@ -45,13 +55,13 @@ abstract class AbstractTest extends TestCase
             $rect = Rectangle::byPdfArray($linkAnnotation->value['Rect'], $parser);
             $rectValues = $rect->toArray();
 
-            $this->assertEquals($linkData['rect'], $rectValues, 'Rect @Page ' . $pageNo . '/' . $idx, $delta);
+            $this->compatAssertEqualsWithDelta($linkData['rect'], $rectValues, 'Rect @Page ' . $pageNo . '/' . $idx, $delta);
 
             if (!isset($linkData['quadPoints'])) {
                 $this->assertFalse(isset($linkAnnotation->value['QuadPoints']));
             } else {
                 $quadPoints = PdfTypeDumper::dump(PdfArray::ensure($linkAnnotation->value['QuadPoints'], count($linkData['quadPoints'])));
-                $this->assertEquals($linkData['quadPoints'], $quadPoints, 'QuadPoints @Page ' . $pageNo . '/' . $idx, $delta);
+                $this->compatAssertEqualsWithDelta($linkData['quadPoints'], $quadPoints, 'QuadPoints @Page ' . $pageNo . '/' . $idx, $delta);
             }
 
             if (isset($linkData['f'])) {
@@ -76,7 +86,7 @@ abstract class AbstractTest extends TestCase
                 if ($linkData['color'] === false) {
                     $this->assertFalse(isset($linkAnnotation->value['C']));
                 } else {
-                    $this->assertEquals(
+                    $this->compatAssertEqualsWithDelta(
                         $linkData['color'],
                         PdfTypeDumper::dump(PdfArray::ensure($linkAnnotation->value['C'])),
                         '',
