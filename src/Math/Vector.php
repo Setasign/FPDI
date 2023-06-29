@@ -57,7 +57,7 @@ class Vector
      */
     public function multiplyWithMatrix(Matrix $matrix)
     {
-       list($a, $b, $c, $d, $e, $f) = $matrix->getValues();
+        list($a, $b, $c, $d, $e, $f) = $matrix->getValues();
         $x = $a * $this->x + $c * $this->y + $e;
         $y = $b * $this->x + $d * $this->y + $f;
 

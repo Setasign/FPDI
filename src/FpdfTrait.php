@@ -134,19 +134,27 @@ trait FpdfTrait
      */
     protected function _putlinks($n)
     {
-        foreach($this->PageLinks[$n] as $pl)
-        {
+        foreach ($this->PageLinks[$n] as $pl) {
             $this->_newobj();
             $rect = sprintf('%.2F %.2F %.2F %.2F', $pl[0], $pl[1], $pl[0] + $pl[2], $pl[1] - $pl[3]);
             $this->_put('<</Type /Annot /Subtype /Link /Rect [' . $rect . ']', false);
-            if(is_string($pl[4])) {
+            if (is_string($pl[4])) {
                 $this->_put('/A <</S /URI /URI ' . $this->_textstring($pl[4]) . '>>');
                 if (isset($pl['importedLink'])) {
                     $values = $pl['importedLink']['pdfObject']->value;
                     unset(
-                        $values['P'], $values['NM'], $values['AP'], $values['AS'], $values['Type'],
-                        $values['Subtype'], $values['Rect'], $values['A'], $values['QuadPoints'],
-                        $values['Rotate'], $values['M'], $values['StructParent']
+                        $values['P'],
+                        $values['NM'],
+                        $values['AP'],
+                        $values['AS'],
+                        $values['Type'],
+                        $values['Subtype'],
+                        $values['Rect'],
+                        $values['A'],
+                        $values['QuadPoints'],
+                        $values['Rotate'],
+                        $values['M'],
+                        $values['StructParent']
                     );
 
                     foreach ($values as $name => $entry) {
@@ -162,7 +170,6 @@ trait FpdfTrait
                         $s .= ']';
                         $this->_put($s);
                     }
-
                 } else {
                     $this->_put('/Border [0 0 0]', false);
                 }
@@ -177,7 +184,11 @@ trait FpdfTrait
                         ? $this->DefPageSize[1] * $this->k
                         : $this->DefPageSize[0] * $this->k;
                 }
-                $this->_put(sprintf('/Dest [%d 0 R /XYZ 0 %.2F null]>>', $this->PageInfo[$l[0]]['n'], $h - $l[1] * $this->k));
+                $this->_put(sprintf(
+                    '/Dest [%d 0 R /XYZ 0 %.2F null]>>',
+                    $this->PageInfo[$l[0]]['n'],
+                    $h - $l[1] * $this->k
+                ));
             }
             $this->_put('endobj');
         }

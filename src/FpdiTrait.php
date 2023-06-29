@@ -490,9 +490,10 @@ trait FpdiTrait
      * @param float|int $yPt
      * @param float|int $newHeightPt
      * @param float|int $scaleY
+     * @param array $importedPage
      * @return void
      */
-    protected function adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY)
+    protected function adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY, $importedPage)
     {
         // let's create a relation of the newly created link to the data of the external link
         $lastLink = count($this->PageLinks[$this->page]);

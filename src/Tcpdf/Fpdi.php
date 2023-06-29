@@ -305,9 +305,18 @@ class Fpdi extends \TCPDF
 
         $values = $externalLink['pdfObject']->value;
         unset(
-            $values['P'], $values['NM'], $values['AP'], $values['AS'], $values['Type'],
-            $values['Subtype'], $values['Rect'], $values['A'], $values['QuadPoints'],
-            $values['Rotate'], $values['M'], $values['StructParent']
+            $values['P'],
+            $values['NM'],
+            $values['AP'],
+            $values['AS'],
+            $values['Type'],
+            $values['Subtype'],
+            $values['Rect'],
+            $values['A'],
+            $values['QuadPoints'],
+            $values['Rotate'],
+            $values['M'],
+            $values['StructParent']
         );
 
         foreach ($values as $key => $value) {
