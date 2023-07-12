@@ -124,9 +124,10 @@ trait FpdiTrait
      * Get a new pdf parser instance.
      *
      * @param StreamReader $streamReader
+     * @param array $parserParams Individual parameters passed to the parser instance.
      * @return PdfParser|FpdiPdfParser
      */
-    protected function getPdfParserInstance(StreamReader $streamReader)
+    protected function getPdfParserInstance(StreamReader $streamReader, array $parserParams = [])
     {
         // note: if you get an exception here - turn off errors/warnings on not found for your autoloader.
         // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw
@@ -134,7 +135,7 @@ trait FpdiTrait
         /** @noinspection PhpUndefinedClassInspection */
         if (\class_exists(FpdiPdfParser::class)) {
             /** @noinspection PhpUndefinedClassInspection */
-            return new FpdiPdfParser($streamReader);
+            return new FpdiPdfParser($streamReader, $parserParams);
         }
 
         return new PdfParser($streamReader);
@@ -145,9 +146,10 @@ trait FpdiTrait
      *
      * @param string|resource|PdfReader|StreamReader $file An open file descriptor, a path to a file, a PdfReader
      *                                                     instance or a StreamReader instance.
+     * @param array $parserParams Individual parameters passed to the parser instance.
      * @return string
      */
-    protected function getPdfReaderId($file)
+    protected function getPdfReaderId($file, array $parserParams = [])
     {
         if (\is_resource($file)) {
             $id = (string) $file;
@@ -178,7 +180,7 @@ trait FpdiTrait
             $streamReader = $file;
         }
 
-        $reader = new PdfReader($this->getPdfParserInstance($streamReader));
+        $reader = new PdfReader($this->getPdfParserInstance($streamReader, $parserParams));
         /** @noinspection OffsetOperationsInspection */
         $this->readers[$id] = $reader;
 
@@ -206,12 +208,13 @@ trait FpdiTrait
      * Set the source PDF file.
      *
      * @param string|resource|StreamReader $file Path to the file or a stream resource or a StreamReader instance.
+     * @param array $parserParams Individual parameters passed to the parser instance.
      * @return int The page count of the PDF document.
      * @throws PdfParserException
      */
-    public function setSourceFile($file)
+    public function setSourceFile($file, array $parserParams = [])
     {
-        $this->currentReaderId = $this->getPdfReaderId($file);
+        $this->currentReaderId = $this->getPdfReaderId($file, $parserParams);
         $this->objectsToCopy[$this->currentReaderId] = [];
 
         $reader = $this->getPdfReader($this->currentReaderId);
