@@ -23,7 +23,9 @@ if ($pdf instanceof \TCPDF) {
 }
 
 $files = [
-    __DIR__ . '/../tests/_files/pdfs/Fantastic-Speaker.pdf',
+//    __DIR__ . '/../tests/_files/pdfs/Fantastic-Speaker.pdf',
+//    __DIR__ . '/../tests/_files/pdfs/links/links.pdf',
+    __DIR__ . '/../tests/_files/pdfs/links/boxes.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/stamps/ENU/StandardBusiness.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/tektown/Logo.pdf',
 //    __DIR__ . '/../tests/_files/pdfs/1000.pdf',
@@ -37,13 +39,13 @@ foreach ($files as $file) {
     $pageCount = $pdf->setSourceFile($file);
 
     for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-        $pdf->AddPage('landscape', 'A3');
-        $pageId = $pdf->importPage($pageNo, Fpdi\PdfReader\PageBoundaries::MEDIA_BOX);
+        $pdf->AddPage('L', 'A3');
+        $pageId = $pdf->importPage($pageNo, Fpdi\PdfReader\PageBoundaries::MEDIA_BOX, true, true);
         $pdf->useTemplate($pageId, 20, 20, 100, 100);
         $pdf->Rect(20, 20, 100, 100);
         #var_dump($pageId);
 
-        $pageId = $pdf->importPage($pageNo, Fpdi\PdfReader\PageBoundaries::ART_BOX);
+        $pageId = $pdf->importPage($pageNo, Fpdi\PdfReader\PageBoundaries::ART_BOX, true, true);
         $s = $pdf->useTemplate($pageId, 120, 120, 100);
         #$s = $pdf->useTemplate($pageId, null, null, 100, null, true);
         $pdf->Rect(120, 120, $s['width'], $s['height']);

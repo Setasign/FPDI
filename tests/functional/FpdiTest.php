@@ -9,6 +9,7 @@ use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfType;
+use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\PdfReader\PdfReader;
 
 class FpdiTest extends TestCase
@@ -80,6 +81,20 @@ class FpdiTest extends TestCase
         $reader = new PdfReader(new PdfParser(StreamReader::createByFile(__DIR__ . '/../_files/pdfs/Noisy-Tube.pdf')));
         $expectedStream = $reader->getPage(1)->getContentStream();
         $this->assertEquals($expectedStream, $tplAObject->getUnfilteredStream());
+    }
+
+    public function testImportedPageWithLinksInTemplate()
+    {
+        $pdf = new Fpdi('P', 'pt');
+        $pdf->setSourceFile(__DIR__ . '/../_files/pdfs/links/links.pdf');
+        $pageId = $pdf->importPage(1, PageBoundaries::CROP_BOX, true, true);
+
+        $pdf->beginTemplate(100, 200);
+
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Links cannot be set when writing to a template.');
+
+        $pdf->useTemplate($pageId, 0, 0, 100, 200);
     }
 
     public function testBehaviourOnCompressedXref()

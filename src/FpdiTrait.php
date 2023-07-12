@@ -29,6 +29,7 @@ use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfParser\Type\PdfTypeException;
+use setasign\Fpdi\PdfReader\DataStructure\Rectangle;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use setasign\Fpdi\PdfReader\PdfReader;
 use setasign\Fpdi\PdfReader\PdfReaderException;
@@ -233,16 +234,20 @@ trait FpdiTrait
      * @throws PdfReaderException
      * @see PageBoundaries
      */
-    public function importPage($pageNumber, $box = PageBoundaries::CROP_BOX, $groupXObject = true)
-    {
-        if (null === $this->currentReaderId) {
+    public function importPage(
+        $pageNumber,
+        $box = PageBoundaries::CROP_BOX,
+        $groupXObject = true,
+        $importExternalLinks = false
+    ) {
+        if ($this->currentReaderId === null) {
             throw new \BadMethodCallException('No reader initiated. Call setSourceFile() first.');
         }
 
         $pageId = $this->currentReaderId;
 
         $pageNumber = (int)$pageNumber;
-        $pageId .= '|' . $pageNumber . '|' . ($groupXObject ? '1' : '0');
+        $pageId .= '|' . $pageNumber . '|' . ($groupXObject ? '1' : '0') . '|' . ($importExternalLinks ? '1' : '0');
 
         // for backwards compatibility with FPDI 1
         $box = \ltrim($box, '/');
@@ -378,13 +383,19 @@ trait FpdiTrait
             $stream = PdfStream::create($dict, '');
         }
 
+        $externalLinks = [];
+        if ($importExternalLinks) {
+            $externalLinks = $page->getExternalLinks($box);
+        }
+
         $this->importedPages[$pageId] = [
             'objectNumber' => null,
             'readerId' => $this->currentReaderId,
             'id' => 'TPL' . $this->getNextTemplateId(),
             'width' => $width / $this->k,
             'height' => $height / $this->k,
-            'stream' => $stream
+            'stream' => $stream,
+            'externalLinks' => $externalLinks
         ];
 
         return $pageId;
@@ -430,19 +441,72 @@ trait FpdiTrait
             $this->setPageFormat($newSize, $newSize['orientation']);
         }
 
+        $scaleX = ($newSize['width'] / $originalSize['width']);
+        $scaleY = ($newSize['height'] / $originalSize['height']);
+        $xPt = $x * $this->k;
+        $yPt = $y * $this->k;
+        $newHeightPt = $newSize['height'] * $this->k;
+
         $this->_out(
             // reset standard values, translate and scale
             \sprintf(
                 'q 0 J 1 w 0 j 0 G 0 g %.4F 0 0 %.4F %.4F %.4F cm /%s Do Q',
-                ($newSize['width'] / $originalSize['width']),
-                ($newSize['height'] / $originalSize['height']),
-                $x * $this->k,
-                ($this->h - $y - $newSize['height']) * $this->k,
+                $scaleX,
+                $scaleY,
+                $xPt,
+                $this->hPt - $yPt - $newHeightPt,
                 $importedPage['id']
             )
         );
 
+        if (count($importedPage['externalLinks']) > 0) {
+            foreach ($importedPage['externalLinks'] as $externalLink) {
+                /** @var Rectangle $rect */
+                $rect = $externalLink['rect'];
+                $this->Link(
+                    $x + $rect->getLlx() / $this->k * $scaleX,
+                    $y + $newSize['height'] - ($rect->getLly() + $rect->getHeight()) / $this->k * $scaleY,
+                    $rect->getWidth() / $this->k * $scaleX,
+                    $rect->getHeight()  / $this->k * $scaleY,
+                    $externalLink['uri']
+                );
+
+                $this->adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY, $importedPage);
+            }
+        }
+
         return $newSize;
+    }
+
+    /**
+     * This method will add additional data to the last created link/annotation.
+     *
+     * It is separated because TCPDF uses its own logic to handle link annotations.
+     * This method is overwritten in the TCPDF implementation.
+     *
+     * @param array $externalLink
+     * @param float|int $xPt
+     * @param float|int $scaleX
+     * @param float|int $yPt
+     * @param float|int $newHeightPt
+     * @param float|int $scaleY
+     * @param array $importedPage
+     * @return void
+     */
+    protected function adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY, $importedPage)
+    {
+        // let's create a relation of the newly created link to the data of the external link
+        $lastLink = count($this->PageLinks[$this->page]);
+        $this->PageLinks[$this->page][$lastLink - 1]['importedLink'] = $externalLink;
+        if (count($externalLink['quadPoints']) > 0) {
+            $quadPoints = [];
+            for ($i = 0, $n = count($externalLink['quadPoints']); $i < $n; $i += 2) {
+                $quadPoints[] = $xPt + $externalLink['quadPoints'][$i] * $scaleX;
+                $quadPoints[] = $this->hPt - $yPt - $newHeightPt + $externalLink['quadPoints'][$i + 1] * $scaleY;
+            }
+
+            $this->PageLinks[$this->page][$lastLink - 1]['quadPoints'] = $quadPoints;
+        }
     }
 
     /**

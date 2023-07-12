@@ -159,7 +159,7 @@ class FpdiTest extends TestCase
         $pdf->AddPage();
         $pdf->useTemplate($tpl);
         $a = $pdf->Output('doc.pdf', 'S');
-        $b = $pdf->Output('doc.pdf','S');
+        $b = $pdf->Output('doc.pdf', 'S');
         unset($pdf);
 
         $this->assertSame($a, $b);
