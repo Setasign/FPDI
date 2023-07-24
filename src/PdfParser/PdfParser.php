@@ -145,7 +145,7 @@ class PdfParser
     }
 
     /**
-     * Get the cross reference instance.
+     * Get the cross-reference instance.
      *
      * @return CrossReference
      * @throws CrossReferenceException
