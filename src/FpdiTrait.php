@@ -213,13 +213,7 @@ trait FpdiTrait
      */
     public function setSourceFile($file)
     {
-        $this->currentReaderId = $this->getPdfReaderId($file);
-        $this->objectsToCopy[$this->currentReaderId] = [];
-
-        $reader = $this->getPdfReader($this->currentReaderId);
-        $this->setMinPdfVersion($reader->getPdfVersion());
-
-        return $reader->getPageCount();
+        return $this->setSourceFileWithParams($file);
     }
 
     /**
