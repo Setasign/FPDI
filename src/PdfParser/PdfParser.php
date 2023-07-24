@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2020 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2023 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -145,7 +145,7 @@ class PdfParser
     }
 
     /**
-     * Get the cross reference instance.
+     * Get the cross-reference instance.
      *
      * @return CrossReference
      * @throws CrossReferenceException
