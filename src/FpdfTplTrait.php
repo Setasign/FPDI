@@ -13,7 +13,7 @@ namespace setasign\Fpdi;
 /**
  * Trait FpdfTplTrait
  *
- * This class adds a templating feature to FPDF and tFPDF.
+ * This trait adds a templating feature to FPDF and tFPDF.
  */
 trait FpdfTplTrait
 {
