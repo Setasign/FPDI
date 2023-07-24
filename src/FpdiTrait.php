@@ -213,7 +213,7 @@ trait FpdiTrait
      */
     public function setSourceFile($file)
     {
-        return $this->setSourceFileWithParams($file);
+        return $this->setSourceFileWithParserParams($file);
     }
 
     /**
@@ -228,7 +228,7 @@ trait FpdiTrait
      * @throws PdfParserException
      * @throws PdfTypeException
      */
-    public function setSourceFileWithParams($file, array $parserParams = [])
+    public function setSourceFileWithParserParams($file, array $parserParams = [])
     {
         $this->currentReaderId = $this->getPdfReaderId($file, $parserParams);
         $this->objectsToCopy[$this->currentReaderId] = [];

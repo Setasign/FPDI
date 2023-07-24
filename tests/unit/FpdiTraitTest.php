@@ -52,7 +52,7 @@ abstract class FpdiTraitTest extends TestCase
         $pdf->expects($this->once())
             ->method('setMinPdfVersion');
 
-        $pageCount = $pdf->setSourceFileWithParams($streamReader, $parserParams);
+        $pageCount = $pdf->setSourceFileWithParserParams($streamReader, $parserParams);
         $this->assertSame(10, $pageCount);
     }
 }
