@@ -208,11 +208,33 @@ trait FpdiTrait
      * Set the source PDF file.
      *
      * @param string|resource|StreamReader $file Path to the file or a stream resource or a StreamReader instance.
-     * @param array $parserParams Individual parameters passed to the parser instance.
      * @return int The page count of the PDF document.
      * @throws PdfParserException
      */
-    public function setSourceFile($file, array $parserParams = [])
+    public function setSourceFile($file)
+    {
+        $this->currentReaderId = $this->getPdfReaderId($file);
+        $this->objectsToCopy[$this->currentReaderId] = [];
+
+        $reader = $this->getPdfReader($this->currentReaderId);
+        $this->setMinPdfVersion($reader->getPdfVersion());
+
+        return $reader->getPageCount();
+    }
+
+    /**
+     * Set the source PDF file with parameters which are passed to the parser instance.
+     *
+     * This method allows us to pass e.g. authentication information to the parser instance.
+     *
+     * @param string|resource|StreamReader $file Path to the file or a stream resource or a StreamReader instance.
+     * @param array $parserParams Individual parameters passed to the parser instance.
+     * @return int The page count of the PDF document.
+     * @throws CrossReferenceException
+     * @throws PdfParserException
+     * @throws PdfTypeException
+     */
+    public function setSourceFileWithParams($file, array $parserParams = [])
     {
         $this->currentReaderId = $this->getPdfReaderId($file, $parserParams);
         $this->objectsToCopy[$this->currentReaderId] = [];
