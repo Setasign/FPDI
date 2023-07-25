@@ -284,7 +284,7 @@ class Fpdi extends \TCPDF
      * @param float|int $yPt
      * @param float|int $newHeightPt
      * @param float|int $scaleY
-     * @param $importedPage
+     * @param array $importedPage
      * @return void
      */
     protected function adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY, $importedPage)
