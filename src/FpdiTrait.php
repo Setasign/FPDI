@@ -481,6 +481,11 @@ trait FpdiTrait
 
         if (count($importedPage['externalLinks']) > 0) {
             foreach ($importedPage['externalLinks'] as $externalLink) {
+                // mPDF uses also 'externalLinks' but doesn't come with a rect-value
+                if (!isset($externalLink['rect'])) {
+                    continue;
+                }
+
                 /** @var Rectangle $rect */
                 $rect = $externalLink['rect'];
                 $this->Link(
