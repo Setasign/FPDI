@@ -423,4 +423,26 @@ class PdfStreamTest extends TestCase
 
         $this->assertEquals($expectedResult, $stream->getUnfilteredStream());
     }
+
+
+    public function testParseWithCryptFilter()
+    {
+        $in = "123 0 obj\n<</Filter /Crypt /Length 5>>\nstream\nHello\nendstream\nendobj";
+
+        $stream = StreamReader::createByString($in);
+
+        // set position and prepare dictionary (equals to result)
+        $stream->setOffset(45);
+        $this->assertSame("\n", $stream->getByte()); // this is the \n after the stream keyword
+
+        $dict = PdfDictionary::create([
+            'Filter' => PdfName::create('Crypt'),
+            'Length' => PdfNumeric::create(5)
+        ]);
+
+        $result = PdfStream::parse($dict, $stream);
+
+        $this->assertSame($dict, $result->value);
+        $this->assertSame('Hello', $result->getUnfilteredStream());
+    }
 }

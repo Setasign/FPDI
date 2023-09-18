@@ -308,6 +308,21 @@ class PdfStream extends PdfType
                     $stream = $filterObject->decode($stream);
                     break;
 
+                case 'Crypt':
+                    if (!$decodeParam instanceof PdfDictionary) {
+                        break;
+                    }
+                    // Filter is "Identity"
+                    $name = PdfDictionary::get($decodeParam, 'Name');
+                    if (!$name instanceof PdfName || $name->value !== 'Identity') {
+                        break;
+                    }
+
+                    throw new FilterException(
+                        'Support for Crypt filters other than "Identity" is not implemented.',
+                        FilterException::UNSUPPORTED_FILTER
+                    );
+
                 default:
                     throw new FilterException(
                         \sprintf('Unsupported filter "%s".', $filter->value),
