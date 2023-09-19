@@ -213,6 +213,28 @@ class PdfStream extends PdfType
     }
 
     /**
+     * Get all filters defined for that stream.
+     * 
+     * @return PdfType[]
+     * @throws PdfTypeException
+     */
+    public function getFilters()
+    {
+        $filters = PdfDictionary::get($this->value, 'Filter');
+        if ($filters instanceof PdfNull) {
+            return [];
+        }
+
+        if ($filters instanceof PdfArray) {
+            $filters = $filters->value;
+        } else {
+            $filters = [$filters];
+        }
+
+        return $filters;
+    }
+
+    /**
      * Get the unfiltered stream data.
      *
      * @return string
@@ -222,15 +244,9 @@ class PdfStream extends PdfType
     public function getUnfilteredStream()
     {
         $stream = $this->getStream();
-        $filters = PdfDictionary::get($this->value, 'Filter');
-        if ($filters instanceof PdfNull) {
+        $filters = $this->getFilters();
+        if ($filters === []) {
             return $stream;
-        }
-
-        if ($filters instanceof PdfArray) {
-            $filters = $filters->value;
-        } else {
-            $filters = [$filters];
         }
 
         $decodeParams = PdfDictionary::get($this->value, 'DecodeParms');
