@@ -424,7 +424,6 @@ class PdfStreamTest extends TestCase
         $this->assertEquals($expectedResult, $stream->getUnfilteredStream());
     }
 
-
     public function testParseWithCryptFilter()
     {
         $in = "123 0 obj\n<</Filter /Crypt /Length 5>>\nstream\nHello\nendstream\nendobj";
