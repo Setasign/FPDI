@@ -214,7 +214,7 @@ class PdfStream extends PdfType
 
     /**
      * Get all filters defined for that stream.
-     * 
+     *
      * @return PdfType[]
      * @throws PdfTypeException
      */

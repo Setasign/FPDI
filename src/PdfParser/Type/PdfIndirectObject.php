@@ -27,7 +27,7 @@ class PdfIndirectObject extends PdfType
      * @param PdfParser $parser
      * @param Tokenizer $tokenizer
      * @param StreamReader $reader
-     * @return bool|self
+     * @return self|false
      * @throws PdfTypeException
      */
     public static function parse(

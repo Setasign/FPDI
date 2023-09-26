@@ -391,7 +391,7 @@ class PdfParser
     /**
      * @param int $objectNumber
      * @param int $generationNumber
-     * @return bool|PdfIndirectObject
+     * @return false|PdfIndirectObject
      * @throws Type\PdfTypeException
      */
     protected function parsePdfIndirectObject($objectNumber, $generationNumber)
