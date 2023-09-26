@@ -355,7 +355,7 @@ class PdfParser
     }
 
     /**
-     * @return bool|PdfHexString
+     * @return false|PdfHexString
      */
     protected function parsePdfHexString()
     {
@@ -380,7 +380,7 @@ class PdfParser
     }
 
     /**
-     * @return bool|PdfArray
+     * @return false|PdfArray
      * @throws PdfTypeException
      */
     protected function parsePdfArray()

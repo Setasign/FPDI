@@ -21,7 +21,7 @@ class PdfHexString extends PdfType
      * Parses a hexadecimal string object from the stream reader.
      *
      * @param StreamReader $streamReader
-     * @return bool|self
+     * @return false|self
      */
     public static function parse(StreamReader $streamReader)
     {
