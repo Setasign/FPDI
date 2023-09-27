@@ -87,18 +87,18 @@ class PdfString extends PdfType
     public static function escape($s)
     {
         // Still a bit faster, than direct replacing
-        if (strpos($s, '\\') !== false ||
-            strpos($s, ')')  !== false ||
-            strpos($s, '(')  !== false ||
-            strpos($s, "\x0D") !== false ||
-            strpos($s, "\x0A") !== false ||
-            strpos($s, "\x09") !== false ||
-            strpos($s, "\x08") !== false ||
-            strpos($s, "\x0C") !== false
-        )
-        {
+        if (
+            \strpos($s, '\\') !== false ||
+            \strpos($s, ')')  !== false ||
+            \strpos($s, '(')  !== false ||
+            \strpos($s, "\x0D") !== false ||
+            \strpos($s, "\x0A") !== false ||
+            \strpos($s, "\x09") !== false ||
+            \strpos($s, "\x08") !== false ||
+            \strpos($s, "\x0C") !== false
+        ) {
             // is faster than strtr(...)
-            return str_replace(
+            return \str_replace(
                 ['\\',   ')',   '(',   "\x0D", "\x0A", "\x09", "\x08", "\x0C"],
                 ['\\\\', '\\)', '\\(', '\r',   '\n',   '\t',   '\b',   '\f'],
                 $s
