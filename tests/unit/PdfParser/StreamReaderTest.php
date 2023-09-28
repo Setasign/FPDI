@@ -25,6 +25,23 @@ class StreamReaderTest extends TestCase
         }
     }
 
+    public function testConstructWithStreamWrapperThatIsNotSeekable()
+    {
+        stream_wrapper_register('dummy', DummyFaultyStreamWrapper::class);
+
+        $fh = fopen('dummy://whatever', 'rb');
+        $caught = false;
+        try {
+            new StreamReader($fh);
+        } catch (\InvalidArgumentException $e) {
+            $caught = true;
+        } finally {
+            stream_wrapper_unregister('dummy');
+        }
+
+        $this->assertTrue($caught);
+    }
+
     public function testConstructor()
     {
         $resource = fopen('php://temp', 'r+b');
