@@ -55,10 +55,21 @@ class Flate implements FilterInterface
                     return $data;
                 }
 
-                // Try this fallback (remove the zlib stream header)
-                $data = @(gzinflate(substr($oData, 2)));
+                // Try this fallback
+                $tries = 0;
 
-                if ($data === false) {
+                $oDataLen = strlen($oData);
+                while ($tries < 6 && ($data === false || (strlen($data) < ($oDataLen - $tries - 1)))) {
+                    $data = @(gzinflate(substr($oData, $tries)));
+                    $tries++;
+                }
+
+                // let's use this fallback only if the $data is longer than the original data
+                if (strlen($data) > ($oDataLen - $tries - 1)) {
+                    return $data;
+                }
+
+                if (!$data) {
                     throw new FlateException(
                         'Error while decompressing stream.',
                         FlateException::DECOMPRESS_ERROR
