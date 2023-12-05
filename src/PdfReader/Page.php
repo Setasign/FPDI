@@ -10,6 +10,7 @@
 
 namespace setasign\Fpdi\PdfReader;
 
+use setasign\Fpdi\FpdiException;
 use setasign\Fpdi\GraphicsState;
 use setasign\Fpdi\Math\Vector;
 use setasign\Fpdi\PdfParser\Filter\FilterException;
@@ -281,14 +282,15 @@ class Page
      * origin is lower-left.
      *
      * @return array
-     * @throws CrossReferenceException
-     * @throws PdfParserException
-     * @throws PdfTypeException
      */
     public function getExternalLinks($box = PageBoundaries::CROP_BOX)
     {
-        $dict = $this->getPageDictionary();
-        $annotations = PdfType::resolve(PdfDictionary::get($dict, 'Annots'), $this->parser);
+        try {
+            $dict = $this->getPageDictionary();
+            $annotations = PdfType::resolve(PdfDictionary::get($dict, 'Annots'), $this->parser);
+        } catch (FpdiException $e) {
+            return [];
+        }
 
         if (!$annotations instanceof PdfArray) {
             return [];
@@ -297,93 +299,97 @@ class Page
         $links = [];
 
         foreach ($annotations->value as $entry) {
-            $annotation = PdfType::resolve($entry, $this->parser);
+            try {
+                $annotation = PdfType::resolve($entry, $this->parser);
 
-            $value = PdfType::resolve(PdfDictionary::get($annotation, 'Subtype'), $this->parser);
-            if (!$value instanceof PdfName || $value->value !== 'Link') {
-                continue;
-            }
+                $value = PdfType::resolve(PdfDictionary::get($annotation, 'Subtype'), $this->parser);
+                if (!$value instanceof PdfName || $value->value !== 'Link') {
+                    continue;
+                }
 
-            $dest = PdfType::resolve(PdfDictionary::get($annotation, 'Dest'), $this->parser);
-            if (!$dest instanceof PdfNull) {
-                continue;
-            }
+                $dest = PdfType::resolve(PdfDictionary::get($annotation, 'Dest'), $this->parser);
+                if (!$dest instanceof PdfNull) {
+                    continue;
+                }
 
-            $action = PdfType::resolve(PdfDictionary::get($annotation, 'A'), $this->parser);
-            if (!$action instanceof PdfDictionary) {
-                continue;
-            }
+                $action = PdfType::resolve(PdfDictionary::get($annotation, 'A'), $this->parser);
+                if (!$action instanceof PdfDictionary) {
+                    continue;
+                }
 
-            $actionType = PdfType::resolve(PdfDictionary::get($action, 'S'), $this->parser);
-            if (!$actionType instanceof PdfName || $actionType->value !== 'URI') {
-                continue;
-            }
+                $actionType = PdfType::resolve(PdfDictionary::get($action, 'S'), $this->parser);
+                if (!$actionType instanceof PdfName || $actionType->value !== 'URI') {
+                    continue;
+                }
 
-            $uri = PdfType::resolve(PdfDictionary::get($action, 'URI'), $this->parser);
-            if ($uri instanceof PdfString) {
-                $uriValue = PdfString::unescape($uri->value);
-            } elseif ($uri instanceof PdfHexString) {
-                $uriValue = \hex2bin($uri->value);
-            } else {
-                continue;
-            }
+                $uri = PdfType::resolve(PdfDictionary::get($action, 'URI'), $this->parser);
+                if ($uri instanceof PdfString) {
+                    $uriValue = PdfString::unescape($uri->value);
+                } elseif ($uri instanceof PdfHexString) {
+                    $uriValue = \hex2bin($uri->value);
+                } else {
+                    continue;
+                }
 
-            $rect = PdfType::resolve(PdfDictionary::get($annotation, 'Rect'), $this->parser);
-            if (!$rect instanceof PdfArray || count($rect->value) !== 4) {
-                continue;
-            }
+                $rect = PdfType::resolve(PdfDictionary::get($annotation, 'Rect'), $this->parser);
+                if (!$rect instanceof PdfArray || count($rect->value) !== 4) {
+                    continue;
+                }
 
-            $rect = Rectangle::byPdfArray($rect, $this->parser);
-            if ($rect->getWidth() === 0 || $rect->getHeight() === 0) {
-                continue;
-            }
+                $rect = Rectangle::byPdfArray($rect, $this->parser);
+                if ($rect->getWidth() === 0 || $rect->getHeight() === 0) {
+                    continue;
+                }
 
-            $bbox = $this->getBoundary($box);
-            $rotation = $this->getRotation();
+                $bbox = $this->getBoundary($box);
+                $rotation = $this->getRotation();
 
-            $gs = new GraphicsState();
-            $gs->translate(-$bbox->getLlx(), -$bbox->getLly());
-            $gs->rotate($bbox->getLlx(), $bbox->getLly(), -$rotation);
+                $gs = new GraphicsState();
+                $gs->translate(-$bbox->getLlx(), -$bbox->getLly());
+                $gs->rotate($bbox->getLlx(), $bbox->getLly(), -$rotation);
 
-            switch ($rotation) {
-                case 90:
-                    $gs->translate(-$bbox->getWidth(), 0);
-                    break;
-                case 180:
-                    $gs->translate(-$bbox->getWidth(), -$bbox->getHeight());
-                    break;
-                case 270:
-                    $gs->translate(0, -$bbox->getHeight());
-                    break;
-            }
+                switch ($rotation) {
+                    case 90:
+                        $gs->translate(-$bbox->getWidth(), 0);
+                        break;
+                    case 180:
+                        $gs->translate(-$bbox->getWidth(), -$bbox->getHeight());
+                        break;
+                    case 270:
+                        $gs->translate(0, -$bbox->getHeight());
+                        break;
+                }
 
-            $normalizedRect = Rectangle::byVectors(
-                $gs->toUserSpace(new Vector($rect->getLlx(), $rect->getLly())),
-                $gs->toUserSpace(new Vector($rect->getUrx(), $rect->getUry()))
-            );
+                $normalizedRect = Rectangle::byVectors(
+                    $gs->toUserSpace(new Vector($rect->getLlx(), $rect->getLly())),
+                    $gs->toUserSpace(new Vector($rect->getUrx(), $rect->getUry()))
+                );
 
-            $quadPoints = PdfType::resolve(PdfDictionary::get($annotation, 'QuadPoints'), $this->parser);
-            $normalizedQuadPoints = [];
-            if ($quadPoints instanceof PdfArray) {
-                $quadPointsCount = count($quadPoints->value);
-                if ($quadPointsCount % 8 === 0) {
-                    for ($i = 0; ($i + 1) < $quadPointsCount; $i += 2) {
-                        $x = PdfNumeric::ensure(PdfType::resolve($quadPoints->value[$i], $this->parser));
-                        $y = PdfNumeric::ensure(PdfType::resolve($quadPoints->value[$i + 1], $this->parser));
+                $quadPoints = PdfType::resolve(PdfDictionary::get($annotation, 'QuadPoints'), $this->parser);
+                $normalizedQuadPoints = [];
+                if ($quadPoints instanceof PdfArray) {
+                    $quadPointsCount = count($quadPoints->value);
+                    if ($quadPointsCount % 8 === 0) {
+                        for ($i = 0; ($i + 1) < $quadPointsCount; $i += 2) {
+                            $x = PdfNumeric::ensure(PdfType::resolve($quadPoints->value[$i], $this->parser));
+                            $y = PdfNumeric::ensure(PdfType::resolve($quadPoints->value[$i + 1], $this->parser));
 
-                        $v = $gs->toUserSpace(new Vector($x->value, $y->value));
-                        $normalizedQuadPoints[] = $v->getX();
-                        $normalizedQuadPoints[] = $v->getY();
+                            $v = $gs->toUserSpace(new Vector($x->value, $y->value));
+                            $normalizedQuadPoints[] = $v->getX();
+                            $normalizedQuadPoints[] = $v->getY();
+                        }
                     }
                 }
-            }
 
-            $links[] = [
-                'rect' => $normalizedRect,
-                'quadPoints' => $normalizedQuadPoints,
-                'uri' => $uriValue,
-                'pdfObject' => $annotation
-            ];
+                $links[] = [
+                    'rect' => $normalizedRect,
+                    'quadPoints' => $normalizedQuadPoints,
+                    'uri' => $uriValue,
+                    'pdfObject' => $annotation
+                ];
+            } catch (FpdiException $e) {
+                continue;
+            }
         }
 
         return $links;
