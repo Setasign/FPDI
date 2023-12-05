@@ -42,6 +42,10 @@ class FlateTest extends TestCase
             [
                 file_get_contents(__DIR__ . '/_files/Flate/special.bin'),
                 file_get_contents(__DIR__ . '/_files/Flate/special-decoded.bin'),
+            ],
+            [
+                "\x48\x89\x03\x00",
+                ''
             ]
         );
     }
@@ -55,7 +59,11 @@ class FlateTest extends TestCase
 
         $decoded = $filter->decode($in);
 
-        $this->assertStringStartsWith($expected, $decoded);
+        if ($expected === '') {
+            $this->assertSame('', $decoded);
+        } else {
+            $this->assertStringStartsWith($expected, $decoded);
+        }
     }
 
     public function testEmptyString()
