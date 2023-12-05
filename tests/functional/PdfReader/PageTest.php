@@ -71,6 +71,27 @@ class PageTest extends TestCase
                         ]
                     ]
                 ]
+            ],
+            [
+                __DIR__ . '/../../_files/pdfs/links/annotations-with-invalid-references.pdf',
+                [
+                    1 => [
+                        [
+                            'uri' => 'https://www.setasign.com/#1',
+                            'rect' => new Rectangle(20, 20, 100, 200)
+                        ],
+                        [
+                            'uri' => 'https://www.setasign.com/#2',
+                            'rect' => new Rectangle(140, 140, 100, 200)
+                        ]
+                    ]
+                ]
+            ],
+            [
+                __DIR__ . '/../../_files/pdfs/links/invalid-annots-reference.pdf',
+                [
+                    1 => []
+                ]
             ]
         ];
     }
