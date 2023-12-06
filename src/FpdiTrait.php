@@ -646,7 +646,7 @@ trait FpdiTrait
                     ($value->value instanceof PdfStream)
                 )
             ) {
-                $this->_put('');
+                $this->_put("\n", false);
             }
 
             $this->_put('endobj');
