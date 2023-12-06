@@ -596,7 +596,7 @@ trait FpdiTrait
         } elseif ($value instanceof PdfString) {
             $this->_put('(' . $value->value . ')', false);
         } elseif ($value instanceof PdfHexString) {
-            $this->_put('<' . $value->value . '>');
+            $this->_put('<' . $value->value . '>', false);
         } elseif ($value instanceof PdfBoolean) {
             $this->_put($value->value ? 'true ' : 'false ', false);
         } elseif ($value instanceof PdfArray) {
@@ -615,11 +615,8 @@ trait FpdiTrait
         } elseif ($value instanceof PdfToken) {
             $this->_put($value->value);
         } elseif ($value instanceof PdfNull) {
-            $this->_put('null ');
+            $this->_put('null ', false);
         } elseif ($value instanceof PdfStream) {
-            /**
-             * @var $value PdfStream
-             */
             $this->writePdfType($value->value);
             $this->_put('stream');
             $this->_put($value->getStream());
@@ -636,12 +633,22 @@ trait FpdiTrait
 
             $this->_put($this->objectMap[$this->currentReaderId][$value->value] . ' 0 R ', false);
         } elseif ($value instanceof PdfIndirectObject) {
-            /**
-             * @var PdfIndirectObject $value
-             */
             $n = $this->objectMap[$this->currentReaderId][$value->objectNumber];
             $this->_newobj($n);
             $this->writePdfType($value->value);
+
+            // add newline before "endobj" for all objects in view to PDF/A conformance
+            if (
+                !(
+                    ($value->value instanceof PdfArray) ||
+                    ($value->value instanceof PdfDictionary) ||
+                    ($value->value instanceof PdfToken) ||
+                    ($value->value instanceof PdfStream)
+                )
+            ) {
+                $this->_put("\n", false);
+            }
+
             $this->_put('endobj');
         }
     }
