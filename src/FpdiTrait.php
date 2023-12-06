@@ -638,12 +638,14 @@ trait FpdiTrait
             $this->writePdfType($value->value);
 
             // add newline before "endobj" for all objects in view to PDF/A conformance
-            if (!(
-                ($value->value instanceof PdfArray) ||
-                ($value->value instanceof PdfDictionary) ||
-                ($value->value instanceof PdfToken) ||
-                ($value->value instanceof PdfStream)
-            )) {
+            if (
+                !(
+                    ($value->value instanceof PdfArray) ||
+                    ($value->value instanceof PdfDictionary) ||
+                    ($value->value instanceof PdfToken) ||
+                    ($value->value instanceof PdfStream)
+                )
+            ) {
                 $this->_put('');
             }
 
