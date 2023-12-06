@@ -15,7 +15,6 @@ class FpdiTraitTestClass {
 
     protected $buffer;
     protected $n = 0;
-    protected $currentReaderId;
 
     protected function _newobj($n = null)
     {
