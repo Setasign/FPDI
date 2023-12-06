@@ -303,21 +303,8 @@ class Fpdi extends \TCPDF
         // ensure we have a default value - otherwise TCPDF will set it to 4 throughout
         $lastAnnotationOpt['f'] = 0;
 
+        // values in this dictonary are all direct objects and we don't need to resolve them here again.
         $values = $externalLink['pdfObject']->value;
-        unset(
-            $values['P'],
-            $values['NM'],
-            $values['AP'],
-            $values['AS'],
-            $values['Type'],
-            $values['Subtype'],
-            $values['Rect'],
-            $values['A'],
-            $values['QuadPoints'],
-            $values['Rotate'],
-            $values['M'],
-            $values['StructParent']
-        );
 
         foreach ($values as $key => $value) {
             try {
@@ -326,17 +313,17 @@ class Fpdi extends \TCPDF
                         $value = PdfDictionary::ensure($value);
                         $bs = [];
                         if (isset($value->value['W'])) {
-                            $bs['w'] = PdfNumeric::ensure(PdfType::resolve($value->value['W'], $parser))->value;
+                            $bs['w'] = PdfNumeric::ensure($value->value['W'])->value;
                         }
 
                         if (isset($value->value['S'])) {
-                            $bs['s'] = PdfName::ensure(PdfType::resolve($value->value['S'], $parser))->value;
+                            $bs['s'] = PdfName::ensure($value->value['S'])->value;
                         }
 
                         if (isset($value->value['D'])) {
                             $d = [];
-                            foreach (PdfArray::ensure(PdfType::resolve($value->value['D'], $parser))->value as $item) {
-                                $d[] = PdfNumeric::ensure(PdfType::resolve($item, $parser))->value;
+                            foreach (PdfArray::ensure($value->value['D'])->value as $item) {
+                                $d[] = PdfNumeric::ensure($item)->value;
                             }
                             $bs['d'] = $d;
                         }
@@ -345,20 +332,20 @@ class Fpdi extends \TCPDF
                         break;
 
                     case 'Border':
-                        $borderArray = PdfArray::ensure(PdfType::resolve($value, $parser))->value;
+                        $borderArray = PdfArray::ensure($value)->value;
                         if (count($borderArray) < 3) {
                             continue 2;
                         }
 
                         $border = [
-                            PdfNumeric::ensure(PdfType::resolve($borderArray[0], $parser))->value,
-                            PdfNumeric::ensure(PdfType::resolve($borderArray[1], $parser))->value,
-                            PdfNumeric::ensure(PdfType::resolve($borderArray[2], $parser))->value,
+                            PdfNumeric::ensure($borderArray[0])->value,
+                            PdfNumeric::ensure($borderArray[1])->value,
+                            PdfNumeric::ensure($borderArray[2])->value,
                         ];
                         if (isset($borderArray[3])) {
                             $dashArray = [];
-                            foreach (PdfArray::ensure(PdfType::resolve($borderArray[3], $parser))->value as $item) {
-                                $dashArray[] = PdfNumeric::ensure(PdfType::resolve($item, $parser))->value;
+                            foreach (PdfArray::ensure($borderArray[3])->value as $item) {
+                                $dashArray[] = PdfNumeric::ensure($item)->value;
                             }
                             $border[] = $dashArray;
                         }
@@ -371,7 +358,7 @@ class Fpdi extends \TCPDF
                         $colors = PdfArray::ensure(PdfType::resolve($value, $parser))->value;
                         $m = count($colors) === 4 ? 100 : 255;
                         foreach ($colors as $item) {
-                            $c[] = PdfNumeric::ensure(PdfType::resolve($item, $parser))->value * $m;
+                            $c[] = PdfNumeric::ensure($item)->value * $m;
                         }
                         $lastAnnotationOpt['c'] = $c;
                         break;
