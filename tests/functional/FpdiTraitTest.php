@@ -4,6 +4,19 @@ namespace setasign\Fpdi\functional;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\Type\PdfArray;
+use setasign\Fpdi\PdfParser\Type\PdfBoolean;
+use setasign\Fpdi\PdfParser\Type\PdfDictionary;
+use setasign\Fpdi\PdfParser\Type\PdfHexString;
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
+use setasign\Fpdi\PdfParser\Type\PdfName;
+use setasign\Fpdi\PdfParser\Type\PdfNull;
+use setasign\Fpdi\PdfParser\Type\PdfNumeric;
+use setasign\Fpdi\PdfParser\Type\PdfStream;
+use setasign\Fpdi\PdfParser\Type\PdfString;
+use setasign\Fpdi\PdfParser\Type\PdfToken;
+use setasign\Fpdi\PdfParser\Type\PdfType;
 
 class FpdiTraitTest extends TestCase
 {
@@ -167,5 +180,185 @@ class FpdiTraitTest extends TestCase
 
         $id = $pdf->importPage($pageNo);
         $this->assertTrue(isset($id));
+    }
+
+    public function writePdfTypeProvider()
+    {
+        return [
+            [
+                PdfBoolean::create(true),
+                'true '
+            ],
+            [
+                PdfHexString::create('48656c6c6f20576f726c64'),
+                '<48656c6c6f20576f726c64>'
+            ],
+            [
+                PdfString::create('Hello FPDI'),
+                '(Hello FPDI)'
+            ],
+            [
+                PdfName::create('FPDI'),
+                '/FPDI '
+            ],
+            [
+                new PdfNull(),
+                'null '
+            ],
+            [
+                PdfNumeric::create(1.234566),
+                '1.23457 '
+            ],
+            [
+                PdfNumeric::create('1.00000'),
+                '1 '
+            ],
+            [
+                PdfNumeric::create('01234'),
+                '1234 '
+            ],
+            [
+                PdfIndirectObjectReference::create(123, 0),
+                '1 0 R ' // this is correct because the imported objects will be remapped to new object ids.
+            ],
+            [
+                PdfToken::create('AnyToken'),
+                "AnyToken\n"
+            ],
+            [
+                PdfArray::create([
+                    PdfNumeric::create(1),
+                    PdfString::create('Hey')
+                ]),
+                "[1 (Hey)]\n"
+            ],
+            [
+                PdfDictionary::create([
+                    'A' => PdfName::create('Ok'),
+                    'B' => PdfArray::create([
+
+                    ]),
+                    'C' => PdfString::create('C')
+                ]),
+                "<</A /Ok /B []\n" .
+                "/C (C)>>\n"
+            ],
+            [
+                PdfStream::create(PdfDictionary::create(), 'Testen'),
+                "<<>>\n" .
+                "stream\n" .
+                "Testen\n" .
+                "endstream\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfArray::create()),
+                "1 0 obj\n" .
+                "[]\n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfBoolean::create(false)),
+                "1 0 obj\n" .
+                "false \n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfDictionary::create()),
+                "1 0 obj\n" .
+                "<<>>\n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfHexString::create('')),
+                "1 0 obj\n" .
+                "<>\n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfIndirectObjectReference::create(2, 0)),
+                "1 0 obj\n" .
+                "2 0 R \n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfName::create('FPDI')),
+                "1 0 obj\n" .
+                "/FPDI \n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, new PdfNull()),
+                "1 0 obj\n" .
+                "null \n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfNumeric::create(123)),
+                "1 0 obj\n" .
+                "123 \n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfStream::create(PdfDictionary::create(), 'Test')),
+                "1 0 obj\n" .
+                "<<>>\n" .
+                "stream\n" .
+                "Test\n" .
+                "endstream\n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfString::create('FPDI')),
+                "1 0 obj\n" .
+                "(FPDI)\n" .
+                "endobj\n"
+            ],
+            [
+                PdfIndirectObject::create(1, 0, PdfToken::create('AnyToken')),
+                "1 0 obj\n" .
+                "AnyToken\n" .
+                "endobj\n"
+            ],
+        ];
+    }
+
+    /**
+     * @param $value
+     * @param $expected
+     * @return void
+     * @dataProvider writePdfTypeProvider
+     */
+    public function testWritePdfType($value, $expected)
+    {
+        $instance = new FpdiTraitTestClass();
+        $result = $instance->simulateWritePdfType($value);
+        $this->assertSame($expected, $result);
+    }
+
+    public function testWritingOfIndirectObjectsAndReferences()
+    {
+        $instance = new FpdiTraitTestClass();
+        $result = $instance->simulateWritePdfType(PdfIndirectObjectReference::create(123, 0));
+        $this->assertSame('1 0 R ', $result);
+
+        $result = $instance->simulateWritePdfType(PdfIndirectObjectReference::create(124, 0));
+        $this->assertSame('2 0 R ', $result);
+
+        $result = $instance->simulateWritePdfType(PdfIndirectObject::create(123, 0, new PdfNull()));
+        $this->assertSame(
+            "1 0 obj\n" .
+            "null \n" .
+            "endobj\n",
+            $result
+        );
+
+        $result = $instance->simulateWritePdfType(PdfIndirectObject::create(124, 0, new PdfNull()));
+        $this->assertSame(
+            "2 0 obj\n" .
+            "null \n" .
+            "endobj\n",
+            $result
+        );
+
     }
 }
