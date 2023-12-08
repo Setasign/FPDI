@@ -6,7 +6,7 @@ FPDI - Free PDF Document Importer
 [![Latest Unstable Version](https://poser.pugx.org/setasign/fpdi/v/unstable.svg)](https://packagist.org/packages/setasign/fpdi)
 [![License](https://poser.pugx.org/setasign/fpdi/license.svg)](https://packagist.org/packages/setasign/fpdi)
 
-:exclamation: This document refers to FPDI 2. Version 1 is deprecated and development is discontinued. :exclamation: 
+:heavy_exclamation_mark: This document refers to FPDI 2. Version 1 is deprecated and development is discontinued. :heavy_exclamation_mark: 
 
 FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF
 documents and use them as templates in [FPDF](http://www.fpdf.org), which was developed by Olivier Plathey. Apart
