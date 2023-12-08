@@ -381,6 +381,29 @@ class Page
                     }
                 }
 
+                // we remove unsupported/unneeded values here
+                unset(
+                    $annotation->value['P'],
+                    $annotation->value['NM'],
+                    $annotation->value['AP'],
+                    $annotation->value['AS'],
+                    $annotation->value['Type'],
+                    $annotation->value['Subtype'],
+                    $annotation->value['Rect'],
+                    $annotation->value['A'],
+                    $annotation->value['QuadPoints'],
+                    $annotation->value['Rotate'],
+                    $annotation->value['M'],
+                    $annotation->value['StructParent'],
+                    $annotation->value['OC']
+                );
+
+                // ...and flatten the PDF object to eliminate any indirect references.
+                // Indirect references are a problem when writing the output in FPDF
+                // because FPDF uses pre-calculated object numbers while FPDI creates
+                // them at runtime.
+                $annotation = PdfType::flatten($annotation, $this->parser);
+
                 $links[] = [
                     'rect' => $normalizedRect,
                     'quadPoints' => $normalizedQuadPoints,

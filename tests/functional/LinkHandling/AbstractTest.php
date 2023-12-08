@@ -33,7 +33,6 @@ abstract class AbstractTest extends TestCase
         }
     }
 
-
     protected function save($pdf)
     {
         return $pdf->Output('S');
@@ -131,11 +130,11 @@ abstract class AbstractTest extends TestCase
      * This test simply imports a page with several links including quad-points
      * and place it resized and compressed onto a new page.
      */
-    public function testLinkHandling1()
+    public function testLinkHandling1($filename = __DIR__ . '/../../_files/pdfs/links/links.pdf')
     {
         $pdf = $this->getInstance();
         $pdf->AddPage();
-        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/links/links.pdf');
+        $pdf->setSourceFile($filename);
         $tplId = $pdf->importPage(1, PageBoundaries::CROP_BOX, true, true);
         $pdf->useTemplate($tplId, [
             'x' => 20,
@@ -235,6 +234,18 @@ abstract class AbstractTest extends TestCase
         return $pdfString;
     }
 
+    /**
+     * This test imports annotations with indirect references in their properties which should be flattened.
+     *
+     * The original file links.pdf was modified appropriately.
+     *
+     * @return void
+     */
+    public function testLinkHandlingWithIndirectReferencesInAnnotation()
+    {
+        $this->testLinkHandling1(__DIR__ . '/../../_files/pdfs/links/links-with-indirect-references.pdf');
+    }
+    
     /**
      * Take the result of testLinkHandling1 and re-place it with the same settings.
      * @depends testLinkHandling1

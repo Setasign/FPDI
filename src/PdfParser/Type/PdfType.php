@@ -70,6 +70,34 @@ class PdfType
     }
 
     /**
+     * Flatten indirect object references to direct objects.
+     *
+     * @param PdfType $value
+     * @param PdfParser $parser
+     * @return PdfType
+     * @throws CrossReferenceException
+     * @throws PdfParserException
+     */
+    public static function flatten(PdfType $value, PdfParser $parser)
+    {
+        if ($value instanceof PdfIndirectObjectReference) {
+            return self::flatten(self::resolve($value, $parser), $parser);
+        }
+
+        if ($value instanceof PdfDictionary || $value instanceof PdfArray) {
+            foreach ($value->value as $key => $_value) {
+                $value->value[$key] = self::flatten($_value, $parser);
+            }
+        }
+
+        if ($value instanceof PdfStream) {
+            throw new PdfTypeException('There is a stream object found which cannot be flattened to a direct object.');
+        }
+
+        return $value;
+    }
+
+    /**
      * The value of the PDF type.
      *
      * @var mixed
