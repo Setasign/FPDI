@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Tokenizer;
@@ -9,7 +10,7 @@ use setasign\Fpdi\PdfParser\Type\PdfName;
 
 class PdfNameTest extends TestCase
 {
-    public function parseProvider()
+    public static function parseProvider()
     {
         $data = [
             [
@@ -52,8 +53,8 @@ class PdfNameTest extends TestCase
     /**
      * @param $in
      * @param $expectedResult
-     * @dataProvider parseProvider
      */
+    #[DataProvider('parseProvider')]
     public function testParse($in, $expectedResult)
     {
         $stream = StreamReader::createByString($in);

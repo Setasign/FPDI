@@ -2,13 +2,16 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Filter;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Flate;
 use setasign\Fpdi\PdfParser\Filter\FlateException;
 
+#[CoversMethod(Flate::class, 'decode')]
 class FlateTest extends TestCase
 {
-    public function decodeProvider()
+    public static function decodeProvider()
     {
         return array(
             ["\x78\x9c\xF3\x48\xCC\xC9\xC9\x57\x08\x4F\xCD\x29\x01\x00\x13\xA8\x03\xAD", 'Hallo Welt'],
@@ -50,9 +53,7 @@ class FlateTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider decodeProvider
-     */
+    #[DataProvider('decodeProvider')]
     public function testDecode($in, $expected)
     {
         $filter = new Flate();
@@ -72,18 +73,15 @@ class FlateTest extends TestCase
         $this->assertSame('', $filter->decode(''));
     }
 
-    /**
-     * @covers \setasign\Fpdi\PdfParser\Filter\Flate::decode
-     */
     public function testDecodeWithoutZlib()
     {
         $mock = $this->getMockBuilder(Flate::class)
-            ->setMethods(['extensionLoaded'])
+            ->onlyMethods(['extensionLoaded'])
             ->getMock();
 
         $mock->expects($this->once())
             ->method('extensionLoaded')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->expectException(FlateException::class);
         $this->expectExceptionCode(FlateException::NO_ZLIB);

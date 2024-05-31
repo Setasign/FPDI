@@ -2,13 +2,14 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Lzw;
 use setasign\Fpdi\PdfParser\Filter\LzwException;
 
 class LzwTest extends TestCase
 {
-    public function decodeProvider()
+    public static function decodeProvider()
     {
         return [
             [
@@ -27,9 +28,7 @@ class LzwTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider decodeProvider
-     */
+    #[DataProvider('decodeProvider')]
     public function testDecode($in, $expected)
     {
         $filter = new Lzw();

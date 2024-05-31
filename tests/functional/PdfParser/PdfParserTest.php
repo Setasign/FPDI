@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\functional\PdfParser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
@@ -22,7 +23,7 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 class PdfParserTest extends TestCase
 {
-    public function readValueProvider()
+    public static function readValueProvider()
     {
         $data = [
             [
@@ -121,8 +122,8 @@ class PdfParserTest extends TestCase
     /**
      * @param $in
      * @param $expectedResults
-     * @dataProvider readValueProvider
      */
+    #[DataProvider('readValueProvider')]
     public function testReadValue($in, $expectedResults)
     {
         $stream = StreamReader::createByString($in);
@@ -134,7 +135,7 @@ class PdfParserTest extends TestCase
         }
     }
 
-    public function readValueWithExpectedTypeProvider()
+    public static function readValueWithExpectedTypeProvider()
     {
         return [
             [
@@ -205,8 +206,8 @@ class PdfParserTest extends TestCase
      * @param $expectedType
      * @param $expectedResult
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @dataProvider readValueWithExpectedTypeProvider
      */
+    #[DataProvider('readValueWithExpectedTypeProvider')]
     public function testReadValueWithExpectedType($in, $expectedType, $expectedResult)
     {
         $stream = StreamReader::createByString($in);
@@ -215,7 +216,7 @@ class PdfParserTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function readValueWithInvalidTypeProvider()
+    public static function readValueWithInvalidTypeProvider()
     {
         return [
             [
@@ -261,8 +262,8 @@ class PdfParserTest extends TestCase
      * @param $in
      * @param $expectedType
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
-     * @dataProvider readValueWithInvalidTypeProvider
      */
+    #[DataProvider('readValueWithInvalidTypeProvider')]
     public function testReadValueWithInvalidType($in, $expectedType)
     {
         $stream = StreamReader::createByString($in);

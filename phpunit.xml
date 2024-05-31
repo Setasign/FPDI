@@ -1,30 +1,28 @@
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd"
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd"
          backupGlobals="false"
-         backupStaticAttributes="false"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         bootstrap="./tests/bootstrap.php">
-    <php>
-        <!--Path to the autoload file that should be used. Use a composer autoloader by default-->
-        <const name="AUTOLOAD_PATH" value="./vendor/autoload.php"/>
-    </php>
-
-    <testsuites>
-        <testsuite name="Unit Tests">
-            <directory>./tests/unit</directory>
-        </testsuite>
-
-        <testsuite name="Functional Tests">
-            <directory>./tests/functional</directory>
-        </testsuite>
-
-        <testsuite name="Visual Tests">
-            <directory>./tests/visual</directory>
-        </testsuite>
-    </testsuites>
+         bootstrap="./tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false"
+         displayDetailsOnTestsThatTriggerDeprecations="true" >
+  <php>
+    <!--Path to the autoload file that should be used. Use a composer autoloader by default-->
+    <const name="AUTOLOAD_PATH" value="./vendor/autoload.php"/>
+  </php>
+  <testsuites>
+    <testsuite name="Unit Tests">
+      <directory>./tests/unit</directory>
+      <exclude>./tests/unit/FpdiTraitTest.php</exclude>
+    </testsuite>
+    <testsuite name="Functional Tests">
+      <directory>./tests/functional</directory>
+      <exclude>./tests/functional//LinkHandling/AbstractTest.php</exclude>
+    </testsuite>
+    <testsuite name="Visual Tests">
+      <directory>./tests/visual</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

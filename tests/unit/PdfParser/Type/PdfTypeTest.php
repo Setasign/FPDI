@@ -43,7 +43,7 @@ class PdfTypeTest extends TestCase
 
         $mock = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIndirectObject'])
+            ->onlyMethods(['getIndirectObject'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -74,13 +74,18 @@ class PdfTypeTest extends TestCase
 
         $mock = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIndirectObject'])
+            ->onlyMethods(['getIndirectObject'])
             ->getMock();
 
         $mock->expects($this->exactly(2))
             ->method('getIndirectObject')
-            ->withConsecutive([13], [12])
-            ->willReturnOnConsecutiveCalls($indirectObject1, $indirectObject2);
+            ->willReturnCallback(function(int $key, bool $value) use ($indirectObject1, $indirectObject2)
+            {
+                return match($key) {
+                    13 => $indirectObject1,
+                    12 => $indirectObject2,
+                };
+            });
 
         $value = PdfIndirectObjectReference::create(13, 0);
         $result = PdfType::resolve($value, $mock);
@@ -105,13 +110,13 @@ class PdfTypeTest extends TestCase
 
         $mock = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIndirectObject'])
+            ->onlyMethods(['getIndirectObject'])
             ->getMock();
 
         $mock->expects($this->exactly(1))
             ->method('getIndirectObject')
-            ->withConsecutive([13])
-            ->willReturnOnConsecutiveCalls($indirectObject1);
+            ->with(13, false)
+            ->willReturn($indirectObject1);
 
         $value = PdfIndirectObjectReference::create(13, 0);
         $result = PdfType::resolve($value, $mock, true);

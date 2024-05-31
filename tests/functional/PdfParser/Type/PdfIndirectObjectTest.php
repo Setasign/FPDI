@@ -2,21 +2,18 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
-use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
-use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
-use setasign\Fpdi\PdfParser\Type\PdfToken;
 
 class PdfIndirectObjectTest extends TestCase
 {
-    public function parseProvider()
+    public static function parseProvider()
     {
         $data = [
             [
@@ -114,8 +111,8 @@ class PdfIndirectObjectTest extends TestCase
     /**
      * @param $in
      * @param $expectedResult
-     * @dataProvider parseProvider
      */
+    #[DataProvider('parseProvider')]
     public function testParse($objectNumberToken, $generationNumberToken, $in, $expectedResult)
     {
         $stream = StreamReader::createByString($in);

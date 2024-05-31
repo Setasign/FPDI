@@ -45,7 +45,7 @@ trait FpdfTplTrait
      * @param string $orientation "L" for landscape, "P" for portrait.
      * @throws \BadMethodCallException
      */
-    public function setPageFormat($size, $orientation)
+    public function setPageFormat($size, $orientation = 'P')
     {
         if ($this->currentTemplateId !== null) {
             throw new \BadMethodCallException('The page format cannot be changed when writing to a template.');
@@ -327,23 +327,23 @@ trait FpdfTplTrait
     /**
      * @inheritdoc
      */
-    public function AddPage($orientation = '', $size = '', $rotation = 0)
+    public function AddPage($orientation='', $format='', $keepMargins=false, $tocPage=false)
     {
         if ($this->currentTemplateId !== null) {
             throw new \BadMethodCallException('Pages cannot be added when writing to a template.');
         }
-        parent::AddPage($orientation, $size, $rotation);
+        parent::AddPage($orientation, $format, $keepMargins, $tocPage);
     }
 
     /**
      * @inheritdoc
      */
-    public function Link($x, $y, $w, $h, $link)
+    public function Link($x, $y, $w, $h, $link, $spaces=0)
     {
         if ($this->currentTemplateId !== null) {
             throw new \BadMethodCallException('Links cannot be set when writing to a template.');
         }
-        parent::Link($x, $y, $w, $h, $link);
+        parent::Link($x, $y, $w, $h, $link, $spaces);
     }
 
     /**
@@ -360,9 +360,9 @@ trait FpdfTplTrait
     /**
      * @inheritdoc
      */
-    public function SetDrawColor($r, $g = null, $b = null)
+    public function SetDrawColor($red = 0, $green = -1, $blue = -1, $black = -1, $ret = false, $name = '')
     {
-        parent::SetDrawColor($r, $g, $b);
+        parent::SetDrawColor($red, $green, $blue, $black, $ret, $name);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
             $this->_out($this->DrawColor);
         }
@@ -371,9 +371,9 @@ trait FpdfTplTrait
     /**
      * @inheritdoc
      */
-    public function SetFillColor($r, $g = null, $b = null)
+    public function SetFillColor($red = 0, $green = -1, $blue = -1, $black = -1, $ret = false, $name = '')
     {
-        parent::SetFillColor($r, $g, $b);
+        parent::SetFillColor($red, $green, $blue, $black, $ret, $name);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
             $this->_out($this->FillColor);
         }
@@ -393,9 +393,9 @@ trait FpdfTplTrait
     /**
      * @inheritdoc
      */
-    public function SetFont($family, $style = '', $size = 0)
+    public function SetFont($family, $style = '', $size=null, $fontfile='', $subset='default', $out=true)
     {
-        parent::SetFont($family, $style, $size);
+        parent::SetFont($family, $style, $size, $fontfile, $subset, $out);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
             $this->_out(\sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
         }
@@ -404,9 +404,9 @@ trait FpdfTplTrait
     /**
      * @inheritdoc
      */
-    public function SetFontSize($size)
+    public function SetFontSize($size, $out=true)
     {
-        parent::SetFontSize($size);
+        parent::SetFontSize($size, $out);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
             $this->_out(sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
         }

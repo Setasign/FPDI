@@ -2,12 +2,13 @@
 
 namespace setasign\Fpdi\unit\PdfReader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 
 class PageBoundariesTest extends TestCase
 {
-    public function isValidNameProvider()
+    public static function isValidNameProvider()
     {
         return [
             ['MediaBox', true],
@@ -23,8 +24,8 @@ class PageBoundariesTest extends TestCase
     /**
      * @param $name
      * @param $expectedResult
-     * @dataProvider isValidNameProvider
      */
+    #[DataProvider('isValidNameProvider')]
     public function testIsValidName($name, $expectedResult)
     {
         $this->assertEquals($expectedResult, PageBoundaries::isValidName($name));

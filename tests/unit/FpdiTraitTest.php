@@ -38,7 +38,7 @@ abstract class FpdiTraitTest extends TestCase
         $parserParams = ['any' => 'thing'];
 
         $pdf = $this->getMockBuilder(get_class($this->getInstance()))
-            ->setMethods(['getPdfParserInstance', 'setMinPdfVersion'])
+            ->onlyMethods(['getPdfParserInstance', 'setMinPdfVersion'])
             ->getMock();
 
         $fh = fopen(__DIR__ . '/../_files/pdfs/Example-PDF-2.pdf', 'rb+');

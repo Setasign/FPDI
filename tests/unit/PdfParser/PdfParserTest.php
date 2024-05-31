@@ -16,12 +16,12 @@ class PdfParserTest extends TestCase
     {
         $xref = $this->getMockBuilder(CrossReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIndirectObject'])
+            ->onlyMethods(['getIndirectObject'])
             ->getMock();
 
         $parser = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCrossReference'])
+            ->onlyMethods(['getCrossReference'])
             ->getMock();
 
         $parser->expects($this->exactly(2))
@@ -43,7 +43,7 @@ class PdfParserTest extends TestCase
     {
         $xref = $this->getMockBuilder(CrossReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getTrailer', 'getIndirectObject'])
+            ->onlyMethods(['getTrailer', 'getIndirectObject'])
             ->getMock();
 
 
@@ -65,7 +65,7 @@ class PdfParserTest extends TestCase
 
         $parser = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCrossReference'])
+            ->onlyMethods(['getCrossReference'])
             ->getMock();
 
         $parser->expects($this->exactly(2))

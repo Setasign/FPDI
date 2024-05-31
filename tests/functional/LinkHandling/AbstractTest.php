@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\functional\LinkHandling;
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\functional\PdfTypeDumper;
 use setasign\Fpdi\PdfParser\PdfParser;
@@ -248,8 +249,8 @@ abstract class AbstractTest extends TestCase
     
     /**
      * Take the result of testLinkHandling1 and re-place it with the same settings.
-     * @depends testLinkHandling1
      */
+    #[Depends('testLinkHandling1')]
     public function testLinkHandling2($previous)
     {
         $pdf = $this->getInstance();
@@ -308,9 +309,8 @@ abstract class AbstractTest extends TestCase
     /**
      * Re-import the page of the previous test with the same positioning
      * and size will end in the same rect and quad-points values.
-     *
-     * @depends testLinkHandling2
      */
+    #[Depends('testLinkHandling2')]
     public function testLinkHandling3($previous)
     {
         $pdf = $this->getInstance();

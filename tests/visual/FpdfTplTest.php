@@ -21,7 +21,7 @@ class FpdfTplTest extends VisualTestCase
         return new FpdfTpl('P', 'pt');
     }
 
-    public function createProvider()
+    public static function createProvider()
     {
         return [
             [

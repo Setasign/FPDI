@@ -7,7 +7,7 @@ use setasign\Fpdi\PdfReader\PageBoundaries;
 
 class ConcatTest extends VisualTestCase
 {
-    public function createProvider()
+    public static function createProvider()
     {
         $path = __DIR__ . '/..';
         $data = [

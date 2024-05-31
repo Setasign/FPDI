@@ -6,7 +6,7 @@ use setasign\Fpdi\visual\VisualTestCase;
 
 class AlphaTest extends VisualTestCase
 {
-    public function createProvider()
+    public static function createProvider()
     {
         $path = __DIR__ . '/../..';
         return [

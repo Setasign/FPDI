@@ -2,11 +2,12 @@
 
 namespace setasign\Fpdi\visual;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 abstract class VisualTestCase extends TestCase
 {
-    abstract public function createProvider();
+    abstract static public function createProvider();
 
     /**
      * Should return __FILE__
@@ -51,12 +52,11 @@ abstract class VisualTestCase extends TestCase
     }
 
     /**
-     * @dataProvider createProvider
-     *
      * @param array|string $inputData
      * @param int|float $tolerance
      * @param int $dpi
      */
+    #[DataProvider('createProvider')]
     public function testCreate($inputData, $tolerance, $dpi = 150)
     {
         $classFile = $this->getClassFile();

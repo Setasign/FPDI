@@ -2,13 +2,14 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Filter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Filter\Ascii85;
 use setasign\Fpdi\PdfParser\Filter\Ascii85Exception;
 
 class Ascii85Test extends TestCase
 {
-    public function decodeProvider()
+    public static function decodeProvider()
     {
         $data = [
             [
@@ -68,9 +69,7 @@ class Ascii85Test extends TestCase
         return $data;
     }
 
-    /**
-     * @dataProvider decodeProvider
-     */
+    #[DataProvider('decodeProvider')]
     public function testDecode($in, $expected)
     {
         $filter = new Ascii85();

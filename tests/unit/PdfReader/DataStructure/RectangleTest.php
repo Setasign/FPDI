@@ -2,10 +2,10 @@
 
 namespace setasign\Fpdi\unit\PdfReader\DataStructure;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
 use setasign\Fpdi\PdfParser\PdfParser;
-use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
@@ -14,7 +14,7 @@ use setasign\Fpdi\PdfReader\DataStructure\Rectangle;
 
 class RectangleTest extends TestCase
 {
-    public function dataProvider()
+    public static function dataProvider()
     {
         return [
             [
@@ -57,8 +57,8 @@ class RectangleTest extends TestCase
      * @param $array
      * @param $expectedWidth
      * @param $expectedHeight
-     * @dataProvider dataProvider
      */
+    #[DataProvider('dataProvider')]
     public function testGetterAndSetters($array, $expectedArray, $expectedWidth, $expectedHeight)
     {
         list($ax, $ay, $bx, $by) = $array;
@@ -114,12 +114,12 @@ class RectangleTest extends TestCase
 
         $xref = $this->getMockBuilder(CrossReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIndirectObject'])
+            ->onlyMethods(['getIndirectObject'])
             ->getMock();
 
         $parser = $this->getMockBuilder(PdfParser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCrossReference'])
+            ->onlyMethods(['getCrossReference'])
             ->getMock();
 
         $parser->expects($this->exactly(5))
@@ -128,8 +128,15 @@ class RectangleTest extends TestCase
 
         $xref->expects($this->exactly(5))
             ->method('getIndirectObject')
-            ->withConsecutive([1], [10], [20], [110], [120])
-            ->willReturnOnConsecutiveCalls($object1, $object10, $object20, $object110, $object120);
+            ->willReturnCallback(function(int $key) use ($object1, $object10, $object20, $object110, $object120) {
+                return match($key) {
+                    1 => $object1,
+                    10 => $object10,
+                    20 => $object20,
+                    110 => $object110,
+                    120 => $object120
+                };
+            });
 
         $rect = Rectangle::byPdfArray($arrayReference, $parser);
         $this->assertEquals(10, $rect->getLlx());

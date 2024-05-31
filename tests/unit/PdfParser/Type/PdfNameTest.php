@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\unit\PdfParser\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfString;
@@ -37,7 +38,7 @@ class PdfNameTest extends TestCase
         $this->assertSame($a, $b);
     }
 
-    public function unescapeProvider()
+    public static function unescapeProvider()
     {
         return [
             ['1.5'                , '1#2E5'],
@@ -52,8 +53,8 @@ class PdfNameTest extends TestCase
     /**
      * @param $expectedResult
      * @param $escaped
-     * @dataProvider unescapeProvider
      */
+    #[DataProvider('unescapeProvider')]
     public function testUnescape($expectedResult, $escaped)
     {
         $this->assertEquals($expectedResult, PdfName::unescape($escaped));

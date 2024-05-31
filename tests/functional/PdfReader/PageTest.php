@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\functional\PdfReader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
@@ -10,7 +11,7 @@ use setasign\Fpdi\PdfReader\PdfReader;
 
 class PageTest extends TestCase
 {
-    public function getExternalLinksProvider()
+    public static function getExternalLinksProvider()
     {
         return [
             [
@@ -96,9 +97,7 @@ class PageTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getExternalLinksProvider
-     */
+    #[DataProvider('getExternalLinksProvider')]
     public function testGetExternalLinks($path, $expectedData)
     {
         $stream = StreamReader::createByFile($path);

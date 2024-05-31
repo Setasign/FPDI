@@ -2,6 +2,7 @@
 
 namespace setasign\Fpdi\functional\PdfParser\CrossReference;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\CrossReference\FixedReader;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
@@ -10,7 +11,7 @@ use setasign\Fpdi\PdfParser\StreamReader;
 
 class FixedReaderTest extends TestCase
 {
-    public function readProvider()
+    public static function readProvider()
     {
         $data = [];
 
@@ -93,8 +94,8 @@ class FixedReaderTest extends TestCase
     /**
      * @param $table
      * @param $expectedSubSections
-     * @dataProvider readProvider
      */
+    #[DataProvider('readProvider')]
     public function testRead($table, $expectedSubSections)
     {
         $reader = StreamReader::createByString($table);
@@ -103,7 +104,7 @@ class FixedReaderTest extends TestCase
         $this->assertSame($expectedSubSections, $xref->getSubSections());
     }
 
-    public function readWithInvalidDataProvider()
+    public static function readWithInvalidDataProvider()
     {
         $data = [];
 
@@ -154,8 +155,8 @@ class FixedReaderTest extends TestCase
      * @param $table
      * @param $expectedException
      * @param $expectedExceptionCode
-     * @dataProvider readWithInvalidDataProvider
      */
+    #[DataProvider('readWithInvalidDataProvider')]
     public function testReadWithInvalidData($table, $expectedException, $expectedExceptionCode)
     {
         $this->expectException($expectedException);
@@ -165,7 +166,7 @@ class FixedReaderTest extends TestCase
         new FixedReader(new PdfParser($reader));
     }
 
-    public function getOffsetProvider()
+    public static function getOffsetProvider()
     {
         $data = [];
 
@@ -192,8 +193,8 @@ class FixedReaderTest extends TestCase
     /**
      * @param $table
      * @param $expectedOffsets
-     * @dataProvider getOffsetProvider
      */
+    #[DataProvider('getOffsetProvider')]
     public function testGetOffset($table, $expectedOffsets)
     {
         $reader = StreamReader::createByString($table);

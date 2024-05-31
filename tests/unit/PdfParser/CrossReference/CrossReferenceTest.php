@@ -17,7 +17,7 @@ class CrossReferenceTest extends TestCase
     {
         $tableMock1 = $this->getMockBuilder(FixedReader::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getOffsetFor'])
+            ->onlyMethods(['getOffsetFor'])
             ->getMock();
 
         $tableMock1->expects($this->once())
@@ -27,7 +27,7 @@ class CrossReferenceTest extends TestCase
 
         $tableMock2 = $this->getMockBuilder(FixedReader::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getOffsetFor'])
+            ->onlyMethods(['getOffsetFor'])
             ->getMock();
 
         $tableMock2->expects($this->never())
@@ -35,7 +35,7 @@ class CrossReferenceTest extends TestCase
 
         $mock = $this->getMockBuilder(CrossReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getReaders'])
+            ->onlyMethods(['getReaders'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -49,7 +49,7 @@ class CrossReferenceTest extends TestCase
     {
         $mock = $this->getMockBuilder(CrossReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getOffsetFor'])
+            ->onlyMethods(['getOffsetFor'])
             ->getMock();
 
         $mock->expects($this->once())

@@ -2,13 +2,14 @@
 
 namespace setasign\Fpdi\functional\PdfParser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Tokenizer;
 
 class TokenizerTest extends TestCase
 {
-    public function getNextTokenProvider()
+    public static function getNextTokenProvider()
     {
         $longString = str_repeat('c', 610);
         $longString2 = str_repeat('A', 100);
@@ -115,8 +116,8 @@ class TokenizerTest extends TestCase
     /**
      * @param $string
      * @param array $expectedResult
-     * @dataProvider getNextTokenProvider
      */
+    #[DataProvider('getNextTokenProvider')]
     public function testGetNextToken($string, array $expectedResult)
     {
         $reader = StreamReader::createByString($string);

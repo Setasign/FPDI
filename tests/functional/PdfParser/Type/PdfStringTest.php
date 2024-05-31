@@ -2,13 +2,14 @@
 
 namespace setasign\Fpdi\functional\PdfParser\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 
 class PdfStringTest extends TestCase
 {
-    public function parseProvider()
+    public static function parseProvider()
     {
         $data = [
             [
@@ -56,8 +57,8 @@ class PdfStringTest extends TestCase
     /**
      * @param $in
      * @param $expectedResult
-     * @dataProvider parseProvider
      */
+    #[DataProvider('parseProvider')]
     public function testParse($in, $expectedResult)
     {
         $stream = StreamReader::createByString($in);
@@ -66,7 +67,7 @@ class PdfStringTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function unescapeProvider()
+    public static function unescapeProvider()
     {
         return [
             // in, out
@@ -133,8 +134,8 @@ class PdfStringTest extends TestCase
     /**
      * @param $expected
      * @param $in
-     * @dataProvider unescapeProvider
      */
+    #[DataProvider('unescapeProvider')]
     public function testUnescape($in, $expected)
     {
         $this->assertEquals($expected, PdfString::unescape($in));
