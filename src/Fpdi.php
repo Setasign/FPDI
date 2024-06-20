@@ -25,7 +25,7 @@ class Fpdi extends FpdfTpl
     use FpdiTrait;
     use FpdfTrait;
 
-    protected $tplIdx;
+    public $tplIdx;
 
     /**
      * FPDI version
