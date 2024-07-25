@@ -107,7 +107,7 @@ class PdfDictionary extends PdfType
      * @return PdfNull|PdfType
      * @throws PdfTypeException
      */
-    public static function get($dictionary, $key, PdfType $default = null)
+    public static function get($dictionary, $key, $default = null)
     {
         $dictionary = self::ensure($dictionary);
 
