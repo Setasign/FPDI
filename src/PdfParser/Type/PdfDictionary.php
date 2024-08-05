@@ -109,6 +109,9 @@ class PdfDictionary extends PdfType
      */
     public static function get($dictionary, $key, $default = null)
     {
+		if ($default !== null && !($default instanceof PdfType)) {
+			throw new \InvalidArgumentException('Default value must be an instance of PdfType or null');
+		}
         $dictionary = self::ensure($dictionary);
 
         if (isset($dictionary->value[$key])) {
