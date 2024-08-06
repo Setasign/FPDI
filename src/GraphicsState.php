@@ -26,10 +26,12 @@ class GraphicsState
     /**
      * @param Matrix|null $ctm
      */
-    public function __construct(Matrix $ctm = null)
+    public function __construct($ctm = null)
     {
         if ($ctm === null) {
             $ctm = new Matrix();
+        } elseif (!($ctm instanceof Matrix)) {
+            throw new \InvalidArgumentException('$ctm must be an instance of Fpdi\\Matrix or null');
         }
 
         $this->ctm = $ctm;
