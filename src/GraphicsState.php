@@ -31,8 +31,8 @@ class GraphicsState
         if ($ctm === null) {
             $ctm = new Matrix();
         } elseif (!($ctm instanceof Matrix)) {
-			throw new \InvalidArgumentException('$ctm must be an instance of Fpdi\\Matrix or null');
-		}
+            throw new \InvalidArgumentException('$ctm must be an instance of Fpdi\\Matrix or null');
+        }
 
         $this->ctm = $ctm;
     }
