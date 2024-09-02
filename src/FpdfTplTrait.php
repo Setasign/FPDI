@@ -253,9 +253,9 @@ trait FpdfTplTrait
         $this->currentTemplateId = $templateId;
 
         $this->h = $height;
-        $this->hPt = $height / $this->k;
+        $this->hPt = $height * $this->k;
         $this->w = $width;
-        $this->wPt = $width / $this->k;
+        $this->wPt = $width * $this->k;
 
         $this->SetXY($this->lMargin, $this->tMargin);
         $this->SetRightMargin($this->w - $width + $this->rMargin);

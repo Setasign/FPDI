@@ -1,10 +1,10 @@
 <?php
 
-namespace setasign\Fpdi\visual\Tfpdf;
+namespace Tfpdf;
 
-use setasign\Fpdi\Tfpdf\FpdfTpl;
+use setasign\Fpdi\Tfpdf\Fpdi;
 
-class FpdfTplTest extends \setasign\Fpdi\visual\FpdfTplTest
+class FpdiTest extends \setasign\Fpdi\visual\FpdiTest
 {
     /**
      * Should return __FILE__
@@ -18,6 +18,6 @@ class FpdfTplTest extends \setasign\Fpdi\visual\FpdfTplTest
 
     public function getInstance($unit = 'pt')
     {
-        return new FpdfTpl('P', $unit);
+        return new Fpdi('P', $unit);
     }
 }

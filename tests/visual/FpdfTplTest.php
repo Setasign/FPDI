@@ -16,9 +16,9 @@ class FpdfTplTest extends VisualTestCase
         return __FILE__;
     }
 
-    public function getInstance()
+    public function getInstance($unit = 'pt')
     {
-        return new FpdfTpl('P', 'pt');
+        return new FpdfTpl('P', $unit);
     }
 
     public function createProvider()
@@ -28,6 +28,14 @@ class FpdfTplTest extends VisualTestCase
                 [
                     '_method' => 'templateInTemplate',
                     'tmpPath' => 'templateInTemplate',
+                ],
+                0.1,
+                72 // dpi
+            ],
+            [
+                [
+                    '_method' => 'templateInTemplateMm',
+                    'tmpPath' => 'templateInTemplateMm',
                 ],
                 0.1,
                 72 // dpi
@@ -102,6 +110,31 @@ class FpdfTplTest extends VisualTestCase
         $tplIdx3 = $pdf->beginTemplate();
             $size = $pdf->useTemplate($tplIdx);
             $pdf->useTemplate($tplIdx2, 0, $size['height']);
+        $pdf->endTemplate();
+
+        $pdf->useTemplate($tplIdx3, 10, 10);
+
+        $pdf->Output($outputFile, 'F');
+    }
+
+    public function templateInTemplateMm($inputData, $outputFile)
+    {
+        $pdf = $this->getInstance('mm');
+        $pdf->AddPage();
+
+        $tplIdx = $pdf->beginTemplate(36, 7);
+        $pdf->SetFont('Helvetica', '', 12);
+        $pdf->SetXY(0, 0);
+        $pdf->Cell(36, 7, 'My Test Template', 1);
+        $pdf->endTemplate();
+
+        $tplIdx2 = $pdf->beginTemplate(20, 6);
+        $pdf->useTemplate($tplIdx, 0, 0, 20);
+        $pdf->endTemplate();
+
+        $tplIdx3 = $pdf->beginTemplate();
+        $size = $pdf->useTemplate($tplIdx);
+        $pdf->useTemplate($tplIdx2, 0, $size['height']);
         $pdf->endTemplate();
 
         $pdf->useTemplate($tplIdx3, 10, 10);
