@@ -92,6 +92,22 @@ class PageTest extends TestCase
                 [
                     1 => []
                 ]
+            ],
+            [
+                __DIR__ . '/../../_files/pdfs/links/tuto6.pdf',
+                [
+                    2 => [
+                        [
+                            // the strings are in UTF-16BE: http://pdf.wtf/ümlaut
+                            'uri' => "\xFE\xFF\x00h\x00t\x00t\x00p\x00:\x00/\x00/\x00p\x00d\x00f\x00.\x00w\x00t\x00f\x00/\x00\xfc\x00m\x00l\x00a\x00u\x00t",
+                            'rect' => new Rectangle(28.35, 807.87, 113.39, 749.82)
+                        ],
+                        [
+                            'uri' => "\xFE\xFF\x00h\x00t\x00t\x00p\x00:\x00/\x00/\x00p\x00d\x00f\x00.\x00w\x00t\x00f\x00/\x00\xfc\x00m\x00l\x00a\x00u\x00t",
+                            'rect' => new Rectangle(387.18, 770.93, 468.87, 756.93)
+                        ],
+                    ]
+                ]
             ]
         ];
     }

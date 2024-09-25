@@ -140,8 +140,8 @@ trait FpdfTrait
             $rect = sprintf('%.2F %.2F %.2F %.2F', $pl[0], $pl[1], $pl[0] + $pl[2], $pl[1] - $pl[3]);
             $this->_put('<</Type /Annot /Subtype /Link /Rect [' . $rect . ']', false);
             if (is_string($pl[4])) {
-                $this->_put('/A <</S /URI /URI ' . $this->_textstring($pl[4]) . '>>');
                 if (isset($pl['importedLink'])) {
+                    $this->_put('/A <</S /URI /URI (' . $this->_escape($pl[4]) . ')>>');
                     $values = $pl['importedLink']['pdfObject']->value;
 
                     foreach ($values as $name => $entry) {
@@ -158,6 +158,7 @@ trait FpdfTrait
                         $this->_put($s);
                     }
                 } else {
+                    $this->_put('/A <</S /URI /URI ' . $this->_textstring($pl[4]) . '>>');
                     $this->_put('/Border [0 0 0]', false);
                 }
                 $this->_put('>>');

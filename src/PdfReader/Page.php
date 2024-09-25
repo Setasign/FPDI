@@ -281,6 +281,8 @@ class Page
      * All coordinates are normalized in view to rotation and translation of the boundary-box, so that their
      * origin is lower-left.
      *
+     * The URI is the binary value of the PDF string object. It can be in PdfDocEncoding or in UTF-16BE encoding.
+     *
      * @return array
      */
     public function getExternalLinks($box = PageBoundaries::CROP_BOX)

@@ -741,4 +741,31 @@ abstract class AbstractTest extends TestCase
         $reader = new PdfReader(new PdfParser(StreamReader::createByString($pdfString)));
         $this->compareExpectedLinks(1, $expectedLinks, $reader);
     }
+
+    public function testLinkInUtf16Encoding()
+    {
+        $pdf = $this->getInstance();
+        $pdf->AddPage();
+        // This file has its link in UTF-16BE saved.
+        $pdf->setSourceFile(__DIR__ . '/../../_files/pdfs/links/tuto6.pdf');
+        $tplId = $pdf->importPage(2, PageBoundaries::CROP_BOX, true, true);
+        $pdf->useTemplate($tplId);
+        $pdfString = $this->save($pdf);
+//        file_put_contents(__DIR__ . '/test.pdf', $pdfString);
+
+        $expectedLinks = [
+            [
+                // the strings are in UTF-16BE: http://pdf.wtf/ümlaut
+                'uri' => "\xFE\xFF\x00h\x00t\x00t\x00p\x00:\x00/\x00/\x00p\x00d\x00f\x00.\x00w\x00t\x00f\x00/\x00\xfc\x00m\x00l\x00a\x00u\x00t",
+                'rect' => [28.35, 749.82, 113.39, 807.87],
+            ],
+            [
+                'uri' => "\xFE\xFF\x00h\x00t\x00t\x00p\x00:\x00/\x00/\x00p\x00d\x00f\x00.\x00w\x00t\x00f\x00/\x00\xfc\x00m\x00l\x00a\x00u\x00t",
+                'rect' => [387.18, 756.93, 468.87, 770.93],
+            ],
+        ];
+
+        $reader = new PdfReader(new PdfParser(StreamReader::createByString($pdfString)));
+        $this->compareExpectedLinks(1, $expectedLinks, $reader);
+    }
 }
