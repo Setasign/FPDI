@@ -67,6 +67,14 @@ class PdfArrayTest extends TestCase
                     PdfNumeric::create(123),
                     PdfNumeric::create(456)
                 ]
+            ],
+            [
+                "123 456 789]",
+                [
+                    PdfNumeric::create(123),
+                    PdfNumeric::create(456),
+                    PdfNumeric::create(789)
+                ]
             ]
         ];
 
