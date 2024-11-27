@@ -118,7 +118,6 @@ class PdfReader
      */
     public function getPage($pageNumber)
     {
-        /** @phpstan-ignore function.alreadyNarrowedType */
         if (!\is_numeric($pageNumber)) {
             throw new \InvalidArgumentException(
                 'Page number needs to be a number.'

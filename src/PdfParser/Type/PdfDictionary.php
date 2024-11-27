@@ -48,12 +48,11 @@ class PdfDictionary extends PdfType
             if (!($key instanceof PdfName)) {
                 $lastToken = null;
                 // ignore all other entries and search for the closing brackets
-                while (($token = $tokenizer->getNextToken()) !== '>' && $token !== false && $lastToken !== '>') {
+                while (($token = $tokenizer->getNextToken()) !== '>' || $lastToken !== '>') {
+                    if ($token === false) {
+                        return false;
+                    }
                     $lastToken = $token;
-                }
-
-                if ($token === false) {
-                    return false;
                 }
 
                 break;

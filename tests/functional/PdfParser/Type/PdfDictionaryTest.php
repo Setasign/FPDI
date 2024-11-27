@@ -30,6 +30,19 @@ class PdfDictionaryTest extends TestCase
                 ])
             ],
             [
+                '/A (hello) B [<>]>>',
+                PdfDictionary::create([
+                    'A' => PdfString::create('hello')
+                ])
+            ],
+            // this faulty structure is currently not handled
+//            [
+//                '/A (hello) B [<<>>]>>',
+//                PdfDictionary::create([
+//                    'A' => PdfString::create('hello')
+//                ])
+//            ],
+            [
                 '/A (1) /B (2) /C <</D (4) /E (5)>> >>',
                 PdfDictionary::create([
                     'A' => PdfString::create('1'),
@@ -120,8 +133,8 @@ class PdfDictionaryTest extends TestCase
         $result = PdfDictionary::parse($tokenizer, $stream, $parser);
 
         $this->assertInstanceOf(PdfDictionary::class, $result);
-
         $this->assertEquals($expectedResult->value, $result->value);
+        $this->assertFalse($tokenizer->getNextToken());
     }
 
     public function testParseBehind()
