@@ -444,6 +444,7 @@ trait FpdiTrait
             unset($x['pageId']);
             \extract($x, EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
+            /** @phpstan-ignore function.alreadyNarrowedType  */
             if (\is_array($x)) {
                 $x = 0;
             }

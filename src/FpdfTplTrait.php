@@ -109,7 +109,7 @@ trait FpdfTplTrait
             unset($x['tpl']);
             \extract($x, EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
-            /** @noinspection PhpConditionAlreadyCheckedInspection */
+            /** @phpstan-ignore function.alreadyNarrowedType  */
             if (\is_array($x)) {
                 $x = 0;
             }

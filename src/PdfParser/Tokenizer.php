@@ -68,7 +68,7 @@ class Tokenizer
     /**
      * Get next token.
      *
-     * @return bool|string
+     * @return false|string
      */
     public function getNextToken()
     {
@@ -117,11 +117,8 @@ class Tokenizer
         } while (
             // Break the loop if a delimiter or white space char is matched
             // in the current buffer or increase the buffers length
-            $lastBuffer !== false &&
-            (
-                $bufferOffset + $pos === \strlen($lastBuffer) &&
-                $this->streamReader->increaseLength()
-            )
+            $bufferOffset + $pos === \strlen($lastBuffer)
+            && $this->streamReader->increaseLength()
         );
 
         $result = \substr($lastBuffer, $bufferOffset - 1, $pos + 1);
