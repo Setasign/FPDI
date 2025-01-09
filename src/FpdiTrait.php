@@ -133,7 +133,7 @@ trait FpdiTrait
         // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw
         // exceptions, MUST NOT raise errors of any level, and SHOULD NOT return a value.
         /** @noinspection PhpUndefinedClassInspection */
-        if (\class_exists(FpdiPdfParser::class)) {
+        if (\class_exists("FpdiPdfParser", false)) {
             /** @noinspection PhpUndefinedClassInspection */
             return new FpdiPdfParser($streamReader, $parserParams);
         }
