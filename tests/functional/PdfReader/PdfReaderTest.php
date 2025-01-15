@@ -861,6 +861,151 @@ class PdfReaderTest extends TestCase
             ]
         ];
 
+        $data[] = [
+            $path . '/PDF-complex-structure.pdf',
+            [
+                1 => PdfIndirectObject::create(
+                    3,
+                    0,
+                    PdfDictionary::create([
+                        'Contents' => PdfIndirectObjectReference::create(16, 0),
+                        'Group' => PdfDictionary::create([
+                            'CS' => PdfName::create('DeviceRGB'),
+                            'S' => PdfName::create('Transparency'),
+                            'Type' => PdfName::create('Group'),
+                        ]),
+                        'ICNValidStructure' => PdfNumeric::create(0),
+                        'Margins' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0)
+                        ]),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.2),
+                            PdfNumeric::create(841.92)
+                        ]),
+                        'Parent' => PdfIndirectObjectReference::create(2, 0),
+                        'Resources' => PdfDictionary::create([
+                            'ExtGState' => PdfDictionary::create([
+                                'GS7' => PdfIndirectObjectReference::create(7, 0),
+                            ]),
+                            'Font' => PdfDictionary::create([
+                                'F1' => PdfIndirectObjectReference::create(5, 0),
+                                'FXF1' => PdfIndirectObjectReference::create(2095, 0),
+                            ]),
+                            'ProcSet' => PdfArray::create([
+                                PdfName::create('PDF'),
+                                PdfName::create('Text'),
+                                PdfName::create('ImageB'),
+                                PdfName::create('ImageC'),
+                                PdfName::create('ImageI'),
+                            ]),
+                            'XObject' => PdfDictionary::create([
+                                'FXX1' => PDfIndirectObjectReference::create(2089, 0),
+                            ])
+                        ]),
+                        'StructParents' => PdfNumeric::create(0),
+                        'Tabs' => PdfName::create('S'),
+                        'Type' => PdfName::create('Page'),
+                    ])
+                ),
+                2 => PdfIndirectObject::create(
+                    26,
+                    0,
+                    PdfDictionary::create([
+                        'Contents' => PdfIndirectObjectReference::create(83, 0),
+                        'CropBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.2),
+                            PdfNumeric::create(841.68)
+                        ]),
+                        'ICNValidStructure' => PdfNumeric::create(0),
+                        'Margins' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0)
+                        ]),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.2),
+                            PdfNumeric::create(841.68)
+                        ]),
+                        'Parent' => PdfIndirectObjectReference::create(25, 0),
+                        'Resources' => PdfDictionary::create([
+                            'ColorSpace' => PdfDictionary::create(),
+                            'Font' => PdfDictionary::create([
+                                'Font0' => PdfIndirectObjectReference::create(144, 0),
+                                'Font1' => PdfIndirectObjectReference::create(141, 0),
+                                'Font2' => PdfIndirectObjectReference::create(77, 0),
+                            ]),
+                            'ProcSet' => PdfArray::create([
+                                PdfName::create('PDF'),
+                                PdfName::create('Text'),
+                                PdfName::create('ImageB'),
+                                PdfName::create('ImageC'),
+                                PdfName::create('ImageI'),
+                            ]),
+                            'XObject' => PdfDictionary::create([
+                                'XObject3' => PDfIndirectObjectReference::create(47, 0),
+                            ])
+                        ]),
+                        'Rotate' => PdfNumeric::create(0),
+                        'Type' => PdfName::create('Page'),
+                    ])
+                ),
+                10 => PdfIndirectObject::create(
+                    124,
+                    0,
+                    PdfDictionary::create([
+                        'Contents' => PdfIndirectObjectReference::create(110, 0),
+                        'CropBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.2),
+                            PdfNumeric::create(841.68)
+                        ]),
+                        'Margins' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0)
+                        ]),
+                        'MediaBox' => PdfArray::create([
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(0),
+                            PdfNumeric::create(595.2),
+                            PdfNumeric::create(841.68)
+                        ]),
+                        'Parent' => PdfIndirectObjectReference::create(123, 0),
+                        'Resources' => PdfDictionary::create([
+                            'ColorSpace' => PdfDictionary::create(),
+                            'Font' => PdfDictionary::create([
+                                'Font0' => PdfIndirectObjectReference::create(96, 0),
+                                'Font1' => PdfIndirectObjectReference::create(77, 0),
+                                'Font2' => PdfIndirectObjectReference::create(109, 0),
+                            ]),
+                            'Para' => PdfDictionary::create(),
+                            'ProcSet' => PdfArray::create([
+                                PdfName::create('PDF'),
+                                PdfName::create('Text'),
+                                PdfName::create('ImageB'),
+                                PdfName::create('ImageC'),
+                                PdfName::create('ImageI'),
+                            ]),
+                        ]),
+                        'Rotate' => PdfNumeric::create(0),
+                        'Type' => PdfName::create('Page'),
+                    ])
+                )
+            ]
+        ];
+
         return $data;
     }
 
