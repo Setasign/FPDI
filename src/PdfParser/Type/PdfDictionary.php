@@ -106,20 +106,15 @@ class PdfDictionary extends PdfType
      * @return PdfNull|PdfType
      * @throws PdfTypeException
      */
-    public static function get($dictionary, $key, $default = null)
+    public static function get($dictionary, $key, ?PdfType $default = null)
     {
-        if ($default !== null && !($default instanceof PdfType)) {
-            throw new \InvalidArgumentException('Default value must be an instance of PdfType or null');
-        }
         $dictionary = self::ensure($dictionary);
 
         if (isset($dictionary->value[$key])) {
             return $dictionary->value[$key];
         }
 
-        return $default === null
-            ? new PdfNull()
-            : $default;
+        return $default ?? new PdfNull();
     }
 
     /**
