@@ -204,6 +204,21 @@ class FixedReaderTest extends TestCase
         }
     }
 
+    public function testGetOffsetWhileStreamWasReset()
+    {
+        $table = "0 2\n" .
+            "0000000000 65535 f \n" .
+            "0000001000 00000 n \n" .
+            "trailer<</Size 2>>";
+
+        $reader = StreamReader::createByString($table);
+        $xref = new FixedReader(new PdfParser($reader));
+        $stream = $reader->getStream();
+        \ftruncate($stream, 40);
+
+        $this->assertFalse($xref->getOffsetFor(1));
+    }
+
     /**
      * @throws CrossReferenceException
      */
