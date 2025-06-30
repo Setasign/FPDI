@@ -57,7 +57,6 @@ abstract class AbstractReader
      * Read the trailer dictionary.
      *
      * @throws CrossReferenceException
-     * @throws PdfTypeException
      */
     protected function readTrailer()
     {
