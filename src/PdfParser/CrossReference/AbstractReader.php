@@ -35,7 +35,6 @@ abstract class AbstractReader
      *
      * @param PdfParser $parser
      * @throws CrossReferenceException
-     * @throws PdfTypeException
      */
     public function __construct(PdfParser $parser)
     {
