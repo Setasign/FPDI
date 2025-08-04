@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PdfReader;
+namespace setasign\Fpdi\unit\PdfReader;
 
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\PdfParser;
