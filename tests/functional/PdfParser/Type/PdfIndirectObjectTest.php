@@ -5,14 +5,10 @@ namespace setasign\Fpdi\functional\PdfParser\Type;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
-use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
-use setasign\Fpdi\PdfParser\Type\PdfNull;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
-use setasign\Fpdi\PdfParser\Type\PdfToken;
 
 class PdfIndirectObjectTest extends TestCase
 {
@@ -129,7 +125,6 @@ class PdfIndirectObjectTest extends TestCase
         if ($result->value instanceof PdfStream) {
             $this->assertEquals($expectedResult->value->value, $result->value->value);
             $this->assertSame($expectedResult->value->getStream(), $result->value->getStream());
-
         } else {
             $this->assertEquals($expectedResult, $result);
         }

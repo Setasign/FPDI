@@ -147,7 +147,7 @@ class PdfReader
                 foreach ($kids->value as $reference) {
                     $reference = PdfIndirectObjectReference::ensure($reference);
 
-                    if (\in_array($reference->value, $alreadyReadKids)) {
+                    if (\in_array($reference->value, $alreadyReadKids, true)) {
                         throw new PdfReaderException('Recursive pages dictionary detected.');
                     }
                     $alreadyReadKids[] = $reference->value;
@@ -224,7 +224,7 @@ class PdfReader
                     continue;
                 }
 
-                if (\in_array($reference->value, $alreadyReadKids)) {
+                if (\in_array($reference->value, $alreadyReadKids, true)) {
                     throw new PdfReaderException('Recursive pages dictionary detected.');
                 }
                 $alreadyReadKids[] = $reference->value;
