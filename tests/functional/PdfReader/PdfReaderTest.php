@@ -3,7 +3,6 @@
 namespace setasign\Fpdi\functional\PdfReader;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Exception\InvalidArgumentException;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
@@ -14,7 +13,6 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
 use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNumeric;
-use setasign\Fpdi\PdfParser\Type\PdfType;
 use setasign\Fpdi\PdfReader\PdfReader;
 
 class PdfReaderTest extends TestCase
