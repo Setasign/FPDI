@@ -302,7 +302,7 @@ trait FpdfTplTrait
 
         $fontKey = $this->FontFamily . $this->FontStyle;
         if ($fontKey) {
-            $this->CurrentFont =& $this->fonts[$fontKey];
+            $this->CurrentFont = $this->fonts[$fontKey];
         } else {
             unset($this->CurrentFont);
         }

@@ -418,4 +418,36 @@ class FpdfTplTest extends TestCase
         $tplObject = $parser->getIndirectObject(6);
         $this->assertFalse(isset($tplObject->value->value->value['Group']));
     }
+
+    /**
+     * In the past the CurrentFont property was stored by-reference. This was removed in FPDF 1.85 but in
+     * FpdfTpl the property was still set by-reference, which results in duplicate font-names.
+     */
+    public function testCurrentFontByReferenceIssue()
+    {
+        $myPdf = new class() extends FpdfTpl {
+            public function Header()
+            {
+                $this->SetFont('Arial', 'B', 16);
+                $this->Cell(0, 5, 'Test Header');
+            }
+
+            function Footer()
+            {
+                $this->SetY(-15);
+                $this->SetFont('Arial','I',8);
+                $this->SetTextColor(128);
+                $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
+            }
+        };
+
+        $pdf = new $myPdf();
+        $pdf->AddPage();
+        $pdf->beginTemplate();
+        $pdf->endTemplate();
+        $pdfString = $pdf->Output('S');
+
+        $this->assertEquals(1, \substr_count($pdfString, '/F2 '));
+        $this->assertEquals(1, \substr_count($pdfString, '/F1 '));
+    }
 }
