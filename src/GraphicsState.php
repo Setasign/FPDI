@@ -53,13 +53,13 @@ class GraphicsState
      */
     public function rotate($x, $y, $angle)
     {
-        if (abs($angle) < 1e-5) {
+        if (\abs($angle) < 1e-5) {
             return  $this;
         }
 
-        $angle = deg2rad($angle);
-        $c = cos($angle);
-        $s = sin($angle);
+        $angle = \deg2rad($angle);
+        $c = \cos($angle);
+        $s = \sin($angle);
 
         $this->add(new Matrix($c, $s, -$s, $c, $x, $y));
 

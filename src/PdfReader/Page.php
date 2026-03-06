@@ -118,7 +118,7 @@ class Page
         if ($inherited && \in_array($name, $inheritedKeys, true)) {
             if ($this->inheritedAttributes === null) {
                 $this->inheritedAttributes = [];
-                $inheritedKeys = \array_filter($inheritedKeys, function ($key) use ($dict) {
+                $inheritedKeys = \array_filter($inheritedKeys, static function ($key) use ($dict) {
                     return !isset($dict->value[$key]);
                 });
 
@@ -334,7 +334,7 @@ class Page
                 }
 
                 $rect = PdfType::resolve(PdfDictionary::get($annotation, 'Rect'), $this->parser);
-                if (!$rect instanceof PdfArray || count($rect->value) !== 4) {
+                if (!$rect instanceof PdfArray || \count($rect->value) !== 4) {
                     continue;
                 }
 
@@ -370,7 +370,7 @@ class Page
                 $quadPoints = PdfType::resolve(PdfDictionary::get($annotation, 'QuadPoints'), $this->parser);
                 $normalizedQuadPoints = [];
                 if ($quadPoints instanceof PdfArray) {
-                    $quadPointsCount = count($quadPoints->value);
+                    $quadPointsCount = \count($quadPoints->value);
                     if ($quadPointsCount % 8 === 0) {
                         for ($i = 0; ($i + 1) < $quadPointsCount; $i += 2) {
                             $x = PdfNumeric::ensure(PdfType::resolve($quadPoints->value[$i], $this->parser));

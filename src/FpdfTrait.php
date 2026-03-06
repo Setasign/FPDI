@@ -137,7 +137,7 @@ trait FpdfTrait
     {
         foreach ($this->PageLinks[$n] as $pl) {
             $this->_newobj();
-            $rect = sprintf('%.2F %.2F %.2F %.2F', $pl[0], $pl[1], $pl[0] + $pl[2], $pl[1] - $pl[3]);
+            $rect = \sprintf('%.2F %.2F %.2F %.2F', $pl[0], $pl[1], $pl[0] + $pl[2], $pl[1] - $pl[3]);
             $this->_put('<</Type /Annot /Subtype /Link /Rect [' . $rect . ']', false);
             if (is_string($pl[4])) {
                 if (isset($pl['importedLink'])) {
@@ -152,7 +152,7 @@ trait FpdfTrait
                     if (isset($pl['quadPoints'])) {
                         $s = '/QuadPoints[';
                         foreach ($pl['quadPoints'] as $value) {
-                            $s .= sprintf('%.2F ', $value);
+                            $s .= \sprintf('%.2F ', $value);
                         }
                         $s .= ']';
                         $this->_put($s);
@@ -172,7 +172,7 @@ trait FpdfTrait
                         ? $this->DefPageSize[1] * $this->k
                         : $this->DefPageSize[0] * $this->k;
                 }
-                $this->_put(sprintf(
+                $this->_put(\sprintf(
                     '/Dest [%d 0 R /XYZ 0 %.2F null]>>',
                     $this->PageInfo[$l[0]]['n'],
                     $h - $l[1] * $this->k

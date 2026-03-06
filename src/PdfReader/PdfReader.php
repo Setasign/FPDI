@@ -124,6 +124,8 @@ class PdfReader
             );
         }
 
+        $pageNumber = (int)$pageNumber;
+
         if ($pageNumber < 1 || $pageNumber > $this->getPageCount()) {
             throw new \InvalidArgumentException(
                 \sprintf(

@@ -313,7 +313,7 @@ trait FpdiTrait
             $dict->value['Resources'] = $resources;
         }
 
-        list($width, $height) = $page->getWidthAndHeight($box);
+        [$width, $height] = $page->getWidthAndHeight($box);
 
         $a = 1;
         $b = 0;
@@ -522,11 +522,11 @@ trait FpdiTrait
     protected function adjustLastLink($externalLink, $xPt, $scaleX, $yPt, $newHeightPt, $scaleY, $importedPage)
     {
         // let's create a relation of the newly created link to the data of the external link
-        $lastLink = count($this->PageLinks[$this->page]);
+        $lastLink = \count($this->PageLinks[$this->page]);
         $this->PageLinks[$this->page][$lastLink - 1]['importedLink'] = $externalLink;
-        if (count($externalLink['quadPoints']) > 0) {
+        if (\count($externalLink['quadPoints']) > 0) {
             $quadPoints = [];
-            for ($i = 0, $n = count($externalLink['quadPoints']); $i < $n; $i += 2) {
+            for ($i = 0, $n = \count($externalLink['quadPoints']); $i < $n; $i += 2) {
                 $quadPoints[] = $xPt + $externalLink['quadPoints'][$i] * $scaleX;
                 $quadPoints[] = $this->hPt - $yPt - $newHeightPt + $externalLink['quadPoints'][$i + 1] * $scaleY;
             }

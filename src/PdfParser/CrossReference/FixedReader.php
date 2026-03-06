@@ -62,7 +62,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
      */
     public function getOffsetFor($objectNumber)
     {
-        foreach ($this->subSections as $offset => list($startObject, $objectCount)) {
+        foreach ($this->subSections as $offset => [$startObject, $objectCount]) {
             /**
              * @var int $startObject
              * @var int $objectCount
@@ -189,7 +189,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
         }
 
         if ($this->getOffsetFor(1) === false) {
-            foreach ($subSections as $offset => list($startObject, $objectCount)) {
+            foreach ($subSections as $offset => [$startObject, $objectCount]) {
                 $this->subSections[$offset] = [$startObject - 1, $objectCount];
             }
             return true;
