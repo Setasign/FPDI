@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -147,7 +147,7 @@ class PdfStream extends PdfType
                     $this->reader->reset($this->stream + strlen($buffer));
                     $this->parser->getTokenizer()->clearStack();
                     $token = $this->parser->readValue();
-                    if ($token === false || !($token instanceof PdfToken) || $token->value !== 'endstream') {
+                    if (!($token instanceof PdfToken) || $token->value !== 'endstream') {
                         $this->reader->reset($this->stream, 100000);
                         $buffer = $this->extractStream();
                         $this->reader->reset($this->stream + strlen($buffer));
@@ -205,7 +205,7 @@ class PdfStream extends PdfType
         // There are streams in the wild, which have only white signs in them but need to be parsed manually due
         // to a problem encountered before (e.g. Length === 0). We should set them to empty streams to avoid problems
         // in further processing (e.g. applying of filters).
-        if (trim($buffer) === '') {
+        if (\trim($buffer) === '') {
             $buffer = '';
         }
 

@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -293,10 +293,10 @@ class Fpdi extends \TCPDF
 
         if ($this->inxobj) {
             // store parameters for later use on template
-            $lastAnnotationKey = count($this->xobjects[$this->xobjid]['annotations']) - 1;
+            $lastAnnotationKey = \count($this->xobjects[$this->xobjid]['annotations']) - 1;
             $lastAnnotationOpt = &$this->xobjects[$this->xobjid]['annotations'][$lastAnnotationKey]['opt'];
         } else {
-            $lastAnnotationKey = count($this->PageAnnots[$this->page]) - 1;
+            $lastAnnotationKey = \count($this->PageAnnots[$this->page]) - 1;
             $lastAnnotationOpt = &$this->PageAnnots[$this->page][$lastAnnotationKey]['opt'];
         }
 
@@ -356,7 +356,7 @@ class Fpdi extends \TCPDF
                     case 'C':
                         $c = [];
                         $colors = PdfArray::ensure(PdfType::resolve($value, $parser))->value;
-                        $m = count($colors) === 4 ? 100 : 255;
+                        $m = \count($colors) === 4 ? 100 : 255;
                         foreach ($colors as $item) {
                             $c[] = PdfNumeric::ensure($item)->value * $m;
                         }
