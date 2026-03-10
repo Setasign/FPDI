@@ -127,8 +127,11 @@ trait FpdiTrait
      * @param array $parserParams Individual parameters passed to the parser instance.
      * @return PdfParser|FpdiPdfParser
      */
-    protected function getPdfParserInstance(StreamReader $streamReader, array $parserParams = [])
-    {
+    protected function getPdfParserInstance(
+        StreamReader $streamReader,
+        #[\SensitiveParameter]
+        array $parserParams = []
+    ) {
         // note: if you get an exception here - turn off errors/warnings on not found classes for your autoloader.
         // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw
         // exceptions, MUST NOT raise errors of any level, and SHOULD NOT return a value.
@@ -149,8 +152,11 @@ trait FpdiTrait
      * @param array $parserParams Individual parameters passed to the parser instance.
      * @return string
      */
-    protected function getPdfReaderId($file, array $parserParams = [])
-    {
+    protected function getPdfReaderId(
+        $file,
+        #[\SensitiveParameter]
+        array $parserParams = []
+    ) {
         if (\is_resource($file)) {
             $id = (string) $file;
         } elseif (\is_string($file)) {
@@ -228,8 +234,11 @@ trait FpdiTrait
      * @throws PdfParserException
      * @throws PdfTypeException
      */
-    public function setSourceFileWithParserParams($file, array $parserParams = [])
-    {
+    public function setSourceFileWithParserParams(
+        $file,
+        #[\SensitiveParameter]
+        array $parserParams = []
+    ) {
         $this->currentReaderId = $this->getPdfReaderId($file, $parserParams);
         $this->objectsToCopy[$this->currentReaderId] = [];
 
