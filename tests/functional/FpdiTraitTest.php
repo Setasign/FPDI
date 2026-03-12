@@ -3,7 +3,10 @@
 namespace setasign\Fpdi\functional;
 
 use PHPUnit\Framework\TestCase;
+use setasign\Fpdi\FpdfTrait;
 use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\FpdiTrait;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
@@ -16,7 +19,6 @@ use setasign\Fpdi\PdfParser\Type\PdfNumeric;
 use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
-use setasign\Fpdi\PdfParser\Type\PdfType;
 
 class FpdiTraitTest extends TestCase
 {
@@ -359,6 +361,39 @@ class FpdiTraitTest extends TestCase
             "endobj\n",
             $result
         );
+    }
 
+    public function testSetSourceFileCalledTwiceWithEncryptedDocument()
+    {
+        $path = __DIR__ . '/../_files/pdfs/encrypted/AES256-R6-u=user-o=owner.pdf';
+        $pdf = new Fpdi();
+        $this->expectException(CrossReferenceException::class);
+        $this->expectExceptionCode(CrossReferenceException::ENCRYPTED);
+        try {
+            $pdf->setSourceFile($path);
+        } catch (\Throwable $e) {
+            $pdf->setSourceFileWithParserParams($path, ['password' => 'neverUsed']);
+        }
+    }
+
+    public function testInternalReaderIdBehavior()
+    {
+        $class = new class() {
+            use FpdiTrait;
+
+            public function debugGetPdfReaderId($file, array $parserParams = [])
+            {
+                return $this->getPdfReaderId($file, $parserParams);
+            }
+        };
+
+        $a = $class->debugGetPdfReaderId(__FILE__, []);
+        $b = $class->debugGetPdfReaderId(__FILE__, []);
+        $this->assertSame($a, $b);
+
+        $c = $class->debugGetPdfReaderId(__FILE__, ['a']);
+        $this->assertNotSame($b, $c);
+        $d = $class->debugGetPdfReaderId(__FILE__, ['b']);
+        $this->assertNotSame($c, $d);
     }
 }
