@@ -369,6 +369,7 @@ class FpdiTraitTest extends TestCase
         $pdf = new Fpdi();
         $this->expectException(CrossReferenceException::class);
         $this->expectExceptionCode(CrossReferenceException::ENCRYPTED);
+
         try {
             $pdf->setSourceFile($path);
         } catch (\Throwable $e) {
