@@ -172,7 +172,8 @@ trait FpdiTrait
             );
         }
 
-        /** @noinspection OffsetOperationsInspection */
+        $id = \md5($id . '|' . \print_r($parserParams, true));
+
         if (isset($this->readers[$id])) {
             return $id;
         }
@@ -187,7 +188,6 @@ trait FpdiTrait
         }
 
         $reader = new PdfReader($this->getPdfParserInstance($streamReader, $parserParams));
-        /** @noinspection OffsetOperationsInspection */
         $this->readers[$id] = $reader;
 
         return $id;
