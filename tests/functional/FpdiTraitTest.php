@@ -396,5 +396,8 @@ class FpdiTraitTest extends TestCase
         $this->assertNotSame($b, $c);
         $d = $class->debugGetPdfReaderId(__FILE__, ['b']);
         $this->assertNotSame($c, $d);
+
+        $e = $class->debugGetPdfReaderId(__DIR__ . '/../_files/pdfs/normal-xref.pdf', ['b']);
+        $this->assertNotSame($d, $e);
     }
 }
