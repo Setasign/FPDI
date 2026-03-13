@@ -3,7 +3,6 @@
 namespace setasign\Fpdi\functional;
 
 use PHPUnit\Framework\TestCase;
-use setasign\Fpdi\FpdfTrait;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiTrait;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
