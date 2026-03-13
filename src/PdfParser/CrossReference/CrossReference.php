@@ -56,6 +56,9 @@ class CrossReference
      */
     public function __construct(PdfParser $parser, $fileHeaderOffset = 0)
     {
+        // clear the token stack, if the parser instance is re-used
+        $parser->getTokenizer()->clearStack();
+
         $this->parser = $parser;
         $this->fileHeaderOffset = $fileHeaderOffset;
 
