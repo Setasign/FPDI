@@ -41,11 +41,17 @@
         "setasign/fpdf": "^1.9.0",
         "tecnickcom/tcpdf": "^6.8",
         "setasign/tfpdf": "~1.33",
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpstan/phpstan": "~2.1.56"
     },
     "autoload-dev": {
         "psr-4": {
             "setasign\\Fpdi\\": "tests/"
         }
+    },
+    "scripts": {
+        "all-tests": "@php vendor/bin/phpunit",
+        "cs": "@php vendor/bin/phpcs",
+        "phpstan": "@php vendor/bin/phpstan analyse"
     }
 }
