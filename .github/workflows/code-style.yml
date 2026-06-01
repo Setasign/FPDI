@@ -38,7 +38,7 @@ jobs:
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
 
       - name: Require phpstan
-        run: composer require --dev phpstan/phpstan:"~2.1" --no-interaction
+        run: composer require --dev phpstan/phpstan:"~2.1.56" --no-interaction
 
       - name: Run phpstan
         run: php ./vendor/phpstan/phpstan/phpstan.phar analyse --no-progress
