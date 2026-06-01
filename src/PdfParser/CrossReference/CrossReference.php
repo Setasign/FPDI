@@ -84,18 +84,16 @@ class CrossReference
             $this->readers[] = $reader;
 
             if (isset($trailer->value['Prev'])) {
-                $nextOffset = $trailer->value['Prev']->value;
-                if (!\in_array($nextOffset, $offsets, true)) {
-                    $offsets[] = $nextOffset;
-                    $offset = $nextOffset;
-                } else {
+                $offset = $trailer->value['Prev']->value;
+                if (\in_array($offset, $offsets, true)) {
                     throw new CrossReferenceException(
                         'Cross-references includes cyclic structure.',
                         CrossReferenceException::CYCLIC_STRUCTURE
                     );
                 }
+                $offsets[] = $offset;
             } else {
-                $offset = false;
+                break;
             }
         }
 
