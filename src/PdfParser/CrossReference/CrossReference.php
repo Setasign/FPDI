@@ -92,7 +92,6 @@ class CrossReference
                     );
                 }
                 $offsets[] = $offset;
-
             } else {
                 break;
             }
