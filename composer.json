@@ -41,8 +41,7 @@
         "setasign/fpdf": "^1.9.0",
         "tecnickcom/tcpdf": "^6.8",
         "setasign/tfpdf": "~1.33",
-        "squizlabs/php_codesniffer": "^3.5",
-        "phpstan/phpstan": "~2.1.56"
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload-dev": {
         "psr-4": {
@@ -51,7 +50,6 @@
     },
     "scripts": {
         "all-tests": "@php vendor/bin/phpunit",
-        "cs": "@php vendor/bin/phpcs",
-        "phpstan": "@php vendor/bin/phpstan analyse"
+        "cs": "@php vendor/bin/phpcs"
     }
 }
