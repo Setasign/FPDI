@@ -1,12 +1,20 @@
 name: Code Style
 on: [pull_request]
+
+permissions: {}
+
 jobs:
   phpcs:
     name: phpcs
     runs-on: ubuntu-latest
+    permissions:
+      code-quality: write
+    
     steps:
       - name: Check out code into the workspace
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install php
         uses: shivammathur/setup-php@v2
@@ -16,29 +24,26 @@ jobs:
       - name: Install dependencies
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
 
-      - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1
-        with:
-          phpcs_bin_path: './vendor/bin/phpcs'
-          enable_warnings: true
+      - name: Run phpcs
+        run: ./vendor/bin/phpcs -q --report=checkstyle src
 
   phpstan:
     name: phpstan
     runs-on: ubuntu-latest
     steps:
       - name: Check out code into the workspace
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install php
         uses: shivammathur/setup-php@v2
         with:
           php-version: "7.4"
+          tools: phpstan
 
       - name: Install dependencies
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
 
-      - name: Require phpstan
-        run: composer require --dev phpstan/phpstan:"~2.1.56" --no-interaction
-
       - name: Run phpstan
-        run: php ./vendor/phpstan/phpstan/phpstan.phar analyse --no-progress
+        run: phpstan analyse --no-progress

@@ -7,35 +7,39 @@ on:
 
 name: Create release
 
+permissions: {}
+
 jobs:
   build:
     name: Create release
     runs-on: ubuntu-latest
+    
+    permissions:
+      packages: write
+      contents: write
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
+
       - name: Replace version constant
         run: |
-          sed -i "s/VERSION\s*=\s*[^;]*/VERSION = '${{ github.event.inputs.version }}'/g" ./src/Fpdi.php ./src/Tcpdf/Fpdi.php ./src/Tfpdf/Fpdi.php
+          sed -i "s/VERSION\s*=\s*[^;]*/VERSION = '${NEW_VERSION}'/g" ./src/Fpdi.php ./src/Tcpdf/Fpdi.php ./src/Tfpdf/Fpdi.php
+        env:
+          NEW_VERSION: ${{ github.event.inputs.version }}
+
       - name: Commit and push version constant update
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Updated version constant
           push_options: --force
 
-      - name: Declare actual commit sha
-        id: actual_commit_sha
-        shell: bash
-        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        run: |
+          gh release create --draft --title "FPDI ${title}" "v${tag}"
         env:
+          NEW_VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          commitish: ${{ steps.actual_commit_sha.outputs.sha }}
-          tag_name: v${{ github.event.inputs.version }}
-          release_name: FPDI ${{ github.event.inputs.version }}
-          draft: true
