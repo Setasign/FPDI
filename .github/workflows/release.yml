@@ -7,14 +7,16 @@ on:
 
 name: Create release
 
-permissions:
-  packages: write
-  contents: write
+permissions: {}
 
 jobs:
   build:
     name: Create release
     runs-on: ubuntu-latest
+    
+    permissions:
+      packages: write
+      contents: write
     
     steps:
       - name: Checkout code
