@@ -148,4 +148,33 @@ class PageTest extends TestCase
         $this->expectExceptionMessage('Indirect reference recursion detected (4).');
         $page->getAttribute('Rotate');
     }
+
+    public function testGetContentStreamWithFaultyStreamsInContentsArray()
+    {
+        $stream = StreamReader::createByFile(__DIR__ . '/../../_files/pdfs/specials/invalid_zlib_streams_issue252.pdf');
+        $parser = new PdfParser($stream);
+
+        $pdfReader = new PdfReader($parser);
+        $page = $pdfReader->getPage(1);
+        $content = $page->getContentStream();
+        $this->assertStringStartsWith(
+            "q\n"
+            . "2.8346457 0 0 2.8346457 0 0 cm q\n"
+            . "BT\n"
+            . "0 0 0 1 k\n"
+            . "/F0 6 Tf\n"
+            . "18.6606 277.3104 Td\n",
+            $content
+        );
+
+        $this->assertStringEndsWith(
+            "(Moms 25% 2793,75 \(11175,00\) ) Tj\n"
+            . "ET\n"
+            . "Q\n"
+            . "Q",
+            $content
+        );
+
+        $this->assertSame(8520, \strlen($content));
+    }
 }

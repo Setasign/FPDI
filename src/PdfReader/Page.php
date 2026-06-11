@@ -270,14 +270,24 @@ class Page
                 if (!($content instanceof PdfStream)) {
                     continue;
                 }
-                $result[] = $content->getUnfilteredStream();
+
+                try {
+                    $result[] = $content->getUnfilteredStream();
+                } catch (FilterException $e) {
+                    // ignore streams that cannot be unfiltered
+                }
             }
 
             return \implode("\n", $result);
         }
 
         if ($contents instanceof PdfStream) {
-            return $contents->getUnfilteredStream();
+            try {
+                return $contents->getUnfilteredStream();
+            } catch (FilterException $e) {
+                // ignore streams that cannot be unfiltered
+                return '';
+            }
         }
 
         throw new PdfReaderException(
