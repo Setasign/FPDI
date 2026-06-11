@@ -46,7 +46,7 @@ class Fpdi extends \TCPDF
      *
      * @string
      */
-    const VERSION = '2.6.7';
+    const VERSION = '2.6.8';
 
     /**
      * A counter for template ids.
