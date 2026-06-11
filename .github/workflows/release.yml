@@ -40,7 +40,7 @@ jobs:
       - name: Create Release
         id: create_release
         run: |
-          gh release create --draft --title "FPDI ${title}" "v${tag}"
+          gh release create --draft --title "FPDI ${NEW_VERSION}" "v${NEW_VERSION}"
         env:
           NEW_VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
