@@ -12,15 +12,15 @@ documents and use them as templates in [FPDF](http://www.fpdf.org), which was de
 from a copy of [FPDF](http://www.fpdf.org), FPDI does not require any special PHP extensions.
 
 FPDI can also be used as an extension for [TCPDF](https://github.com/tecnickcom/TCPDF) or 
-[tFPDF](http://fpdf.org/en/script/script92.php), too.
+[tFPDF](http://fpdf.org/en/script/script92.php).
 
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdi)
 
-Because FPDI can be used with FPDF, TCPDF or tFPDF we haven't added a fixed dependency in the main
+Because FPDI can be used with FPDF, TCPDF or tFPDF, we haven't added a fixed dependency in the main
 composer.json file. You need to add the dependency to the PDF generation library of your choice
 yourself.
 
-To use FPDI with FPDF include following in your composer.json file:
+To use FPDI with FPDF, include the following in your composer.json file:
 
 ```json
 {
@@ -94,7 +94,7 @@ version 2:
   result in an `InvalidArgumentException` now.
 - The return value of `getTemplateSize()` had changed to an array with more speaking keys
   and reusability: Use `width` instead of `w` and `height` instead of `h`.
-- If you want to use **FPDI with TCPDF** you need to refactor your code to use the class `Tcpdf\Fpdi`
+- If you want to use **FPDI with TCPDF**, you need to refactor your code to use the class `Tcpdf\Fpdi`
 (since 2.1; before it was `TcpdfFpdi`) instead of `FPDI`.
 
 ## Example and Documentation
