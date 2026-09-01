@@ -50,12 +50,15 @@
     "scripts": {
         "all-tests": "@php vendor/bin/phpunit",
         "cs": "@php vendor-bin/phpcs/vendor/bin/phpcs",
+        "phpstan": "@php vendor-bin/phpstan/vendor/bin/phpstan analyse",
 
         "post-install-cmd": [
-            "@composer --working-dir=vendor-bin/phpcs install"
+            "@composer --working-dir=vendor-bin/phpcs install",
+            "@composer --working-dir=vendor-bin/phpstan install"
         ],
         "post-update-cmd": [
-            "@composer --working-dir=vendor-bin/phpcs update"
+            "@composer --working-dir=vendor-bin/phpcs update",
+            "@composer --working-dir=vendor-bin/phpstan update"
         ],
 
         "cbf": "@php vendor-bin/phpcs/vendor/bin/phpcbf"

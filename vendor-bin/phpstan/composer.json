@@ -1,0 +1,11 @@
+{
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    },
+
+    "config": {
+        "platform": {
+            "php": "8.5.8"
+        }
+    }
+}
