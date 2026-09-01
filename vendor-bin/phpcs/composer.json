@@ -15,12 +15,5 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    },
-
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "http://satis.webproxy.internal.setasign.com/"
-        }
-    ]
+    }
 }
