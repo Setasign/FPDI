@@ -113,7 +113,7 @@ class StreamReader
             );
         }
 
-        if (fseek($stream, 0) === -1) {
+        if (\fseek($stream, 0) === -1) {
             throw new \InvalidArgumentException(
                 'Given stream is not seekable!'
             );
@@ -137,7 +137,7 @@ class StreamReader
      */
     public function cleanUp()
     {
-        if ($this->closeStream && is_resource($this->stream)) {
+        if ($this->closeStream && \is_resource($this->stream)) {
             \fclose($this->stream);
         }
     }

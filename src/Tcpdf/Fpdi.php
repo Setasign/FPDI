@@ -333,7 +333,7 @@ class Fpdi extends \TCPDF
 
                     case 'Border':
                         $borderArray = PdfArray::ensure($value)->value;
-                        if (count($borderArray) < 3) {
+                        if (\count($borderArray) < 3) {
                             continue 2;
                         }
 

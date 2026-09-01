@@ -107,7 +107,7 @@ trait FpdfTplTrait
 
         if (\is_array($x)) {
             unset($x['tpl']);
-            \extract($x, EXTR_IF_EXISTS);
+            \extract($x, \EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
             /** @phpstan-ignore function.alreadyNarrowedType  */
             if (\is_array($x)) {
@@ -408,7 +408,7 @@ trait FpdfTplTrait
     {
         parent::SetFontSize($size);
         if ($this->page === 0 && $this->currentTemplateId !== null) {
-            $this->_out(sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
+            $this->_out(\sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
         }
     }
 

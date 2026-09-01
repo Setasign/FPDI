@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "php": ">=7.2 <=8.5.99999",
+        "php": ">=7.2 <=8.6.99999",
         "ext-zlib": "*"
     },
     "conflict": {
@@ -40,8 +40,7 @@
         "phpunit/phpunit": "^8.5.52",
         "setasign/fpdf": "^1.9.0",
         "tecnickcom/tcpdf": "^6.8",
-        "setasign/tfpdf": "~1.33",
-        "squizlabs/php_codesniffer": "^3.5"
+        "setasign/tfpdf": "~1.33"
     },
     "autoload-dev": {
         "psr-4": {
@@ -50,6 +49,18 @@
     },
     "scripts": {
         "all-tests": "@php vendor/bin/phpunit",
-        "cs": "@php vendor/bin/phpcs"
+        "cs": "@php vendor-bin/phpcs/vendor/bin/phpcs",
+        "phpstan": "@php vendor-bin/phpstan/vendor/bin/phpstan analyse",
+
+        "post-install-cmd": [
+            "@composer --working-dir=vendor-bin/phpcs install",
+            "@composer --working-dir=vendor-bin/phpstan install"
+        ],
+        "post-update-cmd": [
+            "@composer --working-dir=vendor-bin/phpcs update",
+            "@composer --working-dir=vendor-bin/phpstan update"
+        ],
+
+        "cbf": "@php vendor-bin/phpcs/vendor/bin/phpcbf"
     }
 }

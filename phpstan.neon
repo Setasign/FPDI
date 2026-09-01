@@ -7,6 +7,8 @@ parameters:
 
 	ignoreErrors:
 		-
+			identifier: unset.possiblyHookedProperty
+		-
 			message: "#^Method setasign\\\\Fpdi\\\\Fpdi\\:\\:getPdfParserInstance\\(\\) has invalid return type setasign\\\\FpdiPdfParser\\\\PdfParser\\\\PdfParser\\.$#"
 			count: 1
 			path: src/Fpdi.php

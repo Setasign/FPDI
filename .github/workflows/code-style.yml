@@ -19,13 +19,13 @@ jobs:
       - name: Install php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.2"
+          php-version: "8.5"
 
       - name: Install dependencies
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
 
       - name: Run phpcs
-        run: ./vendor/bin/phpcs -q --report=checkstyle src
+        run: ./vendor-bin/phpcs/vendor/bin/phpcs -q --report=checkstyle src
 
   phpstan:
     name: phpstan
@@ -39,11 +39,10 @@ jobs:
       - name: Install php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.4"
-          tools: phpstan
+          php-version: "8.5"
 
       - name: Install dependencies
         run: composer update --dev --no-interaction --prefer-dist --no-progress --no-suggest --ansi
 
       - name: Run phpstan
-        run: phpstan analyse --no-progress
+        run: ./vendor-bin/phpstan/vendor/bin/phpstan analyse --no-progress
