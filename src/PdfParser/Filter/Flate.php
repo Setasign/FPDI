@@ -42,21 +42,21 @@ class Flate implements FilterInterface
             $data = (($data !== '') ? @\gzuncompress($data) : '');
             if ($data === false) {
                 // let's try if the checksum is CRC32
-                $fh = fopen('php://temp', 'w+b');
-                fwrite($fh, "\x1f\x8b\x08\x00\x00\x00\x00\x00" . $oData);
+                $fh = \fopen('php://temp', 'w+b');
+                \fwrite($fh, "\x1f\x8b\x08\x00\x00\x00\x00\x00" . $oData);
                 // "window" == 31 -> 16 + (8 to 15): Uses the low 4 bits of the value as the window size logarithm.
                 //                   The input must include a gzip header and trailer (via 16).
-                stream_filter_append($fh, 'zlib.inflate', STREAM_FILTER_READ, ['window' => 31]);
-                fseek($fh, 0);
-                $data = @stream_get_contents($fh);
-                fclose($fh);
+                \stream_filter_append($fh, 'zlib.inflate', \STREAM_FILTER_READ, ['window' => 31]);
+                \fseek($fh, 0);
+                $data = @\stream_get_contents($fh);
+                \fclose($fh);
 
                 if ($data) {
                     return $data;
                 }
 
                 // Try this fallback (remove the zlib stream header)
-                $data = @(gzinflate(substr($oData, 2)));
+                $data = @(\gzinflate(\substr($oData, 2)));
 
                 if ($data === false) {
                     throw new FlateException(

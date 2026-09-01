@@ -98,7 +98,7 @@ trait FpdiTrait
      */
     public function cleanUp($allReaders = false)
     {
-        $readers = $allReaders ? array_keys($this->readers) : $this->createdReaders;
+        $readers = $allReaders ? \array_keys($this->readers) : $this->createdReaders;
         foreach ($readers as $id) {
             $this->readers[$id]->getParser()->getStreamReader()->cleanUp();
             unset($this->readers[$id]);
@@ -335,7 +335,7 @@ trait FpdiTrait
 
         if ($rotation !== 0) {
             $rotation *= -1;
-            $angle = $rotation * M_PI / 180;
+            $angle = $rotation * \M_PI / 180;
             $a = \cos($angle);
             $b = \sin($angle);
             $c = -$b;
@@ -451,7 +451,7 @@ trait FpdiTrait
         if (\is_array($x)) {
             /** @noinspection OffsetOperationsInspection */
             unset($x['pageId']);
-            \extract($x, EXTR_IF_EXISTS);
+            \extract($x, \EXTR_IF_EXISTS);
             /** @noinspection NotOptimalIfConditionsInspection */
             /** @phpstan-ignore function.alreadyNarrowedType  */
             if (\is_array($x)) {
@@ -489,7 +489,7 @@ trait FpdiTrait
             )
         );
 
-        if (count($importedPage['externalLinks']) > 0) {
+        if (\count($importedPage['externalLinks']) > 0) {
             foreach ($importedPage['externalLinks'] as $externalLink) {
                 // mPDF uses also 'externalLinks' but doesn't come with a rect-value
                 if (!isset($externalLink['rect'])) {

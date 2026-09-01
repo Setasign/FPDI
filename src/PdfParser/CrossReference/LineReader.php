@@ -119,7 +119,7 @@ class LineReader extends AbstractReader implements ReaderInterface
         // can be reverted for php7.2
         $differentLineEndings = \count(\array_count_values($m[0]));
         if ($differentLineEndings > 1) {
-            $lines = \preg_split("/(\r\n|\n|\r)/", $xrefContent, -1, PREG_SPLIT_NO_EMPTY);
+            $lines = \preg_split("/(\r\n|\n|\r)/", $xrefContent, -1, \PREG_SPLIT_NO_EMPTY);
         } else {
             $lines = \explode($m[0][0], $xrefContent);
         }

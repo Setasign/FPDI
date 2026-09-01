@@ -41,7 +41,8 @@
         "setasign/fpdf": "^1.9.0",
         "tecnickcom/tcpdf": "^6.8",
         "setasign/tfpdf": "~1.33",
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^4.0",
+        "slevomat/coding-standard": "^8.0"
     },
     "autoload-dev": {
         "psr-4": {
@@ -50,6 +51,13 @@
     },
     "scripts": {
         "all-tests": "@php vendor/bin/phpunit",
-        "cs": "@php vendor/bin/phpcs"
+        "cs": "@php vendor/bin/phpcs",
+
+        "cbf": "@php vendor/bin/phpcbf"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
