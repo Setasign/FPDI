@@ -618,7 +618,7 @@ trait FpdiTrait
         } elseif ($value instanceof PdfDictionary) {
             $this->_put('<<', false);
             foreach ($value->value as $name => $entry) {
-                $this->_put('/' . $name . ' ', false);
+                $this->_put('/' . PdfName::escape($name) . ' ', false);
                 $this->writePdfType($entry);
             }
             $this->_put('>>');

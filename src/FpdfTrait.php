@@ -13,6 +13,7 @@ namespace setasign\Fpdi;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
 use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use setasign\Fpdi\PdfParser\Type\PdfName;
 use setasign\Fpdi\PdfParser\Type\PdfNull;
 
 /**
@@ -144,7 +145,7 @@ trait FpdfTrait
                     $values = $pl['importedLink']['pdfObject']->value;
 
                     foreach ($values as $name => $entry) {
-                        $this->_put('/' . $name . ' ', false);
+                        $this->_put('/' . PdfName::escape($name) . ' ', false);
                         $this->writePdfType($entry);
                     }
 

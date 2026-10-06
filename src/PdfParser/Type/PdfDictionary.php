@@ -74,7 +74,7 @@ class PdfDictionary extends PdfType
                 break;
             }
 
-            $entries[$key->value] = $value;
+            $entries[PdfName::unescape($key->value)] = $value;
         }
 
         $v = new self();

@@ -320,6 +320,14 @@ class FpdiTraitTest extends TestCase
                 "AnyToken\n" .
                 "endobj\n"
             ],
+            [
+                PdfDictionary::create(['A B' => PdfName::create(PdfName::escape('A B'))]),
+                "<</A#20B /A#20B >>\n"
+            ],
+            [
+                PdfDictionary::create(['#41' => PdfName::create('#41')]),
+                "<</#2341 /#41 >>\n"
+            ],
         ];
     }
 
