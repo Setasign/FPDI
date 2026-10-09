@@ -145,7 +145,7 @@ trait FpdfTrait
                     $values = $pl['importedLink']['pdfObject']->value;
 
                     foreach ($values as $name => $entry) {
-                        $this->_put('/' . PdfName::escape($name) . ' ', false);
+                        $this->_put('/' . $name . ' ', false);
                         $this->writePdfType($entry);
                     }
 
