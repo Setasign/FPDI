@@ -5,6 +5,7 @@ namespace setasign\Fpdi\functional\PdfParser\Type;
 use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\PdfParser\PdfParser;
 use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
 use setasign\Fpdi\PdfParser\Type\PdfHexString;
 use setasign\Fpdi\PdfParser\Type\PdfName;
@@ -113,7 +114,29 @@ class PdfDictionaryTest extends TestCase
                     'A' => PdfName::create('B')
                 ])
             ],
-            // @todo
+            [
+                '/A 123/#41 321>>',
+                PdfDictionary::create([
+                    'A' => PdfNumeric::create(321)
+                ])
+            ],
+            [
+                '/#41 123/A 321>>',
+                PdfDictionary::create([
+                    'A' => PdfNumeric::create(321)
+                ])
+            ],
+            [
+                '/Rect [1 2 3 4]/Re#63t[5 6 7 8]>>',
+                PdfDictionary::create([
+                    'Rect' => PdfArray::create([
+                        PdfNumeric::create(5),
+                        PdfNumeric::create(6),
+                        PdfNumeric::create(7),
+                        PdfNumeric::create(8),
+                    ])
+                ])
+            ]
         ];
 
         return $data;
