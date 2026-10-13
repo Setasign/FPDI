@@ -28,5 +28,5 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.6.8';
+    const VERSION = '2.6.9';
 }
