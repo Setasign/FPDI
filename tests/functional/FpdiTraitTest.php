@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiTrait;
 use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\StreamReader;
 use setasign\Fpdi\PdfParser\Type\PdfArray;
 use setasign\Fpdi\PdfParser\Type\PdfBoolean;
 use setasign\Fpdi\PdfParser\Type\PdfDictionary;
@@ -414,5 +415,15 @@ class FpdiTraitTest extends TestCase
 
         $e = $class->debugGetPdfReaderId(__DIR__ . '/../_files/pdfs/normal-xref.pdf', ['b']);
         $this->assertNotSame($d, $e);
+
+        $reader = StreamReader::createByFile(__DIR__ . '/../_files/pdfs/normal-xref.pdf');
+        $f = $class->debugGetPdfReaderId($reader, ['b']);
+        $this->assertNotSame($e, $f);
+
+        $g = $class->debugGetPdfReaderId($reader, ['b']);
+        $this->assertSame($f, $g);
+
+        $h = $class->debugGetPdfReaderId($reader);
+        $this->assertNotSame($g, $h);
     }
 }
