@@ -165,7 +165,7 @@ trait FpdiTrait
                 $id = $file;
             }
         } elseif (\is_object($file)) {
-            $id = \spl_object_hash($file);
+            $id = 'object-' . \spl_object_id($file);
         } else {
             throw new \InvalidArgumentException(
                 \sprintf('Invalid type in $file parameter (%s)', \gettype($file))
